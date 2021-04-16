@@ -4,7 +4,7 @@
 
 import discord, requests
 from discord.ext import commands
-from lib.db import db
+from DiscordBotDev.lib.db import db
 from discord.ext.commands.errors import BadArgument
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from io import BytesIO
@@ -37,7 +37,7 @@ def _add_corners(im, rad=100):
     return im
 
 
-class Settings(commands.Cog):
+class WelcomeMsg(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -145,4 +145,4 @@ class Settings(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(Settings(client))
+    client.add_cog(WelcomeMsg(client))
