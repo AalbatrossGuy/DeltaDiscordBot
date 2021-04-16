@@ -8,3 +8,9 @@ CREATE TABLE IF NOT EXISTS welcome(
     ChannelID integer,
     Choice text DEFAULT "false"
 );
+
+CREATE TABLE IF NOT EXISTS leave(
+    GuildID integer PRIMARY KEY,
+    ChannelID integer,
+    Choice text DEFAULT "false"
+);
