@@ -5,9 +5,11 @@
 
 
 import discord, os, time
+import dotenv
 from discord.ext import commands
 from datetime import timedelta
 from lib.db import db
+from dotenv import *
 
 start_time = time.time()
 
@@ -17,6 +19,8 @@ def get_prefix(bot, message):
 
     return commands.when_mentioned_or(prefix)(bot, message)
 
+values = dotenv.dotenv_values('.env')
+TOKEN = values['TOKEN']
 
 intents = discord.Intents.default()
 intents.members = True
@@ -82,4 +86,4 @@ for filename in os.listdir('./Cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'Cogs.{filename[:-3]}')
 
-client.run(os.environ['TOKEN'])
+client.run(TOKEN)
