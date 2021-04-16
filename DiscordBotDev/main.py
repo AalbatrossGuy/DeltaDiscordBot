@@ -82,4 +82,4 @@ for filename in os.listdir('./Cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'Cogs.{filename[:-3]}')
 
-client.run('ODMwMDQ3ODMxOTcyMTE4NTg4.YHBASA.s_vqorh3HdhY1KS7lZ_dUSbpqdg')
+client.run(os.environ['TOKEN'])
