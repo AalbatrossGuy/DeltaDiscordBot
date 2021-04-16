@@ -2,12 +2,15 @@
 # !python3
 # !/usr/bin/env python3
 # main.py
-
+import asyncio
 
 import discord, os, time
 import dotenv
 from discord.ext import commands
 from datetime import timedelta
+
+from discord.utils import find
+
 from lib.db import db
 from dotenv import *
 
@@ -18,6 +21,7 @@ def get_prefix(bot, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
 
     return commands.when_mentioned_or(prefix)(bot, message)
+
 
 values = dotenv.dotenv_values('.env')
 TOKEN = values['TOKEN']
@@ -57,6 +61,14 @@ async def change_prefix(ctx, new_prefix):
 @client.event
 async def on_member_join(ctx):
     db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
+
+
+@client.event
+async def on_guild_join(guild):
+    general = find(lambda x: x.name == 'general', guild.text_channels)
+    await general.send(f"Thanks for adding me to {guild.name}! Type `*help` for getting further info about me :)")
+    await asyncio.sleep(4)
+    await general.purge(limit=1)
 
 
 @client.command(name="ping")
