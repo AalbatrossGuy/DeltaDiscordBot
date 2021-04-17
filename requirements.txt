@@ -1,0 +1,5 @@
+discord.py==1.7.1
+
+discord~=1.0.1
+
+python-decouple==3.4
