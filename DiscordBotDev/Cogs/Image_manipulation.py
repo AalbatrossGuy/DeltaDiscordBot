@@ -7,7 +7,6 @@ import discord
 import requests
 from discord.ext import commands
 from io import BytesIO
-from discord import Attachment
 from PIL import Image, ImageOps, ImageFilter
 
 
