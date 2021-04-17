@@ -76,19 +76,4 @@ def _add_corners(im, rad=100):
 im = _add_corners(img1)
 # print(im.show())
 
-l = []
-from GoogleNews import GoogleNews
 
-googlenews = GoogleNews(lang='en', period='2d')
-
-googlenews.get_news('VALORANT')
-# for i in googlenews.get_texts():
-#     for x in googlenews.get_links():
-#         l.append(i)
-#         l.append(x)
-# onlytexts = [x for x in googlenews.get_texts()]
-onlylinks = [x for x in googlenews.get_links()]
-# onlytexts = [x for x in range(len(googlenews.get_texts())) if x < 10 ]
-
-
-print(googlenews.get_texts())
