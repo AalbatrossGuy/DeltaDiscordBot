@@ -5,7 +5,6 @@
 import asyncio
 
 import discord, os, time
-import dotenv
 from discord.ext import commands
 from datetime import timedelta
 from decouple import config
@@ -20,9 +19,6 @@ def get_prefix(bot, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
 
     return commands.when_mentioned_or(prefix)(bot, message)
-
-
-values = dotenv.dotenv_values('.env')
 
 
 Token = config('TOKEN')
