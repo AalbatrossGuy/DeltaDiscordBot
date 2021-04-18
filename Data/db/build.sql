@@ -14,3 +14,8 @@ CREATE TABLE IF NOT EXISTS leave(
     ChannelID integer,
     Choice text DEFAULT "false"
 );
+
+CREATE TABLE IF NOT EXISTS webhook(
+    GuildID integer PRIMARY KEY,
+    Url text DEFAULT NULL
+);
