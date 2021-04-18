@@ -78,7 +78,7 @@ class Utilities(commands.Cog):
     @commands.command(name="link")
     async def send_bot_invite_link(self, ctx):
         embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
-                              description="Hey there! click on [this link](https://discord.com/oauth2/authorize?client_id=830047831972118588&permissions=109638&scope=bot) to invite me to your server!")
+                              description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610738694&scope=bot) to invite me to your server!")
         embed.set_thumbnail(
             url="https://static.wixstatic.com/media/6e38f1_72944a54fe214e029653f12798bb8136~mv2.png/v1/fill/w_560,h_210,al_c,q_85,usm_0.66_1.00_0.01/6e38f1_72944a54fe214e029653f12798bb8136~mv2.webp")
 
