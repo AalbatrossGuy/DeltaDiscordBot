@@ -4,6 +4,7 @@
 
 import discord
 from discord.ext import commands
+from lib.db import db
 
 
 class HelpMsg(commands.Cog):
@@ -13,21 +14,23 @@ class HelpMsg(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def help(self, ctx):
         # Decorators
-
+        prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Help Message", colour=discord.Colour.dark_red(),
-                              description=f"Type `help <command>` for getting further\ninformation on a command.",
+                              description=f"Server Prefix: `{prefix}`\nType `help <command>` for getting further\ninformation on a command.",
                               timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`", inline=False)
-        embed.add_field(name="⚒️  Settings",
-                        value="`cp`, `set_welcomemsg`, `update_welcomemsg`, `set_leavemsg`, `update_leavemsg`",
-                        inline=True)
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`",
+                        inline=False)
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
+        embed.add_field(name="⚒️  Settings",
+                        value="`cp`, `set_welcomemsg`, `update_welcomemsg`, `set_leavemsg`, `update_leavemsg` `set_webhook` `delete_webhook`",
+                        inline=True)
+
         await ctx.send(embed=embed)
 
     @help.command()
@@ -270,6 +273,54 @@ class HelpMsg(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```yaml\n*blur_f <radius between 1-10> <with the attached image>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def say(self, ctx):
+        embed = discord.Embed(title="Say", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> say <message>",
+                        value="Use this command to make the bot repeat the <message>. Make sure that the webhook is already set for this channel. For more info do `set_webhook`")
+
+        embed.add_field(name="Example",
+                        value="```yaml\n*say \n*say <message>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def set_webhook(self, ctx):
+        embed = discord.Embed(title="Set Webhook", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> set_webhook <channel_id>",
+                        value="Use this command to set the webhook for the respective channel. You cannot use the say command before setting the channel_id")
+
+        embed.add_field(name="Example",
+                        value="```yaml\n*set_webhook <channel_id>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def delete_webhook(self, ctx):
+        embed = discord.Embed(title="Delete Webhook", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> delete_webhook <channel_id>",
+                        value="Use this command to delete the webhook for the respective channel.\nNOTE: This command only deletes the channel_id from the database. To manually delete the webhook from the channel go to edit channel > integrations > view webhook and tselect the with `SayCmd Webhook`")
+
+        embed.add_field(name="Example",
+                        value="```delete_webhook```")
         await ctx.send(embed=embed)
 
 
