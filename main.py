@@ -42,6 +42,10 @@ async def on_guild_join(guild):
 async def on_guild_remove(guild):
     db.execute("DELETE FROM guilds WHERE GuildID = ? ", guild.id)
     db.commit()
+    general = find(lambda x: x.name == 'general', guild.text_channels)
+    await general.send(f"Thanks for adding me to {guild.name}! Type `*help` for getting further info about me :)")
+    await asyncio.sleep(4)
+    await general.purge(limit=1)
 
 
 @client.command(name="cp")
@@ -59,14 +63,6 @@ async def change_prefix(ctx, new_prefix):
 # async def on_member_join(ctx):
 #     db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
 #     db.commit()
-
-
-@client.event
-async def on_guild_join(guild):
-    general = find(lambda x: x.name == 'general', guild.text_channels)
-    await general.send(f"Thanks for adding me to {guild.name}! Type `*help` for getting further info about me :)")
-    await asyncio.sleep(4)
-    await general.purge(limit=1)
 
 
 @client.command(name="ping")
