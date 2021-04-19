@@ -57,7 +57,9 @@ async def change_prefix(ctx, new_prefix):
 
 @client.event
 async def on_member_join(ctx):
-    db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix)
+    db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
+    db.commit()
+
 
 @client.event
 async def on_guild_join(guild):
