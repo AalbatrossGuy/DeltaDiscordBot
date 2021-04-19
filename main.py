@@ -36,16 +36,13 @@ client.remove_command('help')
 async def on_guild_join(guild):
     db.execute("INSERT OR IGNORE INTO guilds(GuildID) VALUES(?)", guild.id)
     db.commit()
+    print("new server joined!")
 
 
 @client.event
 async def on_guild_remove(guild):
     db.execute("DELETE FROM guilds WHERE GuildID = ? ", guild.id)
     db.commit()
-    general = find(lambda x: x.name == 'general', guild.text_channels)
-    await general.send(f"Thanks for adding me to {guild.name}! Type `*help` for getting further info about me :)")
-    await asyncio.sleep(4)
-    await general.purge(limit=1)
 
 
 @client.command(name="cp")
