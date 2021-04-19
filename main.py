@@ -34,7 +34,7 @@ client.remove_command('help')
 
 @client.event
 async def on_guild_join(guild):
-    db.execute("INSERT INTO guilds(GuildID, Prefix) VALUES(?, ?)", guild.id, "*")
+    db.execute("INSERT OR IGNORE INTO guilds(GuildID) VALUES(?)", guild.id)
     db.commit()
 
 
@@ -55,10 +55,10 @@ async def change_prefix(ctx, new_prefix):
         db.commit()
 
 
-@client.event
-async def on_member_join(ctx):
-    db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
-    db.commit()
+# @client.event
+# async def on_member_join(ctx):
+#     db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
+#     db.commit()
 
 
 @client.event
