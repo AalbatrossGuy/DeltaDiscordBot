@@ -88,10 +88,10 @@ class Utilities(commands.Cog):
     @commands.command(name="minfo")
     async def movie_info(self, ctx, *, query: str = None):
         url = f"https://www.omdbapi.com/?t={query}&apikey=706a1bfd"
-        print(url)
+        # print(url)
         response = requests.request("GET", url=url)
         data = response.json()
-        print(data)
+        # print(data)
         title = data['Title']
         year = data['Year']
         rated = data['Rated']
@@ -107,7 +107,7 @@ class Utilities(commands.Cog):
         Poster_Img = data['Poster']
         rating = data['imdbRating']
         votes = data['imdbVotes']
-        type = data['movie']
+        movie_type = data['Type']
         boxoffice = data['BoxOffice']
         plot = data['Plot']
         # ---------------- Embed -----------------
@@ -130,10 +130,39 @@ class Utilities(commands.Cog):
         embed.add_field(name="Imdb Rating", value=rating, inline=True)
         embed.add_field(name="Votes", value=votes, inline=True)
         embed.add_field(name="Boxoffice", value=boxoffice, inline=True)
-        embed.add_field(name="Type", value=type, inline=True)
+        embed.add_field(name="Type", value=movie_type, inline=True)
 
         await ctx.channel.send(embed=embed)
 
+    @commands.command(name="sinfo")
+    async def server_info(self, ctx):
+
+        member_statuses = [
+            len(list(filter(lambda m: str(m.status) == "online", ctx.guild.members))),
+            len(list(filter(lambda m: str(m.status) == "idle", ctx.guild.members))),
+            len(list(filter(lambda m: str(m.status) == "dnd", ctx.guild.members))),
+            len(list(filter(lambda m: str(m.status) == "offline", ctx.guild.members)))
+        ]
+        guild_icon = ctx.guild.icon_url
+        guild_name = ctx.guild.name
+        guild_id = ctx.guild.id
+        guild_owner = ctx.guild.owner
+        guild_region = ctx.guild.region
+        guild_created_at = ctx.guild.created_at.strftime("%d/%m/%y %H:%M:%S")
+        guild_members = len(ctx.guild.members)
+        guild_humans = len(list(filter(lambda m: not m.bot, ctx.guild.members)))
+        guild_bots = len(list(filter(lambda m: m.bot, ctx.guild.members)))
+        guild_member_statuses = f":green_circle: {member_statuses[0]} :yellow_circle: {member_statuses[1]} :red_circle: {member_statuses[2]} :white_circle: {member_statuses[3]}"
+        guild_text_channels = len(ctx.guild.text_channels)
+        guild_voice_channels = len(ctx.guild.voice_channels)
+        guild_categories = len(ctx.guild.categories)
+        guild_roles = len(ctx.guild.roles)
+        guild_emoji_limit = ctx.guild.emoji_limit
+        guild_filesize_limit = ctx.guild.filesize_limit
+
+        # ------------- Embed --------------------
+
+        embed = discord.Embed(title="Server Information")
 
 def setup(client):
     client.add_cog(Utilities(client))
