@@ -7,6 +7,7 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib.db import db
 from aiohttp import ClientSession
+import requests
 
 
 class Utilities(commands.Cog):
@@ -85,8 +86,53 @@ class Utilities(commands.Cog):
         await ctx.channel.send(embed=embed)
 
     @commands.command(name="minfo")
-    async def movie_info(self, ctx, *, query:str = None):
-        pass
+    async def movie_info(self, ctx, *, query: str = None):
+        url = f"https://www.omdbapi.com/?t={query}&apikey=706a1bfd"
+        print(url)
+        response = requests.request("GET", url=url)
+        data = response.json()
+        print(data)
+        title = data['Title']
+        year = data['Year']
+        rated = data['Rated']
+        released = data['Released']
+        length = data['Runtime']
+        genre = data['Genre']
+        director = data['Director']
+        writer = data['Writer']
+        actors = data['Actors']
+        language = data['Language']
+        country = data['Country']
+        awards = data['Awards']
+        Poster_Img = data['Poster']
+        rating = data['imdbRating']
+        votes = data['imdbVotes']
+        type = data['movie']
+        boxoffice = data['BoxOffice']
+        plot = data['Plot']
+        # ---------------- Embed -----------------
+
+        embed = discord.Embed(title=f"{title}", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url=Poster_Img)
+        embed.add_field(name="Title", value=title, inline=True)
+        embed.add_field(name="Director", value=director, inline=True)
+        embed.add_field(name="Writer(s)", value=writer, inline=True)
+        embed.add_field(name="Actor(s)", value=actors, inline=True)
+        embed.add_field(name="Plot", value=plot, inline=True)
+        embed.add_field(name="Length", value=length, inline=True)
+        embed.add_field(name="Genre", value=genre, inline=True)
+        embed.add_field(name="Release Date", value=released, inline=True)
+        embed.add_field(name="Rated", value=rated, inline=True)
+        embed.add_field(name="Language", value=language, inline=True)
+        embed.add_field(name="Country", value=country, inline=True)
+        embed.add_field(name="Awards", value=awards, inline=True)
+        embed.add_field(name="Imdb Rating", value=rating, inline=True)
+        embed.add_field(name="Votes", value=votes, inline=True)
+        embed.add_field(name="Boxoffice", value=boxoffice, inline=True)
+        embed.add_field(name="Type", value=type, inline=True)
+
+        await ctx.channel.send(embed=embed)
 
 
 def setup(client):
