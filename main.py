@@ -2,14 +2,11 @@
 # !python3
 # !/usr/bin/env python3
 # main.py
-import asyncio
 
 import discord, os, time
 from discord.ext import commands
 from datetime import timedelta
 from decouple import config
-from discord.utils import find
-
 from lib.db import db
 
 start_time = time.time()
