@@ -100,6 +100,13 @@ def api(query: str):
     actors = data['Actors']
     language = data['Language']
     country = data['Country']
+    awards = data['Awards']
+    Poster_Img = data['Poster']
+    rating = data['imdbRating']
+    votes = data['imdbVotes']
+    type = data['movie']
+    boxoffice = data['BoxOffice']
 
 
-api('Bloodshot')
+
+
