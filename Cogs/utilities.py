@@ -84,6 +84,10 @@ class Utilities(commands.Cog):
 
         await ctx.channel.send(embed=embed)
 
+    @commands.command(name="minfo")
+    async def movie_info(self, ctx, *, query:str = None):
+        pass
+
 
 def setup(client):
     client.add_cog(Utilities(client))
