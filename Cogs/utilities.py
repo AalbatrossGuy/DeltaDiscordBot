@@ -128,7 +128,7 @@ class Utilities(commands.Cog):
 
         embed = discord.Embed(title=f"{title}", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url=Poster_Img)
+        embed.set_image(url=Poster_Img)
         embed.add_field(name="Title", value=title, inline=True)
         embed.add_field(name="Director", value=director, inline=True)
         embed.add_field(name="Writer(s)", value=writer, inline=True)
