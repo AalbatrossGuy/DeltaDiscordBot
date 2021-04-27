@@ -10,6 +10,20 @@ from aiohttp import ClientSession
 import requests
 
 
+def convert_bytes(bytes_number):
+    tags = ["B", "KiB", "MiB", "GB", "TB"]
+
+    i = 0
+    double_bytes = bytes_number
+
+    while i < len(tags) and bytes_number >= 1024:
+        double_bytes = bytes_number / 1024.0
+        i = i + 1
+        bytes_number = bytes_number / 1024
+
+    return str(round(double_bytes, 2)) + " " + tags[i]
+
+
 class Utilities(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -147,6 +161,7 @@ class Utilities(commands.Cog):
         guild_name = ctx.guild.name
         guild_id = ctx.guild.id
         guild_owner = ctx.guild.owner
+        guild_owner_id = ctx.guild.owner_id
         guild_region = ctx.guild.region
         guild_created_at = ctx.guild.created_at.strftime("%d/%m/%y %H:%M:%S")
         guild_members = len(ctx.guild.members)
@@ -162,7 +177,28 @@ class Utilities(commands.Cog):
 
         # ------------- Embed --------------------
 
-        embed = discord.Embed(title="Server Information")
+        embed = discord.Embed(title=f"{guild_name}'s Information", timestamp=ctx.message.created_at,
+                              colour=ctx.message.author.colour)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url=guild_icon)
+        embed.add_field(name="🤠 Guild Owner", value=guild_owner, inline=True)
+        embed.add_field(name="🤠 Owner ID", value=guild_owner_id, inline=True)
+        embed.add_field(name=" <:foxia:832549597892313159> Guild Name", value=guild_name, inline=True)
+        embed.add_field(name="<:foxia:832549597892313159> Guild ID", value=guild_id, inline=True)
+        embed.add_field(name="🌏 Guild Region", value=guild_region, inline=True)
+        embed.add_field(name="🕐 Guild Created At", value=guild_created_at, inline=True)
+        embed.add_field(name="🧑‍🤝‍🧑 Guild Humans", value=str(guild_humans))
+        embed.add_field(name="<:bot:773145401611255808> Guild Bots", value=str(guild_bots))
+        embed.add_field(name="♾️ Guild Members", value=str(guild_members))
+        embed.add_field(name="👻 Member Statuses", value=guild_member_statuses)
+        embed.add_field(name="📰 Guild Text Channels", value=str(guild_text_channels))
+        embed.add_field(name="🎙️ Guild Voice Channels", value=str(guild_voice_channels))
+        embed.add_field(name="<:owo:773057515826708501> Guild Categories", value=str(guild_categories))
+        embed.add_field(name="<:sweet:773054385542266880> Guild Roles", value=str(guild_roles))
+        embed.add_field(name="🙂 Guild Emoji Limit", value=guild_emoji_limit)
+        embed.add_field(name="📂 Guild Max Filelimit", value=f"{convert_bytes(guild_filesize_limit)}")
+        await ctx.channel.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(Utilities(client))
