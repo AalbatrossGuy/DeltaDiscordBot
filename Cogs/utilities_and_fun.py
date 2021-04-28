@@ -105,6 +105,7 @@ class Utilities(commands.Cog):
     # Utility Command
     @commands.command(name="minfo")
     async def movie_info(self, ctx, *, query: str = None):
+        query = query.replace(" ", "%20")
         url = f"https://www.omdbapi.com/?t={query}&apikey=706a1bfd"
         # print(url)
         response = requests.request("GET", url=url)
@@ -205,8 +206,33 @@ class Utilities(commands.Cog):
 
     @commands.command(name="meminfo")
     async def member_info_command(self, ctx, *, member: discord.Member = None):
-        pass
+        member = member or ctx.author
+        member_id = member.id
+        member_name = str(member.name)
+        member_avatar_url = member.avatar_url
+        member_nickname = str(member.nick)
+        is_bot = member.bot
+        member_top_role = member.top_role.mention
+        member_status = str(member.status).title()
+        member_activity = f"{member.activity.name} {str(getattr(member.activity, 'type')).title()}"
+        member_created_at = member.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        member_joined_at = member.joined_at.strftime("%d/%m/%Y %H:%M:%S")
+        member_has_nitro = str(bool(member.premium_since))
 
+        # ---------------- Embed ---------------------
+
+        embed = discord.Embed(title=f"{member_name}'s Information", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed.add_field(name="<:foxia:832549597892313159> Name", value=member_name, inline=True)
+        embed.add_field(name="<:foxia:832549597892313159> ID", value=member_id, inline=True)
+        embed.add_field(name="<:foxia:832549597892313159> Nickname", value=member_nickname, inline=True)
+        embed.add_field(name="<:bot:773145401611255808> BOT?", value=is_bot, inline=True)
+        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True)
+        embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
+        embed.add_field(name="🕦 Created At", value=member_created_at, inline=True)
+        embed.add_field(name=":clock8: Joined At", value=member_joined_at, inline=True)
+        embed.add_field(name="<:nitro:836902390766108694> Nitro?", value=member_has_nitro, inline=True)
+
+        
 
 def setup(client):
     client.add_cog(Utilities(client))
