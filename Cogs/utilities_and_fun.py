@@ -96,7 +96,7 @@ class Utilities(commands.Cog):
     @commands.command(name="link")
     async def send_bot_invite_link(self, ctx):
         embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
-                              description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610738694&scope=bot) to invite me to your server!")
+                              description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot) to invite me to your server!")
         embed.set_thumbnail(
             url="https://static.wixstatic.com/media/6e38f1_72944a54fe214e029653f12798bb8136~mv2.png/v1/fill/w_560,h_210,al_c,q_85,usm_0.66_1.00_0.01/6e38f1_72944a54fe214e029653f12798bb8136~mv2.webp")
 
@@ -214,7 +214,7 @@ class Utilities(commands.Cog):
         is_bot = member.bot
         member_top_role = member.top_role.mention
         member_status = str(member.status).title()
-        member_activity = f"{member.activity.name} {str(getattr(member.activity, 'type')).title()}"
+        member_activity = f"{str(member.activity.type).split('.')[-1].title() if member.activity else 'No Activity'} {member.activity.name if member.activity else ''}"
         member_created_at = member.created_at.strftime("%d/%m/%Y %H:%M:%S")
         member_joined_at = member.joined_at.strftime("%d/%m/%Y %H:%M:%S")
         member_has_nitro = str(bool(member.premium_since))
@@ -230,9 +230,11 @@ class Utilities(commands.Cog):
         embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
         embed.add_field(name="🕦 Created At", value=member_created_at, inline=True)
         embed.add_field(name=":clock8: Joined At", value=member_joined_at, inline=True)
-        embed.add_field(name="<:nitro:836902390766108694> Nitro?", value=member_has_nitro, inline=True)
+        embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?", value=member_has_nitro, inline=True)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url=member_avatar_url)
+        await ctx.channel.send(embed=embed)
 
-        
 
 def setup(client):
     client.add_cog(Utilities(client))
