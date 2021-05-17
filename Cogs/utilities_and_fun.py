@@ -93,7 +93,7 @@ class Utilities(commands.Cog):
             await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
 
     # Utility Command
-    @commands.command(name="link")
+    @commands.command(name="link", aliases=["invite"])
     async def send_bot_invite_link(self, ctx):
         embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
                               description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot) to invite me to your server!")
@@ -108,49 +108,52 @@ class Utilities(commands.Cog):
         query = query.replace(" ", "%20")
         url = f"https://www.omdbapi.com/?t={query}&apikey=706a1bfd"
         # print(url)
-        response = requests.request("GET", url=url)
-        data = response.json()
-        # print(data)
-        title = data['Title']
-        rated = data['Rated']
-        released = data['Released']
-        length = data['Runtime']
-        genre = data['Genre']
-        director = data['Director']
-        writer = data['Writer']
-        actors = data['Actors']
-        language = data['Language']
-        country = data['Country']
-        awards = data['Awards']
-        Poster_Img = data['Poster']
-        rating = data['imdbRating']
-        votes = data['imdbVotes']
-        movie_type = data['Type']
-        boxoffice = data['BoxOffice']
-        plot = data['Plot']
-        # ---------------- Embed -----------------
+        try:
+            response = requests.request("GET", url=url)
+            data = response.json()
+            # print(data)
+            title = data['Title']
+            rated = data['Rated']
+            released = data['Released']
+            length = data['Runtime']
+            genre = data['Genre']
+            director = data['Director']
+            writer = data['Writer']
+            actors = data['Actors']
+            language = data['Language']
+            country = data['Country']
+            awards = data['Awards']
+            Poster_Img = data['Poster']
+            rating = data['imdbRating']
+            votes = data['imdbVotes']
+            movie_type = data['Type']
+            boxoffice = data['BoxOffice']
+            plot = data['Plot']
+            # ---------------- Embed -----------------
 
-        embed = discord.Embed(title=f"{title}", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_image(url=Poster_Img)
-        embed.add_field(name="Title", value=title, inline=True)
-        embed.add_field(name="Director", value=director, inline=True)
-        embed.add_field(name="Writer(s)", value=writer, inline=True)
-        embed.add_field(name="Actor(s)", value=actors, inline=True)
-        embed.add_field(name="Plot", value=plot, inline=True)
-        embed.add_field(name="Length", value=length, inline=True)
-        embed.add_field(name="Genre", value=genre, inline=True)
-        embed.add_field(name="Release Date", value=released, inline=True)
-        embed.add_field(name="Rated", value=rated, inline=True)
-        embed.add_field(name="Language", value=language, inline=True)
-        embed.add_field(name="Country", value=country, inline=True)
-        embed.add_field(name="Awards", value=awards, inline=True)
-        embed.add_field(name="Imdb Rating", value=rating, inline=True)
-        embed.add_field(name="Votes", value=votes, inline=True)
-        embed.add_field(name="Boxoffice", value=boxoffice, inline=True)
-        embed.add_field(name="Type", value=movie_type, inline=True)
+            embed = discord.Embed(title=f"{title}", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+            embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+            embed.set_image(url=Poster_Img)
+            embed.add_field(name="Title", value=title, inline=True)
+            embed.add_field(name="Director", value=director, inline=True)
+            embed.add_field(name="Writer(s)", value=writer, inline=True)
+            embed.add_field(name="Actor(s)", value=actors, inline=True)
+            embed.add_field(name="Plot", value=plot, inline=True)
+            embed.add_field(name="Length", value=length, inline=True)
+            embed.add_field(name="Genre", value=genre, inline=True)
+            embed.add_field(name="Release Date", value=released, inline=True)
+            embed.add_field(name="Rated", value=rated, inline=True)
+            embed.add_field(name="Language", value=language, inline=True)
+            embed.add_field(name="Country", value=country, inline=True)
+            embed.add_field(name="Awards", value=awards, inline=True)
+            embed.add_field(name="Imdb Rating", value=rating, inline=True)
+            embed.add_field(name="Votes", value=votes, inline=True)
+            embed.add_field(name="Boxoffice", value=boxoffice, inline=True)
+            embed.add_field(name="Type", value=movie_type, inline=True)
 
-        await ctx.channel.send(embed=embed)
+            await ctx.channel.send(embed=embed)
+        except KeyError:
+            await ctx.channel.send("<:nope:735473789714038874>Oops! No Movie Found :P")
 
     # Utility command
     @commands.command(name="sinfo")
