@@ -28,7 +28,7 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
         embed.add_field(name="⚒️  Settings",
-                        value="`cp`, `set_welcomemsg`, `update_welcomemsg`, `set_leavemsg`, `update_leavemsg` `set_webhook` `delete_webhook`",
+                        value="`cp`, `set_webhook` `delete_webhook`",
                         inline=True)
 
         await ctx.send(embed=embed)
@@ -64,78 +64,78 @@ class HelpMsg(commands.Cog):
                         value="```yaml\n*cp &```")
         await ctx.send(embed=embed)
 
-    @help.command()
-    async def set_welcomemsg(self, ctx):
-        # Decorators
+    # @help.command()
+    # async def set_welcomemsg(self, ctx):
+    #     # Decorators
 
-        embed = discord.Embed(title="Set WelcomeMessage", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #     embed = discord.Embed(title="Set WelcomeMessage", colour=discord.Colour.dark_gold(),
+    #                           timestamp=ctx.message.created_at)
+    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+    #     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        # Context
+    #     # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> set_welcomemsg <channel_id> <true/false>",
-                        value="Use this command to set welcome message to on and off. give the channel id and ur choice.\nEither `true` or `false`.\n USE THIS COMMAND ONLY ONCE!")
-        embed.add_field(name="Example",
-                        value="```yaml\n*set_welcomemsg <channel_id> true/false```")
-        await ctx.send(embed=embed)
+    #     embed.add_field(name="<a:typing:773870195336937532> set_welcomemsg <channel_id> <true/false>",
+    #                     value="Use this command to set welcome message to on and off. give the channel id and ur choice.\nEither `true` or `false`.\n USE THIS COMMAND ONLY ONCE!")
+    #     embed.add_field(name="Example",
+    #                     value="```yaml\n*set_welcomemsg <channel_id> true/false```")
+    #     await ctx.send(embed=embed)
 
-    @help.command()
-    async def update_welcomemsg(self, ctx):
-        # Decorators
+    # @help.command()
+    # async def update_welcomemsg(self, ctx):
+    #     # Decorators
 
-        embed = discord.Embed(title="Update WelcomeMessage", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #     embed = discord.Embed(title="Update WelcomeMessage", colour=discord.Colour.dark_gold(),
+    #                           timestamp=ctx.message.created_at)
+    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+    #     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        # Context
+    #     # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> update_welcomemsg  <true/false>",
-                        value="Use this command to update ur choice for the welcome msg. Just give either true or false if u want to switch on/off welcome message respectively. You have to first set leavemsg before using this command.")
-        embed.add_field(name="Example",
-                        value="```yaml\n*update_welcomemsg true\n\tOR\n*update_welcomemsg false```")
+    #     embed.add_field(name="<a:typing:773870195336937532> update_welcomemsg  <true/false>",
+    #                     value="Use this command to update ur choice for the welcome msg. Just give either true or false if u want to switch on/off welcome message respectively. You have to first set leavemsg before using this command.")
+    #     embed.add_field(name="Example",
+    #                     value="```yaml\n*update_welcomemsg true\n\tOR\n*update_welcomemsg false```")
 
-        await ctx.send(embed=embed)
+    #     await ctx.send(embed=embed)
 
-    @help.command()
-    async def set_leavemsg(self, ctx):
-        # Decorators
+    # @help.command()
+    # async def set_leavemsg(self, ctx):
+    #     # Decorators
 
-        embed = discord.Embed(title="Set LeaveMessage", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #     embed = discord.Embed(title="Set LeaveMessage", colour=discord.Colour.dark_gold(),
+    #                           timestamp=ctx.message.created_at)
+    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+    #     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        # Context
+    #     # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> set_leavemsg <channel_id>  <true/false>",
-                        value="Use this command to set leave message. Do *set_leavemsg and then give the channel id and then your option. USE THIS COMMAND ONLY ONCE!")
+    #     embed.add_field(name="<a:typing:773870195336937532> set_leavemsg <channel_id>  <true/false>",
+    #                     value="Use this command to set leave message. Do *set_leavemsg and then give the channel id and then your option. USE THIS COMMAND ONLY ONCE!")
 
-        embed.add_field(name="Example",
-                        value="```yaml\n*set_leavemsg <channel_id> <true/false>```")
+    #     embed.add_field(name="Example",
+    #                     value="```yaml\n*set_leavemsg <channel_id> <true/false>```")
 
-        await ctx.send(embed=embed)
+    #     await ctx.send(embed=embed)
 
-    @help.command()
-    async def update_leavemsg(self, ctx):
-        # Decorators
+    # @help.command()
+    # async def update_leavemsg(self, ctx):
+    #     # Decorators
 
-        embed = discord.Embed(title="Update LeaveMessage", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #     embed = discord.Embed(title="Update LeaveMessage", colour=discord.Colour.dark_gold(),
+    #                           timestamp=ctx.message.created_at)
+    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+    #     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        # Context
+    #     # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> update_leavemsg <channel_id>  <true/false>",
-                        value="Use this command to update leave message. Just give either true or false if u want to switch on/off leave message respectively. You have to first set leavemsg before using this command.")
+    #     embed.add_field(name="<a:typing:773870195336937532> update_leavemsg <channel_id>  <true/false>",
+    #                     value="Use this command to update leave message. Just give either true or false if u want to switch on/off leave message respectively. You have to first set leavemsg before using this command.")
 
-        embed.add_field(name="Example",
-                        value="```yaml\n*set_leavemsg <channel_id> <true/false>```")
+    #     embed.add_field(name="Example",
+    #                     value="```yaml\n*set_leavemsg <channel_id> <true/false>```")
 
-        await ctx.send(embed=embed)
+    #     await ctx.send(embed=embed)
 
     @help.command()
     async def avatar(self, ctx):
