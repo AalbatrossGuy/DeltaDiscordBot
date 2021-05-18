@@ -23,7 +23,7 @@ class HelpMsg(commands.Cog):
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`",
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `minfo`, `sinfo`, `meminfo`",
                         inline=False)
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
@@ -322,6 +322,54 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="Example",
                         value="```delete_webhook```")
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def minfo(self, ctx):
+        embed = discord.Embed(title="Movie Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> minfo <movie_name>",
+                        value="Use this command to search for a movie and get it's details")
+
+        embed.add_field(name="Example",
+                        value="```minfo Avengers```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def meminfo(self, ctx):
+        embed = discord.Embed(title="Member Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> meminfo <username/user_id/@usermention>",
+                        value="Use this command to get information about a user by either typing their name or their ID or mentioning them.")
+
+        embed.add_field(name="Example",
+                        value="``meminfo Delta Δ```")
+        await ctx.send(embed=embed)
+    @help.command()
+    async def sinfo(self, ctx):
+        embed = discord.Embed(title="Server Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> sinfo",
+                        value="Use this command to get information about the server you are in.")
+
+        embed.add_field(name="Example",
+                        value="``meminfo Delta Δ```")
+        await ctx.send(embed=embed)
+
 
 
 def setup(client):
