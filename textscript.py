@@ -1,6 +1,5 @@
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import requests
-import 
 import datetime
 # print(image.size)
 # print(image.format)
