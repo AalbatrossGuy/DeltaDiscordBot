@@ -4,4 +4,3 @@ aiohttp~=3.7.4
 requests~=2.25.1
 Pillow~=8.2.0
 discord~=1.0.1
-pytemperature~=1.0
