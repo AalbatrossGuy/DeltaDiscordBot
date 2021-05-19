@@ -7,9 +7,7 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib.db import db
 from aiohttp import ClientSession
-import requests
-import random
-import array
+import requests, random, array, pytemperature 
 
 
 def convert_bytes(bytes_number):
@@ -242,7 +240,7 @@ class Utilities(commands.Cog):
 
     @commands.command(name="paswdgen")
     async def password_generator(self, ctx, len:int):
-        if len > 50:
+        if len > 60:
             await ctx.channel.send("Length Cannot Be More Than `50` Characters.")
         else:
             MAX_LEN = len
@@ -290,6 +288,55 @@ class Utilities(commands.Cog):
                     
             
             await ctx.channel.send(f"🔑 Here's Your Password\n```yaml\n{password}```")
+
+    @commands.command(name='wcheck')
+    async def weather_details(self, ctx, *, query:str):
+        url = f"http://api.openweathermap.org/data/2.5/weather?appid=77f5585dd715ec1e39ba87b818b44498&q={query}"
+
+        response = requests.request("GET", url=url)
+        # For debugging purpose
+        # print(response)
+        data = response.json()
+        # print(data)
+        longitude = data['coord']['lon']
+        latitude = data['coord']['lat']
+        # print(longitude, latitude)
+        cloud_type = data['weather'][0]['description']
+        # print(cloud_type)
+        temp = data['main']['temp']
+        feels_like = data['main']['feels_like']
+        temp = pytemperature.k2c(temp).__format__('0.2f')
+        feels_like = pytemperature.k2c(feels_like).__format__('0.2f')
+        # print(temp, feels_like)
+        min_temp = data['main']['temp_min']
+        min_temp = pytemperature.k2c(min_temp).__format__('0.2f')
+        max_temp = data['main']['temp_max']
+        max_temp = pytemperature.k2c(max_temp).__format__('0.2f')
+        pressure = data['main']['pressure'] # unit hPa
+        humidity = data['main']['humidity'] # unit percentage
+        wind_speed = data['wind']['speed']
+        # print(min_temp, max_temp, pressure, humidity, wind_speed)
+        country = data['sys']['country']
+        city_name = data['name']
+
+        embed=discord.Embed(title=f"⛅ {city_name}'s Weather Info", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://i.pinimg.com/originals/e7/7a/60/e77a6068aa8bb2731e3b6d835c09c84c.gif")
+
+        # content
+        embed.add_field(name="City", value=city_name)
+        embed.add_field(name="Country", value=country)
+        embed.add_field(name="Longitude", value=longitude)
+        embed.add_field(name="Latitude", value=latitude)
+        embed.add_field(name="Cloud Type", value=cloud_type)
+        embed.add_field(name="Temperature", value=temp)
+        embed.add_field(name="Feels Like", value=feels_like)
+        embed.add_field(name="Minimum Temperature", value=min_temp)
+        embed.add_field(name="Maximum Temperature", value=max_temp)
+        embed.add_field(name="Pressure", value=f"{pressure}hPa")
+        embed.add_field(name="Wind Speed", value=f"{wind_speed}m/s")
+        embed.add_field(name="Humidity", value=f"{humidity}%")
+        await ctx.channel.send(embed=embed)
 
 
 def setup(client):
