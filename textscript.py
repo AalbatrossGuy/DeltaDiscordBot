@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import requests
-import pytemperature
+import 
 import datetime
 # print(image.size)
 # print(image.format)
@@ -114,25 +114,25 @@ def test_for_weather_api(query:str):
     # For debugging purpose
     # print(response)
     data = response.json()
-    print(data)
+    # print(data)
     longitude = data['coord']['lon']
     latitude = data['coord']['lat']
     # print(longitude, latitude)
     cloud_type = data['weather'][0]['description']
-    print(cloud_type)
+    # print(cloud_type)
     temp = data['main']['temp']
     feels_like = data['main']['feels_like']
-    temp = pytemperature.k2c(temp).__format__('0.2f')
-    feels_like = pytemperature.k2c(feels_like).__format__('0.2f')
-    print(temp, feels_like)
+    temp = (temp - 273.15).__format__('0.2f')
+    feels_like = (feels_like - 273.15).__format__('0.2f')
+    # print(temp, feels_like)
     min_temp = data['main']['temp_min']
-    min_temp = pytemperature.k2c(min_temp).__format__('0.2f')
+    min_temp = (min_temp - 273.15).__format__('0.2f')
     max_temp = data['main']['temp_max']
-    max_temp = pytemperature.k2c(max_temp).__format__('0.2f')
+    max_temp = (max_temp - 273.15).__format__('0.2f')
     pressure = data['main']['pressure'] # unit hPa
     humidity = data['main']['humidity'] # unit percentage
     wind_speed = data['wind']['speed']
-    print(min_temp, max_temp, pressure, humidity, wind_speed)
+    # print(min_temp, max_temp, pressure, humidity, wind_speed)
     country = data['sys']['country']
     city_name = data['name']
 
