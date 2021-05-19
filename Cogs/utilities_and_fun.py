@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib.db import db
 from aiohttp import ClientSession
-import requests, random, array, pytemperature 
+import requests, random, array
 
 
 def convert_bytes(bytes_number):
@@ -305,13 +305,13 @@ class Utilities(commands.Cog):
         # print(cloud_type)
         temp = data['main']['temp']
         feels_like = data['main']['feels_like']
-        temp = pytemperature.k2c(temp).__format__('0.2f')
-        feels_like = pytemperature.k2c(feels_like).__format__('0.2f')
+        temp = (temp - 273.15).__format__('0.2f')
+        feels_like = (feels_like - 273.15).__format__('0.2f')
         # print(temp, feels_like)
         min_temp = data['main']['temp_min']
-        min_temp = pytemperature.k2c(min_temp).__format__('0.2f')
+        min_temp = (min_temp - 273.15).__format__('0.2f')
         max_temp = data['main']['temp_max']
-        max_temp = pytemperature.k2c(max_temp).__format__('0.2f')
+        max_temp = (max_temp - 273.15).__format__('0.2f')
         pressure = data['main']['pressure'] # unit hPa
         humidity = data['main']['humidity'] # unit percentage
         wind_speed = data['wind']['speed']
