@@ -73,14 +73,16 @@ class AdminCmds(commands.Cog):
     @commands.command(name="lockdown")
     @commands.has_permissions(manage_channels=True)
     async def lockdown(self, ctx):
-        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
         await ctx.send(ctx.channel.mention + "has been locked.")
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+        
 
     @commands.command(name="unlock")
     @commands.has_permissions(manage_channels=True)
     async def unlock(self, ctx):
-        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
         await ctx.send(ctx.channel.mention + "has been unlocked.")
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        
 
 
 def setup(client):
