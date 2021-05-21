@@ -23,7 +23,7 @@ class HelpMsg(commands.Cog):
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `minfo`, `sinfo`, `meminfo`",
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `minfo`, `sinfo`, `meminfo`, `wcheck`",
                         inline=False)
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
@@ -354,6 +354,7 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="Example",
                         value="``meminfo Delta Δ```")
         await ctx.send(embed=embed)
+
     @help.command()
     async def sinfo(self, ctx):
         embed = discord.Embed(title="Server Info", colour=discord.Colour.dark_gold(),
@@ -370,6 +371,21 @@ class HelpMsg(commands.Cog):
                         value="``meminfo Delta Δ```")
         await ctx.send(embed=embed)
 
+    @help.command()
+    async def wcheck(self, ctx):
+        embed = discord.Embed(title="Weather Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> sinfo",
+                        value="Use this command to get information about a place anywhere in the world.")
+
+        embed.add_field(name="Example",
+                        value="``wcheck iceland```")
+        await ctx.send(embed=embed)
 
 
 def setup(client):
