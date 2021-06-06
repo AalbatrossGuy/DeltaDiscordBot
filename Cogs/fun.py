@@ -2,7 +2,7 @@
 # !python3
 # /usr/bin/env python3
 
-import discord
+import discord, random
 from discord.ext import commands
 
 
@@ -10,9 +10,14 @@ class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="memes")
-    async def reddit_memes(self, ctx):
-        pass
+    @commands.command(name="predict")
+    async def predict(self, ctx, *, question:str):
+        responses = [
+            "yes", "ok", "i don't know", "no", "absolutely not"
+        ]
+
+        await ctx.channel.send(f"{random.random(responses)}")
+
 
     
 
