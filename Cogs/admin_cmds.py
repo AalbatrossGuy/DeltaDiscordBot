@@ -70,18 +70,21 @@ class AdminCmds(commands.Cog):
             await ctx.channel.send(
                 "<:nope:735473789714038874> You must have the `Ban Members` permission to use that command!")
 
-    @commands.command(name="lockdown")
     @commands.has_permissions(manage_channels=True)
+    @commands.bot_has_guild_permissions(manage_channels=True)
+    @commands.command(name="lockdown")
     async def lockdown(self, ctx):
-        await ctx.send(ctx.channel.mention + "has been locked.")
+        # await ctx.send(ctx.channel.name + " has been locked.")
         await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
         
 
-    @commands.command(name="unlock")
     @commands.has_permissions(manage_channels=True)
+    @commands.bot_has_guild_permissions(manage_channels=True)
+    @commands.command(name="unlock")
     async def unlock(self, ctx):
-        await ctx.send(ctx.channel.mention + "has been unlocked.")
+        # await ctx.send(ctx.channel.name + " has been unlocked.")
         await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        
         
 
 
