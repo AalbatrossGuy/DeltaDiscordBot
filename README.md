@@ -6,6 +6,11 @@ The official repository of the discord bot, Delta Δ
 2. Get into the bot's folder by doing ```cd Delta-Discord-Bot```
 3. Download the requirements file by doing ```pip install -r requirements.txt```
 4. Make a `.env` file and paste ur bot token like ```TOKEN=<token>```
+5. ## For Linux:
+    ```chmod 755 ./start.sh && ./start.sh```
+   ## For Windows:
+    Double Click on start.bat
+
 
 # Note
 The bot's code has been made public for educational purposes only. Recreation of this bot will not be entertained.
