@@ -26,6 +26,5 @@ class OnReady(commands.Cog):
                 except:
                     pass
 
-
 def setup(client):
     client.add_cog(OnReady(client))
