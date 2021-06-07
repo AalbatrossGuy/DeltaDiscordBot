@@ -23,7 +23,7 @@ Token = config('TOKEN')
 intents = discord.Intents.default()
 intents.members = True
 intents.presences = True
-client = commands.AutoShardedBot(command_prefix=get_prefix, owner_id="676414187131371520", case_insensitive=True,
+client = commands.AutoShardedBot(command_prefix=get_prefix, case_insensitive=True,
                                  intents=intents)
 
 client.remove_command('help')
@@ -57,6 +57,13 @@ async def change_prefix(ctx, new_prefix):
 # async def on_member_join(ctx):
 #     db.execute("INSERT OR IGNORE INTO guilds(GuildID, Prefix) VALUES(?, ?)", int(ctx.guild.id), str(get_prefix))
 #     db.commit()
+
+@commands.is_owner()
+@client.command(name="restart")
+async def restart(ctx):
+    await ctx.channel.send("<:exit:773159538961416222> Restarting in 5s...")
+    await ctx.message.add_reaction('<:correct:773145931859886130>')
+    await client.close()
 
 
 @client.command(name="ping")
