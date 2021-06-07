@@ -3,6 +3,7 @@ import requests
 import datetime
 import qrcode
 from pyzbar.pyzbar import decode
+from matplotlib import pyplot as plt
 # print(image.size)
 # print(image.format)
 # print(image.show())
@@ -159,26 +160,29 @@ from pyzbar.pyzbar import decode
 #             return True
 
 
-# def makebar(args):
-#     args = str(args).replace(' ', '')
-#     args = list(args)
-#     tupbefore = []
-#     tupafter = []
-#     index = args.index('|')
-#     tupbefore = args[0:index]
-#     tupafter = args[index+1:]
-#     # print(tupbefore)
-#     # print(tupafter)
-        
-#     # plt.rcdefaults()
-#     # fig, axes = plt.subplots()
-#     # numbers = tupbefore
-#     # labels = tupafter
-#     # axes.barh(labels, numbers, align='center')
-#     # plt.show()
+def makebar(args):
+    args = str(args).replace(' ', '')
+    args = list(args)
+    tupbefore = []
+    tupafter = []
+    index = args.index('|')
+    tupbefore = args[0:index]
+    tupafter = args[index+1:]
+    # print(tupbefore)
+    # print(tupafter)
+    plt.rcdefaults()
+    fig, axes = plt.subplots()
+    numbers = tupbefore
+    labels = tupafter
+    axes.barh(labels, numbers, align='center')
+    axes.set_xlabel('X Axis --->')
+    axes.set_ylabel("Y Axis --->")
+    axes.set_title('Horizontal Bar Chart')
+    plt.savefig('chart.png')
+    plt.show()
 
 
-# print(makebar('1 2 3 4 | 9 6 7 8'))
+print(makebar('1 2 3 4 | 9 6 7 8'))
 
 qr = qrcode.QRCode(
     version=1,
@@ -186,17 +190,17 @@ qr = qrcode.QRCode(
     box_size=20,
     border=4,
 )
-qr.add_data('THis is an example test line')
-qr.make(fit=True)
-img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+#qr.add_data('THis is an example test line')
+#qr.make(fit=True)
+#img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
 
-img.show()
+#img.show()
 
 
-img = Image.open('referenceqrcode.png')
+#img = Image.open('referenceqrcode.png')
 
-result = decode(img)
-for i in result:
-   print(i.data.decode("utf-8"))
-   print(i.type)
-   print(i.rect) 
+#result = decode(img)
+#for i in result:
+   #print(i.data.decode("utf-8"))
+   #print(i.type)
+   #print(i.rect) 
