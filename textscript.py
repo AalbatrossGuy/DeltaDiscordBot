@@ -1,6 +1,8 @@
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import requests
 import datetime
+import qrcode
+from pyzbar.pyzbar import decode
 # print(image.size)
 # print(image.format)
 # print(image.show())
@@ -178,14 +180,23 @@ import datetime
 
 # print(makebar('1 2 3 4 | 9 6 7 8'))
 
-# qr = qrcode.QRCode(
-#     version=1,
-#     error_correction=qrcode.constants.ERROR_CORRECT_H,
-#     box_size=10,
-#     border=4,
-# )
-# qr.add_data('THis is an example test line')
-# qr.make(fit=True)
-# img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+qr = qrcode.QRCode(
+    version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_H,
+    box_size=20,
+    border=4,
+)
+qr.add_data('THis is an example test line')
+qr.make(fit=True)
+img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
 
-# img.show()
+img.show()
+
+
+img = Image.open('referenceqrcode.png')
+
+result = decode(img)
+for i in result:
+   print(i.data.decode("utf-8"))
+   print(i.type)
+   print(i.rect) 
