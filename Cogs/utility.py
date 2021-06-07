@@ -6,8 +6,10 @@ import discord
 from discord.ext import commands
 from discord.utils import escape_mentions
 from lib.db import db
-from aiohttp import ClientSession
-import requests, random, array
+from PIL import Image
+from io import BytesIO
+from pyzbar.pyzbar import decode
+import requests, random, array, qrcode 
 
 
 def convert_bytes(bytes_number):
@@ -337,7 +339,39 @@ class Utilities(commands.Cog):
         embed.add_field(name="Wind Speed", value=f"{wind_speed}m/s")
         embed.add_field(name="Humidity", value=f"{humidity}%")
         await ctx.channel.send(embed=embed)
+    
+    @commands.command(name='qr')
+    async def qr_code_gen(self, ctx, size, *, encode:str) -> BytesIO:
+        qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_H,
+                box_size=size, 
+                border=4,
+                )
+        qr.add_data(f'{encode}')
+        qr.make(fit=True)
 
+        img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+        buffer_obj = BytesIO()
+        img.save(buffer_obj, 'png')
 
+        with BytesIO() as imgbytes:
+            img.save(imgbytes, 'png')
+            imgbytes.seek(0)
+            read_image = buffer_obj.read()
+            await ctx.channel.send(
+                    file=discord.File(fp=imgbytes, filename='qrcode.png')
+                    )
+        #img.show()
+
+    @commands.command(name='qrdec')
+    async def qr_code_decode(self, ctx):
+        image = ctx.message.attachments[0].url
+
+        image = Image.open(requests.get(url=image, stream=True).raw)
+        
+        result = decode(image)
+        for decoded in result:
+            await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
 def setup(client):
     client.add_cog(Utilities(client))
