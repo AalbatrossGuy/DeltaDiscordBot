@@ -24,14 +24,17 @@ class HelpMsg(commands.Cog):
         # Content
 
         embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `sinfo`, `meminfo`",
-                        inline=False)
+                        inline=True)
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
         embed.add_field(name="⚒️  Settings",
                         value="`cp`, `set_webhook` `delete_webhook`",
                         inline=True)
         embed.add_field(name="<:owo:773057515826708501> Utilities",
-                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`")
+                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`",
+                        inline=True)
+        embed.add_field(name="📊 Charts <beta>",
+                        value="`hbchart`, `more coming soon`")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -353,7 +356,7 @@ class HelpMsg(commands.Cog):
                         value="Use this command to get information about a user by either typing their name or their ID or mentioning them.")
 
         embed.add_field(name="Example",
-                        value="``meminfo Delta Δ```")
+                        value="```meminfo Delta Δ```")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -369,7 +372,7 @@ class HelpMsg(commands.Cog):
                         value="Use this command to get information about the server you are in.")
 
         embed.add_field(name="Example",
-                        value="``meminfo Delta Δ```")
+                        value="```meminfo Delta Δ```")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -385,7 +388,7 @@ class HelpMsg(commands.Cog):
                         value="Use this command to get information about a place anywhere in the world.")
 
         embed.add_field(name="Example",
-                        value="``wcheck iceland```")
+                        value="```wcheck iceland```")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -401,7 +404,7 @@ class HelpMsg(commands.Cog):
                         value="Use this command to get a randomly generated password of size <len>. The value of <len> must be less than 60.")
 
         embed.add_field(name="Example",
-                        value="``paswdgen 10```")
+                        value="```paswdgen 10```")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -414,13 +417,44 @@ class HelpMsg(commands.Cog):
         # Context
 
         embed.add_field(name="<a:typing:773870195336937532> qr <size> <text>",
-                        value="Use this command to ge")
+                        value="Use this command to generate a qrcode based on your text. The <size> parameter takes a number and decides the size of the QR image. The second parameter, i.e, <text> takes the actual message to encode.")
 
         embed.add_field(name="Example",
-                        value="``wcheck iceland```")
+                        value="```qr 10 Hello World.```")
         await ctx.send(embed=embed)
 
+    @help.command()
+    async def qrdec(self, ctx):
+        embed = discord.Embed(title="QR Code Decoder", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> sinfo",
+                        value="Use this command to decode a qr code. Make sure u attach the image of the qrcode as a discord attachment.")
+
+        embed.add_field(name="Example",
+                        value="```qrdec <file-attached>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def hbchart(self, ctx):
+        embed = discord.Embed(title="Horizontal Bar Chart", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> hbchart <data>",
+                        value="Use this command to generate a horizontal bar chart. The numbers must be seperated by a ' | '. The character must contain a space before and after of it '<space>|<space>'. The first set of numbers before the `|` is for x axis and the later part is for y axis.Each numbers must also be seperated by space. For now it can only take numbers as it's valid argument.")
+        embed.add_field(name="Note", value="```The numbers before and after the '|' must be of equal length. E.g - 1 2 3 4 | 8 7 9 8 <:correct:773145931859886130>\n1 2 3 4 | 2 4 3 <:wrong:773145931973525514>```")
+
+        embed.add_field(name="Example",
+                        value="```hbchart 1 2 3 | 8 6 7 4```")
+        await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(HelpMsg(client))
