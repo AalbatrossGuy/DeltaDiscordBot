@@ -23,14 +23,15 @@ class HelpMsg(commands.Cog):
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `minfo`, `sinfo`, `meminfo`, `wcheck`",
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `sinfo`, `meminfo`",
                         inline=False)
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
         embed.add_field(name="⚒️  Settings",
                         value="`cp`, `set_webhook` `delete_webhook`",
                         inline=True)
-
+        embed.add_field(name="<:owo:773057515826708501> Utilities",
+                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -386,6 +387,39 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="Example",
                         value="``wcheck iceland```")
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def paswdgen(self, ctx):
+        embed = discord.Embed(title="Password Generator", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> paswdgen <len>",
+                        value="Use this command to get a randomly generated password of size <len>. The value of <len> must be less than 60.")
+
+        embed.add_field(name="Example",
+                        value="``paswdgen 10```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def qr(self, ctx):
+        embed = discord.Embed(title="QR Code Generator", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> qr <size> <text>",
+                        value="Use this command to ge")
+
+        embed.add_field(name="Example",
+                        value="``wcheck iceland```")
+        await ctx.send(embed=embed)
+
 
 
 def setup(client):
