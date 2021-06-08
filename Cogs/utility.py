@@ -10,6 +10,7 @@ from PIL import Image
 from io import BytesIO
 from pyzbar.pyzbar import decode
 import requests, random, array, qrcode 
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 
 def convert_bytes(bytes_number):
@@ -97,12 +98,25 @@ class Utilities(commands.Cog):
     # Utility Command
     @commands.command(name="link", aliases=["invite"])
     async def send_bot_invite_link(self, ctx):
-        embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
-                              description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot) to invite me to your server!")
-        embed.set_thumbnail(
-            url="https://static.wixstatic.com/media/6e38f1_72944a54fe214e029653f12798bb8136~mv2.png/v1/fill/w_560,h_210,al_c,q_85,usm_0.66_1.00_0.01/6e38f1_72944a54fe214e029653f12798bb8136~mv2.webp")
+        #embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
+        #                      description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot) to invite me to your server!")
+        #embed.set_thumbnail(
+         #   url="https://static.wixstatic.com/media/6e38f1_72944a54fe214e029653f12798bb8136~mv2.png/v1/fill/w_560,h_210,al_c,q_85,usm_0.66_1.00_0.01/6e38f1_72944a54fe214e029653f12798bb8136~mv2.webp")
 
-        await ctx.channel.send(embed=embed)
+        #await ctx.channel.send(embed=embed)
+
+        await ctx.send(
+                "🥰 Support Me By Inviting Me To Your Server",
+                components=[
+                    Button(style=ButtonStyle.URL, label="Invite Me!", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot")
+                    ]
+                )
+    
+    @commands.Cog.listener()
+    async def on_button_click(self, response):
+        await response.respond(
+                type=InteractionType.ChannelMessageWithSource, content="Thanks For Inviting Me :)"
+                )
 
     # Utility Command
     @commands.command(name="minfo")
@@ -373,5 +387,28 @@ class Utilities(commands.Cog):
         result = decode(image)
         for decoded in result:
             await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
+
+    @commands.command(name='cheatsh')
+    async def cheat_sh_data(self, ctx, language:str, *, query):
+        query = query.replace(" ", "%20")
+        url = f"https://cheat.sh/{language}/{query}"
+        response = requests.request("GET", url=url)
+        await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
+
+    @commands.command(name='socials')
+    async def social_links(self, ctx):
+        embed=discord.Embed(title="<:drake_yes:773487910673580043> Socials", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.add_field(name="<:github:851778689648689152> Github", value="[github](https://github.com/AaalbatrossGuy)")
+        embed.add_field(name="<:yt:851778739347783740> YouTube #1", value="[youtube](https://www.youtube.com/channel/UC6WW1pBnNICD4Xz4abrU4rg)")
+        embed.add_field(name="<:yt:851778739347783740> YouTube #2", value="[youtube](https://www.youtube.com/channel/UC6cFR07R5toAZKZ3hToKgyw)")
+        embed.add_field(name="<:instagram:851778716429189140> Instagram", value="[instagram](https://www.instagram.com/xcelsiorplayz/)")
+        embed.set_thumbnail(url="https://assets.website-files.com/5e4ef646507f139934406108/5e52e73aeba259d1553eee29_blog-post-5.jpeg")
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+
+        await ctx.send(
+              embed=embed
+                )
+
 def setup(client):
+    DiscordComponents(client)
     client.add_cog(Utilities(client))
