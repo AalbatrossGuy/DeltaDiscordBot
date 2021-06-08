@@ -160,29 +160,45 @@ from matplotlib import pyplot as plt
 #             return True
 
 
-def makebar(args):
-    args = str(args).replace(' ', '')
-    args = list(args)
-    tupbefore = []
-    tupafter = []
-    index = args.index('|')
-    tupbefore = args[0:index]
-    tupafter = args[index+1:]
+# def makebar(args):
+    #args = str(args).replace(' ', '')
+    #args = list(args)
+    #tupbefore = []
+    #tupafter = []
+    #index = args.index('|')
+    #tupbefore = args[0:index]
+    #tupafter = args[index+1:]
     # print(tupbefore)
     # print(tupafter)
+    #plt.rcdefaults()
+    #fig, axes = plt.subplots()
+    #numbers = tupbefore
+    #labels = tupafter
+    #axes.barh(labels, numbers, align='center')
+    #axes.set_xlabel('X Axis --->')
+    #axes.set_ylabel("Y Axis --->")
+    #axes.set_title('Horizontal Bar Chart')
+    #plt.savefig('chart.png')
+    #plt.show()
+
+
+#print(makebar('1 2 3 4 | 9 6 7 8'))
+
+
+def makebar_test2(args):
+    args = tuple(args.split(' '))
+    index = args.index('|')
+    args = list(args)
+    args.pop(index)
+    args = tuple(args)
+    before = args[:index]
+    after = args[index:]
     plt.rcdefaults()
     fig, axes = plt.subplots()
-    numbers = tupbefore
-    labels = tupafter
-    axes.barh(labels, numbers, align='center')
-    axes.set_xlabel('X Axis --->')
-    axes.set_ylabel("Y Axis --->")
-    axes.set_title('Horizontal Bar Chart')
-    plt.savefig('chart.png')
+    axes.barh(before, after, align='center')
     plt.show()
 
-
-print(makebar('1 2 3 4 | 9 6 7 8'))
+print(makebar_test2('Sammy Jonny 3 4 | 12 14 15 18'))
 
 qr = qrcode.QRCode(
     version=1,
