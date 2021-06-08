@@ -11,7 +11,8 @@ The official repository of the discord bot, Delta Δ
         chmod 755 ./start.sh && ./start.sh
    ### For Windows:
         Double Click on start.bat
-
+   ### For Hosting On Websites:
+        python3 main.py
 
 # Note
 The bot's code has been made public for educational purposes only. Recreation of this bot will not be entertained.
