@@ -5,5 +5,5 @@ requests~=2.25.1
 Pillow~=8.2.0
 discord~=1.0.1
 pyzbar~=0.1.8
-matplotlib~=3.4.2
+matplotlib~=3.3.4
 discord-components~=0.5.2.4
