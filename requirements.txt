@@ -6,3 +6,4 @@ Pillow~=8.2.0
 discord~=1.0.1
 pyzbar~=0.1.8
 matplotlib~=3.4.2
+discord-components~=0.5.2.4
