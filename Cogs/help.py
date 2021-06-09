@@ -23,15 +23,17 @@ class HelpMsg(commands.Cog):
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `sinfo`, `meminfo`",
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `sinfo`, `meminfo`, `socials`",
                         inline=True)
+        embed.add_field(name="<:admin:852022714054869013> Admin Commands", 
+                        value="`purge`, `kick`, `ban`, `unban`, `lockdown`, `unlock`")
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
         embed.add_field(name="⚒️  Settings",
                         value="`cp`, `set_webhook` `delete_webhook`",
                         inline=True)
         embed.add_field(name="<:owo:773057515826708501> Utilities",
-                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`",
+                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`, `eval`",
                         inline=True)
         embed.add_field(name="📊 Charts <beta>",
                         value="`hbchart`, `more coming soon`")
@@ -455,6 +457,138 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="Example",
                         value="```hbchart 1 2 3 | 8 6 7 4```")
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def purge(self, ctx):
+        embed = discord.Embed(title="Clear Messages", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> purge <limit>",
+                        value="Use this command to delete <limit> number of message(s). You must have the `Manage Messages` permission to perform this command.")
+
+        embed.add_field(name="Example",
+                        value="```purge 20```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def kick(self, ctx):
+        embed = discord.Embed(title="Kick Member", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> kick <member>",
+                        value="Use this command to kick <member>. You must have the `Kick Members` permission to perform this command. You can either mention the user to kick or just write their name or use their id. All of them will be valid.")
+
+
+        embed.add_field(name="Example",
+                        value="```kick @User <user-mention>\nkick User <user-name>\nkick 19298402018402 <user-id>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def ban(self, ctx):
+        embed = discord.Embed(title="Ban Member", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> ban <member>",
+                        value="Use this command to ban <member>. You must have the `Ban Members` permission to perform this command. You can either mention the user to ban or just write their name or use their id. All of them will be valid.")
+
+
+        embed.add_field(name="Example",
+                        value="```ban @User <user-mention>\nban User <user-name>\nban 19298402018402 <user-id>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def unban(self,ctx):
+        embed = discord.Embed(title="Unban Member", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> unban <member>",
+                        value="Use this command to unban <member>. You must have the `Ban Members` permission to perform this command. You have to provide the member name along with their discriminator.")
+
+
+        embed.add_field(name="Example",
+                        value="```unban User#2120```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def lockdown(self, ctx):
+        embed = discord.Embed(title="Lockdown A Channel", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> lockdown",
+                        value="Use this command to lock the channel in which it has been executed. You must have the `Manage Channels` permission to perform this command.")
+        
+        embed.add_field(name="Example",
+                        value="```lockdown```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def unlock(self, ctx):
+        embed = discord.Embed(title="Unlock A Channel", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> unlock",
+                        value="Use this command to unlock the channel where this command is executed. You must have the `Manage Channels` permission to perform this command.")
+
+
+        embed.add_field(name="Example",
+                        value="```unlock```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def eval(self, ctx):
+        embed = discord.Embed(title="Evaluate Your Code", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> eval <language> <code-in-codeblocks>",
+                        value="Use this command to run on your code in discord itself. The proper format for running this command is - eval <language> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
+
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def socials(self, ctx):
+        embed = discord.Embed(title="Author's Socials", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> socials",
+                        value="Use this command to view the socials of the author of the bot.")
+
+
+        embed.add_field(name="Example",
+                        value="```socials```")
+        await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(HelpMsg(client))
