@@ -199,7 +199,7 @@ def makebar_test2(args):
     axes.set_xlabel("X Axis --->")
     axes.set_ylabel("Y Axis --->")
     axes.set_title("Horizontal Bar Chart")
-    plt.show()
+    #plt.show()
 
 print(makebar_test2('Sammy Jonny 3 4 3 9 0 | 12 14 15.5 18 3 7 7'))
 
@@ -222,4 +222,67 @@ qr = qrcode.QRCode(
 #for i in result:
    #print(i.data.decode("utf-8"))
    #print(i.type)
-   #print(i.rect) 
+   #print(i.rect)
+
+
+
+
+import re
+from pistonapi import PistonAPI
+op = """
+```java
+class java{
+   public static void main(String args[]){
+        System.out.println("test");
+}
+ }
+```
+"""
+
+def regex(code):
+    pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
+    replace=''
+    result=re.compile(pattern)
+    stdin = re.findall(result, code)[0][1]
+    print(stdin)
+
+regex(op)
+
+piston = PistonAPI()
+#print(piston.languages)
+
+
+language = ("bash", "brainfuck", "cjam", "clojure", "cobol", "coffeescript", "cow", "crystal", "dart", "dash", "deno", "dotnet", "dragon", "elixir", "emacs", "erlang", "gawk", "gcc", "go", "golfscript", "groovy",
+             "haskell", "java", "jelly", "juila", "kotlin", "lisp", "lolcode", "lua", "mono", "nasm", "nim", "node", "ocaml", "octave", "osabie", "paradoc", "pascal", "perl", "php", "ponylang", "prolog", "pure", "pyth", "python",
+             "rockstar", "ruby", "rust", "scala", "swift", "typescript", "vlang", "yeethon", "zig")
+
+versions = ("5.1.0", "2.7.3", "0.6.5", "1.10.3", "3.1.2", "2.5.1", "1.0.0", "0.36.1", "2.12.1", "0.5.11", "1.7.5", "5.0.201", "1.9.8", "1.11.3", "27.1.0", "23.0.0", "5.1.0", "10.2.0", "1.16.2", "1.0.0", "3.0.7", "9.0.1", "15.0.2",
+            "0.1.31", "1.5.4", "1.4.31", "2.1.2", "0.11.2", "5.4.2", "6.12.0", "2.15.5", "1.4.4", "15.10.0", "4.12.0", "6.2.0", "1.0.1", "0.6.0", "3.2.0", "5.26.1", "8.0.2", "0.39.0", "8.2.4", "0.68.0", "1.0.0", "3.9.4", "1.0.0", 
+            "3.0.1", "1.50.0", "3.0.0", "5.3.3", "4.2.3", "0.1.13", "3.10.0", "0.7.1")
+
+pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
+
+result=re.compile(pattern)
+stdin = re.findall(result, op)[0][1]
+
+lang = 'java'
+for language, version in zip(language, versions):
+    print(f"{language}: v{version}")
+
+
+#import requests
+#import json
+
+#language = 'ruby'
+#langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+#l= []
+#v=[]
+#for lang in langs:
+#    if lang['language'] == language:
+#        l.append(lang['language'])
+#        l.append(lang['version'])
+#        if len(l) > 2:
+#            for i in range(1, len(l), 2):
+#                v.append(l[i][0])
+
+
