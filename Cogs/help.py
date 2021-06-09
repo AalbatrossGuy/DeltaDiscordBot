@@ -449,7 +449,7 @@ class HelpMsg(commands.Cog):
         # Context
 
         embed.add_field(name="<a:typing:773870195336937532> hbchart <data>",
-                        value="Use this command to generate a horizontal bar chart. The numbers must be seperated by a ' | '. The character must contain a space before and after of it '<space>|<space>'. The first set of numbers before the `|` is for x axis and the later part is for y axis.Each numbers must also be seperated by space. For now it can only take numbers as it's valid argument.")
+                        value="Use this command to generate a horizontal bar chart. The numbers must be seperated by a ' | '. The character must contain a space before and after of it '<space>|<space>'. The first set of numbers before the `|` is for x axis and the later part is for y axis.Each numbers must also be seperated by space. You can insert any kind of data in the chart as long as it is equal on both the axes.")
         embed.add_field(name="Note", value="```The numbers before and after the '|' must be of equal length. E.g - 1 2 3 4 | 8 7 9 8 <:correct:773145931859886130>\n1 2 3 4 | 2 4 3 <:wrong:773145931973525514>```")
 
         embed.add_field(name="Example",
