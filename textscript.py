@@ -196,9 +196,12 @@ def makebar_test2(args):
     plt.rcdefaults()
     fig, axes = plt.subplots()
     axes.barh(before, after, align='center')
+    axes.set_xlabel("X Axis --->")
+    axes.set_ylabel("Y Axis --->")
+    axes.set_title("Horizontal Bar Chart")
     plt.show()
 
-print(makebar_test2('Sammy Jonny 3 4 | 12 14 15 18'))
+print(makebar_test2('Sammy Jonny 3 4 3 9 0 | 12 14 15.5 18 3 7 7'))
 
 qr = qrcode.QRCode(
     version=1,
