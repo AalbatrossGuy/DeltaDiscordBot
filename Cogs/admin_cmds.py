@@ -86,7 +86,19 @@ class AdminCmds(commands.Cog):
         await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
         
         
+    @lockdown.error
+    async def lockdown_error_handling(self, error, ctx):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.channel.send(
+                    "<:nope:735473789714038874> You must have the `Manage Channels` permission to use that command!"
+                    )
 
+    @unlock.error
+    async def unlock_error_handling(self, error, ctx):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.channel.send(
+                    "<:nope:735473789714038874> You must have the `Manage Channels` permission to use that command!"
+                    )
 
 def setup(client):
     client.add_cog(AdminCmds(client))
