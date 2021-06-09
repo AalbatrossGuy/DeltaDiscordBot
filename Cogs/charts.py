@@ -10,24 +10,21 @@ class Charts(commands.Cog):
 
     @commands.command(name="hbchart")
     async def horizontal_bar_chart(self, ctx, *, args) -> plt.subplots():
-        args = str(args).replace(' ', '')
-        args = list(args)
         #print(args)
-        tupbefore = []
-        tupafter = []
+        args = tuple(args.split(' '))
         index = args.index('|')
-        tupbefore = args[0:index]
-        tupafter = args[index+1:]
-        # print(tupbefore)
-        # print(tupafter)
+        args = list(args)
+        args.pop(index)
+        args = tuple(args)
+        before = args[:index]
+        after = args[index:]
         plt.rcdefaults()
         fig, axes = plt.subplots()
-        numbers = tupbefore
-        labels = tupafter
-        axes.barh(labels, numbers, align='center')
-        axes.set_xlabel('X Axis --->')
+        axes.barh(before, after, align='center')
+        axes.set_xlabel("X Axis --->")
         axes.set_ylabel("Y Axis --->")
-        axes.set_title('Horizontal Bar Chart')
+        axes.set_title("Horizontal Bar Chart")
+        #plt.show()
         bufferobject = BytesIO()
         #plt.savefig(bufferobject, 'chart.png')
         with BytesIO() as img_bytes:
