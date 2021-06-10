@@ -246,7 +246,7 @@ def regex(code):
     stdin = re.findall(result, code)[0][1]
     print(stdin)
 
-regex(op)
+#regex(op)
 
 piston = PistonAPI()
 #print(piston.languages)
@@ -265,13 +265,12 @@ pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
 result=re.compile(pattern)
 stdin = re.findall(result, op)[0][1]
 
-lang = 'java'
-for language, version in zip(language, versions):
-    print(f"{language}: v{version}")
+langtest = 'java'
+#for language, version in zip(language, versions):
+    #print(f"{language}: v{version}")
 
 
-#import requests
-#import json
+import json
 
 #language = 'ruby'
 #langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
@@ -285,4 +284,10 @@ for language, version in zip(language, versions):
 #            for i in range(1, len(l), 2):
 #                v.append(l[i][0])
 
+base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
 
+languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+
+for lang in languages:
+    if lang['language'] == langtest:
+        print(f"{lang['language']} : {lang['version']}")
