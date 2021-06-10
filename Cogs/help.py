@@ -23,17 +23,17 @@ class HelpMsg(commands.Cog):
 
         # Content
 
-        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `say`, `sinfo`, `meminfo`, `socials`",
+        embed.add_field(name="<:foxia:832549597892313159> General", value="`ping`, `avatar`, `link`, `sinfo`, `meminfo`, `socials`",
                         inline=True)
         embed.add_field(name="<:admin:852022714054869013> Admin Commands", 
                         value="`purge`, `kick`, `ban`, `unban`, `lockdown`, `unlock`")
         embed.add_field(name="📸 Image Manipulation",
                         value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
         embed.add_field(name="⚒️  Settings",
-                        value="`cp`, `set_webhook` `delete_webhook`",
+                        value="`cp`",
                         inline=True)
         embed.add_field(name="<:owo:773057515826708501> Utilities",
-                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`, `eval`",
+                        value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`, `run`",
                         inline=True)
         embed.add_field(name="📊 Charts <beta>",
                         value="`hbchart`, `more coming soon`")
@@ -281,53 +281,53 @@ class HelpMsg(commands.Cog):
                         value="```yaml\n*blur_f <radius between 1-10> <with the attached image>```")
         await ctx.send(embed=embed)
 
-    @help.command()
-    async def say(self, ctx):
-        embed = discord.Embed(title="Say", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #@help.command()
+    #async def say(self, ctx):
+       # embed = discord.Embed(title="Say", colour=discord.Colour.dark_gold(),
+        #                      timestamp=ctx.message.created_at)
+        #embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        #embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
         # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> say <message>",
-                        value="Use this command to make the bot repeat the <message>. Make sure that the webhook is already set for this channel. For more info do `set_webhook`")
+        #embed.add_field(name="<a:typing:773870195336937532> say <message>",
+        #                value="Use this command to make the bot repeat the <message>. Make sure that the webhook is already set for this channel. For more info do `set_webhook`")
 
-        embed.add_field(name="Example",
-                        value="```yaml\n*say \n*say <message>```")
-        await ctx.send(embed=embed)
+        #embed.add_field(name="Example",
+         #               value="```yaml\n*say \n*say <message>```")
+        #await ctx.send(embed=embed)
 
-    @help.command()
-    async def set_webhook(self, ctx):
-        embed = discord.Embed(title="Set Webhook", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> set_webhook <channel_id>",
-                        value="Use this command to set the webhook for the respective channel. You cannot use the say command before setting the channel_id")
-
-        embed.add_field(name="Example",
-                        value="```yaml\n*set_webhook <channel_id>```")
-        await ctx.send(embed=embed)
-
-    @help.command()
-    async def delete_webhook(self, ctx):
-        embed = discord.Embed(title="Delete Webhook", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+    #@help.command()
+    #async def set_webhook(self, ctx):
+     #   embed = discord.Embed(title="Set Webhook", colour=discord.Colour.dark_gold(),
+      #                        timestamp=ctx.message.created_at)
+       # embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        #embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
         # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> delete_webhook <channel_id>",
-                        value="Use this command to delete the webhook for the respective channel.\nNOTE: This command only deletes the channel_id from the database. To manually delete the webhook from the channel go to edit channel > integrations > view webhook and tselect the with `SayCmd Webhook`")
+        #embed.add_field(name="<a:typing:773870195336937532> set_webhook <channel_id>",
+         #               value="Use this command to set the webhook for the respective channel. You cannot use the say command before setting the channel_id")
 
-        embed.add_field(name="Example",
-                        value="```delete_webhook```")
-        await ctx.send(embed=embed)
+        #embed.add_field(name="Example",
+        #                value="```yaml\n*set_webhook <channel_id>```")
+        #await ctx.send(embed=embed)
+
+    #@help.command()
+    #async def delete_webhook(self, ctx):
+     #   embed = discord.Embed(title="Delete Webhook", colour=discord.Colour.dark_gold(),
+      #                        timestamp=ctx.message.created_at)
+       # embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        #embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        #embed.add_field(name="<a:typing:773870195336937532> delete_webhook <channel_id>",
+         #               value="Use this command to delete the webhook for the respective channel.\nNOTE: This command only deletes the channel_id from the database. To manually delete the webhook from the channel go to edit channel > integrations > view webhook and tselect the with `SayCmd Webhook`")
+
+        #embed.add_field(name="Example",
+         #               value="```delete_webhook```")
+        #await ctx.send(embed=embed)
 
     @help.command()
     async def minfo(self, ctx):
@@ -559,7 +559,7 @@ class HelpMsg(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command()
-    async def eval(self, ctx):
+    async def run(self, ctx):
         embed = discord.Embed(title="Evaluate Your Code", colour=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
@@ -567,8 +567,8 @@ class HelpMsg(commands.Cog):
 
         # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> eval <language> <code-in-codeblocks>",
-                        value="Use this command to run on your code in discord itself. The proper format for running this command is - eval <language> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
+        embed.add_field(name="<a:typing:773870195336937532> run <language> <code-in-codeblocks>",
+                        value="Use this command to run on your code in discord itself. The proper format for running this command is - run <language> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
 
         await ctx.send(embed=embed)
 
