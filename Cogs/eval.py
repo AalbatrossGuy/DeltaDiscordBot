@@ -35,7 +35,7 @@ class Eval(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="eval")
+    @commands.command(name="run")
     async def evaluate_code(self, ctx, lang, *, code):
         piston = PistonAPI()
         pattern = "`{3}([\w]*)\n([\S\s]+?)\n`{3}"
