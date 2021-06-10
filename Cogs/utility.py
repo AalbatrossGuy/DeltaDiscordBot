@@ -11,7 +11,7 @@ from io import BytesIO
 from pyzbar.pyzbar import decode
 import requests, random, array, qrcode 
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
-
+import asyncio
 
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
@@ -408,6 +408,23 @@ class Utilities(commands.Cog):
         await ctx.send(
               embed=embed
                 )
+    
+    @commands.command(name='shell')
+    @commands.is_owner()
+    async def run_shell_cmds(self, ctx,*, cmd:str):
+        process = await asyncio.create_subprocess_shell(
+                cmd, stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+                )
+        stdout, stderr = await process.communicate()
+        
+        if stdout:
+            await ctx.channel.send(f"```[stdout]\n{stdout.decode()[:1800]}```")
+        if stderr:
+            await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
+
+    
+
 
 def setup(client):
     DiscordComponents(client)
