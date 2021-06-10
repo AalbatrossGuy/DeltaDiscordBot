@@ -8,3 +8,4 @@ pyzbar~=0.1.8
 matplotlib~=3.3.4
 discord-components~=0.5.2.4
 pistonapi~=1.0.1
+qrcode~=6.1
