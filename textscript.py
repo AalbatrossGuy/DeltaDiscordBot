@@ -243,6 +243,10 @@ def regex(code):
     pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
     replace=''
     result=re.compile(pattern)
+    if re.findall(result, code)[0][0] == '':
+        print('no prefix')
+    else:
+        print('prefix present')
     stdin = re.findall(result, code)[0][1]
     print(stdin)
 
@@ -250,44 +254,53 @@ def regex(code):
 
 piston = PistonAPI()
 #print(piston.languages)
-
-
-language = ("bash", "brainfuck", "cjam", "clojure", "cobol", "coffeescript", "cow", "crystal", "dart", "dash", "deno", "dotnet", "dragon", "elixir", "emacs", "erlang", "gawk", "gcc", "go", "golfscript", "groovy",
-             "haskell", "java", "jelly", "juila", "kotlin", "lisp", "lolcode", "lua", "mono", "nasm", "nim", "node", "ocaml", "octave", "osabie", "paradoc", "pascal", "perl", "php", "ponylang", "prolog", "pure", "pyth", "python",
-             "rockstar", "ruby", "rust", "scala", "swift", "typescript", "vlang", "yeethon", "zig")
-
-versions = ("5.1.0", "2.7.3", "0.6.5", "1.10.3", "3.1.2", "2.5.1", "1.0.0", "0.36.1", "2.12.1", "0.5.11", "1.7.5", "5.0.201", "1.9.8", "1.11.3", "27.1.0", "23.0.0", "5.1.0", "10.2.0", "1.16.2", "1.0.0", "3.0.7", "9.0.1", "15.0.2",
-            "0.1.31", "1.5.4", "1.4.31", "2.1.2", "0.11.2", "5.4.2", "6.12.0", "2.15.5", "1.4.4", "15.10.0", "4.12.0", "6.2.0", "1.0.1", "0.6.0", "3.2.0", "5.26.1", "8.0.2", "0.39.0", "8.2.4", "0.68.0", "1.0.0", "3.9.4", "1.0.0", 
-            "3.0.1", "1.50.0", "3.0.0", "5.3.3", "4.2.3", "0.1.13", "3.10.0", "0.7.1")
+from collections import Counter
 
 pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
 
 result=re.compile(pattern)
-stdin = re.findall(result, op)[0][1]
+stdin = re.findall(result, op)
 
-langtest = 'java'
+langtest = 'javascript'
 #for language, version in zip(language, versions):
     #print(f"{language}: v{version}")
-
+regex(op)
 
 import json
 
-#language = 'ruby'
-#langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
-#l= []
-#v=[]
-#for lang in langs:
-#    if lang['language'] == language:
-#        l.append(lang['language'])
-#        l.append(lang['version'])
-#        if len(l) > 2:
-#            for i in range(1, len(l), 2):
-#                v.append(l[i][0])
-
 base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
 
-languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+#languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 
-for lang in languages:
-    if lang['language'] == langtest:
-        print(f"{lang['language']} : {lang['version']}")
+#for lang in languages:
+    #if lang['language'] == langtest:
+        #print(f"{lang['language']} : {lang['version']}")
+#dic = {}
+#for lang in languages:
+ #   if langtest in lang['language']:
+ #       dic = {'language' : lang['language'], 'version' : lang['version']}
+
+#print(dic)
+
+
+#langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+# with open('languages.json', 'w') as file:
+   # file.write(json.dumps(langs))
+
+# read collected langs and versions 
+# langs = json.loads(open('languages.json').read())
+
+# def i_run_code(lang_call):
+    #latest = []
+   # for lang in langs:
+  #      if (lang['language'] == lang_call) or (lang_call in lang['aliases']):
+ #           latest.append(lang['version'])
+#
+      #      json_body = {
+     #           "language": lang['language'],
+    #            "version": ''.join(max([latest]))
+   #         }
+  #          
+ #           return json.dumps(json_body)
+
+#print(i_run_code('js'))
