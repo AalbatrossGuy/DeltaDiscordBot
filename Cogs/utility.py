@@ -12,7 +12,7 @@ from pyzbar.pyzbar import decode
 import requests, random, array, qrcode 
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 import asyncio
-
+from aiohttp import ClientSession
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
 
@@ -42,58 +42,58 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title=f"Avatar of {member}", description=f"[jpg]({jpg}) | [png]({png}) | [webp]({webp})",
                               color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        # embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
         embed.set_image(url=member.avatar_url)
         await ctx.channel.send(embed=embed)
 
-   # @commands.command(name="set_webhook")
-    #async def set_bot_webhook(self, ctx):
-     #   guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
-      #                               (ctx.message.guild.id,))
-       # guild_id_exists = guild_id.fetchone() is not None
-        #if guild_id_exists is False:
-         #   created_webhook = await ctx.channel.create_webhook(name="SayCmd Webhook")
-          #  url = created_webhook.url
-           # db.execute("INSERT OR IGNORE INTO webhook(GuildID, Url) VALUES(?, ?)", int(ctx.message.guild.id), str(url))
-           # db.commit()
-           # await ctx.channel.send('⚒  Webhook has been created for this channel')
-        #elif guild_id_exists is True:
-         #   await ctx.channel.send(
-          #      "You have already set the webhook for this channel. For resetting, delete the exisiting webhook by using `delete_webhook` and then type this command.")
+    @commands.command(name="set_webhook")
+    async def set_bot_webhook(self, ctx):
+        guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
+                                     (ctx.message.guild.id,))
+        guild_id_exists = guild_id.fetchone() is not None
+        if guild_id_exists is False:
+            created_webhook = await ctx.channel.create_webhook(name="SayCmd Webhook")
+            url = created_webhook.url
+            db.execute("INSERT OR IGNORE INTO webhook(GuildID, Url) VALUES(?, ?)", int(ctx.message.guild.id), str(url))
+            db.commit()
+            await ctx.channel.send('⚒  Webhook has been created for this channel')
+        elif guild_id_exists is True:
+            await ctx.channel.send(
+                "You have already set the webhook for this channel. For resetting, delete the exisiting webhook by using `delete_webhook` and then type this command.")
 
-    #@commands.command(name="delete_webhook")
-    #async def delete_bot_webhook(self, ctx):
-     #   guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
-      #                               (ctx.message.guild.id,))
-       # guild_id_exists = guild_id.fetchone() is not None
-        #if guild_id_exists is False:
-         #   await ctx.channel.send(
-          #      'You cannot delete a webhook unless u have created it. Run `set_webhook` to create a webhook first')
-       # elif guild_id_exists is True:
-        #    db.execute("DELETE FROM webhook WHERE GuildID = ?", (ctx.message.guild.id))
-         #   db.commit()
-          #  await ctx.channel.send("⚒  The webhook for this channel has been deleted from the database.")
+    @commands.command(name="delete_webhook")
+    async def delete_bot_webhook(self, ctx):
+        guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
+                                     (ctx.message.guild.id,))
+        guild_id_exists = guild_id.fetchone() is not None
+        if guild_id_exists is False:
+            await ctx.channel.send(
+                'You cannot delete a webhook unless u have created it. Run `set_webhook` to create a webhook first')
+        elif guild_id_exists is True:
+            db.execute("DELETE FROM webhook WHERE GuildID = ?", (ctx.message.guild.id))
+            db.commit()
+            await ctx.channel.send("⚒  The webhook for this channel has been deleted from the database.")
 
     # Fun Command
-   # @commands.command(name="say")
-    #async def say_webhook_command(self, message, *, query: str = 'hello!'):
+    @commands.command(name="say")
+    async def say_webhook_command(self, message, *, query: str = 'hello!'):
 
-     #   async with ClientSession() as session:
-      #      guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
-      #                                   (message.guild.id,))
-          #  guild_id_exists = guild_id.fetchone() is not None
-           # if not guild_id_exists:
-            #    await message.channel.send(
-             #       "Oops! Tell a mod in the server to run the `set_webhook` command before using this command :)")
-           # else:
-            #    query = escape_mentions(query)
-             #   webhook_url = db.field("SELECT Url FROM webhook WHERE GuildID = ?", (message.guild.id))
+        async with ClientSession() as session:
+            guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
+                                         (message.guild.id,))
+            guild_id_exists = guild_id.fetchone() is not None
+            if not guild_id_exists:
+                await message.channel.send(
+                    "Oops! Tell a mod in the server to run the `set_webhook` command before using this command :)")
+            else:
+                query = escape_mentions(query)
+                webhook_url = db.field("SELECT Url FROM webhook WHERE GuildID = ?", (message.guild.id))
 
                 # print(message.guild.id) Used it for debugging.
                 # print(webhook_url) Used it for debugging.
-            #webhook = discord.Webhook.from_url(webhook_url, adapter=discord.AsyncWebhookAdapter(session))
-            #await message.channel.purge(limit=1)
-            #await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
+            webhook = discord.Webhook.from_url(webhook_url, adapter=discord.AsyncWebhookAdapter(session))
+            await message.channel.purge(limit=1)
+            await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
 
     # Utility Command
     @commands.command(name="link", aliases=["invite"])
@@ -422,8 +422,6 @@ class Utilities(commands.Cog):
             await ctx.channel.send(f"```[stdout]\n{stdout.decode()[:1800]}```")
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
-
-    
 
 
 def setup(client):
