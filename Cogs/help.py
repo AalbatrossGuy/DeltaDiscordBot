@@ -65,7 +65,7 @@ class HelpMsg(commands.Cog):
         # Context
 
         embed.add_field(name="<a:typing:773870195336937532> cp <new_prefix>",
-                        value="Set a new prefix for the bot or mention the bot\nto use it's commands.")
+                        value="Set a new prefix for the bot or mention the bot\nto use it's commands. You must have the `Manage Server` permission to run this command.")
         embed.add_field(name="Example",
                         value="```yaml\n*cp &```")
         await ctx.send(embed=embed)
