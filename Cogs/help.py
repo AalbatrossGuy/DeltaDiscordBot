@@ -28,7 +28,8 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="<:admin:852022714054869013> Admin Commands", 
                         value="`purge`, `kick`, `ban`, `unban`, `lockdown`, `unlock`")
         embed.add_field(name="📸 Image Manipulation",
-                        value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`")
+                        value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`, `wasted`, `trigger`, `magic`, `pixel`, `angel`, `devil`, `windel`, `hitler`, `stringify`")
+        
         embed.add_field(name="⚒️  Settings",
                         value="`cp`, `set_webhook`, `delete_webhook`",
                         inline=True)
@@ -588,6 +589,160 @@ class HelpMsg(commands.Cog):
         embed.add_field(name="Example",
                         value="```socials```")
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def wasted(self, ctx):
+        embed = discord.Embed(title="Wasted", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> wasted <member-name/id/mention>",
+                        value="Use this command to get the wasted overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```wasted <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def trigger(self, ctx):
+        embed = discord.Embed(title="Trigger", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> trigger <member-name/id/mention>",
+                        value="Use this command to get the triggered overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```trigger <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def magic(self, ctx):
+        embed = discord.Embed(title="Magic", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> magic <member-name/id/mention>",
+                        value="Use this command to get the magik overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```magic <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def pixel(self, ctx):
+        embed = discord.Embed(title="Pixelate", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> wasted <member-name/id/mention>",
+                        value="Use this command to pixelate the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```pixel <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def angel(self, ctx):
+        embed = discord.Embed(title="Angel", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> angel <member-name/id/mention>",
+                        value="Use this command to get the angel overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```angel <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def devil(self, ctx):
+        embed = discord.Embed(title="Devil", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> devil <member-name/id/mention>",
+                        value="Use this command to get the devil overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```devil <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def windel(self, ctx):
+        embed = discord.Embed(title="Windows Delete", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> windel <member-name/id/mention>",
+                        value="Use this command to get the windows delete overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```windel <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def hitler(self, ctx):
+        embed = discord.Embed(title="Hitler", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> hitler <member-name/id/mention>",
+                        value="Use this command to get the `Most Dangerous Than Hitler` overlay to the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```hitler <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def stringify(self, ctx):
+        embed = discord.Embed(title="Stringify", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> stringify <member-name/id/mention>",
+                        value="Use this command to the stringify the member's profile picture. You can either mention the member or use his id or just type his name. If no member name is provided, then the bot takes the profile picture of the author.")
+
+
+        embed.add_field(name="Example",
+                        value="```stringify <member-name/id/mention>```")
+        await ctx.send(embed=embed)
+
 
 
 def setup(client):
