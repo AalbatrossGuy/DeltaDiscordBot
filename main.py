@@ -7,7 +7,7 @@ import discord, os, time
 from discord.ext import commands
 from datetime import timedelta
 from decouple import config
-from lib.db import db
+from lib import db
 
 start_time = time.time()
 
@@ -64,7 +64,6 @@ async def restart(ctx):
     await ctx.channel.send("<:exit:773159538961416222> Restarting in 5s...")
     await ctx.message.add_reaction('<:correct:773145931859886130>')
     await client.close()
-
 
 @client.command(name="ping")
 async def pingme(ctx):

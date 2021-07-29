@@ -5,7 +5,7 @@
 import discord
 from discord.ext import commands
 from discord.utils import escape_mentions
-from lib.db import db
+from lib import db
 from PIL import Image
 from io import BytesIO
 from pyzbar.pyzbar import decode

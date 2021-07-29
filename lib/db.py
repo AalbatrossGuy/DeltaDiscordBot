@@ -1,9 +1,9 @@
 from os.path import isfile
 from sqlite3 import connect
 
-db_path = "./Data/db/database.db"
+db_path = "./Data/database.db"
 
-buildpath = "./Data/db/build.sql"
+buildpath = "./Data/build.sql"
 
 connectdb = connect(db_path, check_same_thread=False)
 

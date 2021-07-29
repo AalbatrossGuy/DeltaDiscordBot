@@ -4,7 +4,7 @@
 
 import discord
 from discord.ext import commands
-from lib.db import db
+from lib import db
 
 
 class HelpMsg(commands.Cog):

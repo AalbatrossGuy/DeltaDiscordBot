@@ -4,7 +4,7 @@
 
 import discord, requests
 from discord.ext import commands
-from lib.db import db
+from lib import db
 from discord.ext.commands.errors import BadArgument
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from io import BytesIO
