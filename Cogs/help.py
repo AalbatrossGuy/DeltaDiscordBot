@@ -38,7 +38,7 @@ class HelpMsgTwo(commands.Cog):
         embedProgramming.set_thumbnail(url="https://cdn.britannica.com/30/199930-131-B3D1D347/computer.jpg")
 
         embedInfo = discord.Embed(title="Info Commands", color=discord.Colour.dark_teal(), timestamp=ctx.message.created_at)
-        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `socials`, sinfo`")
+        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `socials`, `sinfo`")
         embedInfo.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedInfo.set_thumbnail(url="https://cdn.pixabay.com/photo/2015/10/31/11/59/information-1015297_1280.jpg")
 
