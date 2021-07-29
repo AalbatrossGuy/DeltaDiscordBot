@@ -12,7 +12,7 @@ The official repository of the discord bot, Delta Δ
    ### For Windows:
         Double Click on start.bat
    ### For Hosting On Websites:
-        python3 main.py
+        python3 main.py (When hosted on websites, the restart command will not work.)
 
 # Note
 The bot's code has been made public for educational purposes only. Recreation of this bot will not be entertained.
