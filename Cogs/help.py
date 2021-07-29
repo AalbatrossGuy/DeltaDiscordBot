@@ -16,7 +16,7 @@ class HelpMsgTwo(commands.Cog):
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Made by AalbatrossGuy", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
-                description=f"**Total Commands: {len(list(self.client.walk_commands()))} Servers: len(self.client.guilds)**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
+                description=f"**Total Commands: {len(list(self.client.walk_commands()))} Server Prefix: `{prefix}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
                         
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
@@ -25,7 +25,7 @@ class HelpMsgTwo(commands.Cog):
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
                  <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",inline=True)
 
-        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Completed the `tictactoe` game command.\n<:rightarrow:870236404301578250> Containarising of the bot files in progress...", inline=True)
+        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Redesigned the `help` command.\n<:rightarrow:870236404301578250> Completed the `tictactoe` game command.", inline=True)
         
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(), timestamp=ctx.message.created_at)
         embedImages.add_field(name="Commands: ", value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`, `wasted`, `trigger`, `magic`, `pixel`, `angel`, `devil`, `windel`, `hitler`, `stringify`")
