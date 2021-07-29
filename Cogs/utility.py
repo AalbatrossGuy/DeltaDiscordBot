@@ -112,11 +112,6 @@ class Utilities(commands.Cog):
                     ]
                 )
     
-    @commands.Cog.listener()
-    async def on_button_click(self, response):
-        await response.respond(
-                type=InteractionType.ChannelMessageWithSource, content="Thanks For Inviting Me :)"
-                )
 
     # Utility Command
     @commands.command(name="minfo")
