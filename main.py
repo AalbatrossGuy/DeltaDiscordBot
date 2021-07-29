@@ -15,6 +15,7 @@ start_time = time.time()
 def get_prefix(bot, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
     #bot.process_commands(message)
+    
     return commands.when_mentioned_or(prefix)(bot, message)
     
 
