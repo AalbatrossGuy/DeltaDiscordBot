@@ -13,7 +13,7 @@ class TicTacToe(Cog):
     async def tictactoe(self, ctx, member: discord.Member):
         if ctx.author == member:
             return await ctx.send("You can't play against yourself!")
-        embed = discord.Embed(color=0xF5F5F5, title=f"Hey, {ctx.author.name} wants to play tic-tac-toe with you!")
+        embed = discord.Embed(color=0xF5F5F5, title=f"Hey, {ctx.author.name} invited you to play tic-tac-toe with him!")
         acceptdenycomps = [
             [
                 Button(style=ButtonStyle.green, label="Accept"),
@@ -92,29 +92,30 @@ class TicTacToe(Cog):
 
 
         def confirmcheck(res):
+            
             return res.user.id == member.id and res.channel.id == ctx.channel.id and str(res.message.id) == str(m.id)
-
+            
         try:
-            res = await self.bot.wait_for("button_click", check=confirmcheck, timeout=50)
+            res = await self.bot.wait_for("button_click", check=confirmcheck, timeout=30)
         except asyncio.TimeoutError:
-            await msg.edit(
-                embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. ☹️"),
+            await ctx.channel.send(
+                embed=discord.Embed(color=0xED564E, title="Timeout!", description="Bruh No-one reacted. Wasted mah time <a:angryaf:870160970356494397>"),
                 components=[
-                    Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True),
-                    Button(style=ButtonStyle.URL, label="View creator", url="https://github.com/PythonSerious")
+                    Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True)
                 ],
             )
             return
         await res.respond(type=6)
         if res.component.label == "Accept":
             accept = True
-            embed = discord.Embed(color=discord.Colour.green(), title=f'{member.name} has accepted!', description="The game will now begin...")
+            embed = discord.Embed(color=discord.Colour.green(), title=f'{member.name} has accepted to play with ya!', description="PREPARE YOURSELVES! The game will now commence...")
             await m.edit(embed=embed)
             await asyncio.sleep(1)
+            
 
         else:
             accept = False
-            embed = discord.Embed(color=discord.Colour.red(), title=f'{member.name} has declined.')
+            embed = discord.Embed(color=discord.Colour.red(), title=f'{member.name} has declined because they hate you.')
             await m.edit(embed=embed)
             return
         
@@ -125,7 +126,7 @@ class TicTacToe(Cog):
             if team == "green":
                 color = discord.Colour.green()
                 user = ctx.author
-            e = discord.Embed(color=color, title=f"{user.name} has won!")
+            e = discord.Embed(color=color, title=f"{user.name} has won and here u go Your trophy <a:trophy:870160483758522421>")
             board.append(Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"))
             await m.edit(embed=e, components=board)
             return
@@ -155,7 +156,7 @@ class TicTacToe(Cog):
                         accept = False
                         return
                     if istie('green'):
-                        e = discord.Embed(color=0xF5F5F5, title=f"Call it a tie!")
+                        e = discord.Embed(color=0xF5F5F5, title=f"LOL! Call it a tie")
                         board.append(Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"))
                         await m.edit(embed=e, components=board)
                         accept = False
@@ -166,7 +167,7 @@ class TicTacToe(Cog):
 
                 except asyncio.TimeoutError:
                     await msg.edit(
-                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. ☹️"),
+                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
                         components=[
                             Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True),
                             Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot")
@@ -188,7 +189,7 @@ class TicTacToe(Cog):
                         accept = False
                         return
                     if istie('red'):
-                        e = discord.Embed(color=0xF5F5F5, title=f"Call it a tie!")
+                        e = discord.Embed(color=0xF5F5F5, title=f"LOL! Call it a tie")
                         board.append(Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"))
                         await m.edit(embed=e, components=board)
                         accept = False
@@ -200,10 +201,9 @@ class TicTacToe(Cog):
 
                 except asyncio.TimeoutError:
                     await msg.edit(
-                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. ☹️"),
+                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
                         components=[
-                            Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True),
-                            Button(style=ButtonStyle.URL, label="View creator", url="")
+                            Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True)                            
                         ],
                     )
                     return
@@ -213,5 +213,5 @@ class TicTacToe(Cog):
 
 
 def setup(bot):
-    DiscordComponents(bot)  #if you have this in an on_ready event you can remove this line.
+    DiscordComponents(bot)  
     bot.add_cog(TicTacToe(bot))
