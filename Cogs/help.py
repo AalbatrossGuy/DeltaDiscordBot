@@ -25,7 +25,7 @@ class HelpMsgTwo(commands.Cog):
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
                  <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",inline=True)
 
-        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Added `ytcomm` command[NEW].\n<:rightarrow:870236404301578250> Added `calcu` command[NEW].", inline=True)
+        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Added `ytcomm` command[NEW].\n<:rightarrow:870236404301578250> Added `calcu` command[NEW].\n<:rightarrow:870236404301578250> Added `twt` command[NEW]", inline=True)
         
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(), timestamp=ctx.message.created_at)
         embedImages.add_field(name="Commands: ", value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`, `wasted`, `trigger`, `magic`, `pixel`, `angel`, `devil`, `windel`, `hitler`, `stringify`")
@@ -48,7 +48,7 @@ class HelpMsgTwo(commands.Cog):
         embedReddit.set_thumbnail(url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
 
         embedFun = discord.Embed(title="Fun Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
-        embedFun.add_field(name="Commands: ", value="`say`, `tictactoe`, `ytcomm`")
+        embedFun.add_field(name="Commands: ", value="`say`, `tictactoe`, `ytcomm`, `twt`")
         embedFun.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedFun.set_thumbnail(url="https://www.thesimpledollar.com/wp-content/uploads/2020/04/TheSimpleDollar-Fun-With-Friends.png")
 
@@ -841,6 +841,23 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```calcu```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def twt(self, ctx):
+        embed = discord.Embed(title="Tweet Something", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        #Context
+
+        embed.add_field(name="<a:typing:773870195336937532> tweet <member-name/id/mention> <comment>",
+                        value="Use this command to generate a fake twitter comment with the name <member-name/id/mention> and the comment will be <comment>.")
+
+
+        embed.add_field(name="Example",
+                        value="```tweet AalbatrossGuy Hi there guys.```")
         await ctx.send(embed=embed)
 
 def setup(client):
