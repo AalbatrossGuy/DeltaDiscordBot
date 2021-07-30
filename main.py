@@ -75,7 +75,7 @@ async def pingme(ctx):
     difference = int(round(current_time - start_time))
     text = str(timedelta(seconds=difference))
     embed = discord.Embed(title=':ping_pong: Ping', color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
-    embed.add_field(name=":green_heart: `WS Ping`", value=f"{round(client.latency * 1000)}ms")
+    embed.add_field(name=":green_heart: WS Ping", value=f"```py\n{round(client.latency * 1000)} ms```")
 
     # DB ping
 
@@ -84,10 +84,10 @@ async def pingme(ctx):
     end = perf_counter()
     db_ping_time = end - start
     db_ping = db_ping_time * 1000
-    embed.add_field(name=":green_heart: `DB Ping`", value=f"{db_ping.__format__('0.2f')}ms")
+    embed.add_field(name=":green_heart: DB Ping", value=f"```py\n{db_ping.__format__('0.2f')} ms```")
     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
     embed.set_thumbnail(url="https://i.gifer.com/fyMe.gif")
-    await ctx.channel.send(embed=embed)
+    await ctx.reply(embed=embed)
 
 
 @client.command()
