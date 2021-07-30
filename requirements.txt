@@ -10,3 +10,4 @@ discord-components~=0.5.2.4
 pistonapi~=1.0.1
 qrcode~=6.1
 asyncdagpi~=3.3.4
+sr-api~=1.1.3
