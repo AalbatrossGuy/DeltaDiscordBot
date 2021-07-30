@@ -13,6 +13,52 @@ import requests, random, array, qrcode
 from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 import asyncio
 from aiohttp import ClientSession
+from datetime import datetime, timezone, timedelta
+
+
+Buttons = [
+    [
+        Button(style=ButtonStyle.grey, label='1'),
+        Button(style=ButtonStyle.grey, label='2'),
+        Button(style=ButtonStyle.grey, label='3'),
+        Button(style=ButtonStyle.blue, label='X'),
+        Button(style=ButtonStyle.red, label='Quit')
+    ],
+    [
+        Button(style=ButtonStyle.grey, label='4'),
+        Button(style=ButtonStyle.grey, label='5'),
+        Button(style=ButtonStyle.grey, label='6'),
+        Button(style=ButtonStyle.blue, label='÷'),
+        Button(style=ButtonStyle.red, label='BckSpce')
+    ],
+    [
+        Button(style=ButtonStyle.grey, label='7'),
+        Button(style=ButtonStyle.grey, label='8'),
+        Button(style=ButtonStyle.grey, label='9'),
+        Button(style=ButtonStyle.blue, label='+'),
+        Button(style=ButtonStyle.red, label='ClrScrn')
+    ],
+    [
+        Button(style=ButtonStyle.grey, label='00'),
+        Button(style=ButtonStyle.grey, label='0'),
+        Button(style=ButtonStyle.blue, label='.'),
+        Button(style=ButtonStyle.blue, label='-'),
+        Button(style=ButtonStyle.red, label='Answr')
+    ],
+]
+
+
+def calculate(expr):
+    x = expr.replace('X', '*')
+    x = x.replace('÷', '/')
+    answr = ''
+    try:
+        answr = str(eval(x))
+    except:
+        answr = "Oops! I went Brainded. Try again Later."
+    
+    return answr
+
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
 
@@ -95,23 +141,6 @@ class Utilities(commands.Cog):
             await message.channel.purge(limit=1)
             await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
 
-    # Utility Command
-    @commands.command(name="link", aliases=["invite"])
-    async def send_bot_invite_link(self, ctx):
-        #embed = discord.Embed(title="Invite Me 🥰", timestamp=ctx.message.created_at, color=discord.Colour.dark_gold(),
-        #                      description="Hey there! click on [this link](https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot) to invite me to your server!")
-        #embed.set_thumbnail(
-         #   url="https://static.wixstatic.com/media/6e38f1_72944a54fe214e029653f12798bb8136~mv2.png/v1/fill/w_560,h_210,al_c,q_85,usm_0.66_1.00_0.01/6e38f1_72944a54fe214e029653f12798bb8136~mv2.webp")
-
-        #await ctx.channel.send(embed=embed)
-
-        await ctx.send(
-                "🥰 Support Me By Inviting Me To Your Server",
-                components=[
-                    Button(style=ButtonStyle.URL, label="Invite Me!", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot")
-                    ]
-                )
-    
 
     # Utility Command
     @commands.command(name="minfo")
@@ -182,11 +211,11 @@ class Utilities(commands.Cog):
         guild_owner = ctx.guild.owner
         guild_owner_id = ctx.guild.owner_id
         guild_region = ctx.guild.region
-        guild_created_at = ctx.guild.created_at.strftime("%d/%m/%y %H:%M:%S")
+        guild_created_at = int(ctx.guild.created_at.replace(tzinfo=timezone.utc).timestamp())
         guild_members = len(ctx.guild.members)
         guild_humans = len(list(filter(lambda m: not m.bot, ctx.guild.members)))
         guild_bots = len(list(filter(lambda m: m.bot, ctx.guild.members)))
-        guild_member_statuses = f":green_circle: {member_statuses[0]} :yellow_circle: {member_statuses[1]} :red_circle: {member_statuses[2]} :white_circle: {member_statuses[3]}"
+        guild_member_statuses = f"<:online:870496098911940718> {member_statuses[0]} <:idle:870496098999992390> {member_statuses[1]} <:dnd:870496098886746122> {member_statuses[2]} <:offline:870496098874183692> {member_statuses[3]}"
         guild_text_channels = len(ctx.guild.text_channels)
         guild_voice_channels = len(ctx.guild.voice_channels)
         guild_categories = len(ctx.guild.categories)
@@ -205,7 +234,7 @@ class Utilities(commands.Cog):
         embed.add_field(name=" <:foxia:832549597892313159> Guild Name", value=guild_name, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> Guild ID", value=guild_id, inline=True)
         embed.add_field(name="🌏 Guild Region", value=guild_region, inline=True)
-        embed.add_field(name="🕐 Guild Created At", value=guild_created_at, inline=True)
+        embed.add_field(name="🕐 Guild Created At", value=f"<t:{guild_created_at}:F>\n(<t:{guild_created_at}:R>)", inline=True)
         embed.add_field(name="🧑‍🤝‍🧑 Guild Humans", value=str(guild_humans))
         embed.add_field(name="<:bot:773145401611255808> Guild Bots", value=str(guild_bots))
         embed.add_field(name="♾️ Guild Members", value=str(guild_members))
@@ -229,10 +258,10 @@ class Utilities(commands.Cog):
         member_top_role = member.top_role.mention
         member_status = str(member.status).title()
         member_activity = f"{str(member.activity.type).split('.')[-1].title() if member.activity else 'No Activity'} {member.activity.name if member.activity else ''}"
-        member_created_at = member.created_at.strftime("%d/%m/%Y %H:%M:%S")
-        member_joined_at = member.joined_at.strftime("%d/%m/%Y %H:%M:%S")
-        member_has_nitro = str(bool(member.premium_since))
-
+        member_created_at = int(member.created_at.replace(tzinfo=timezone.utc).timestamp())
+        member_joined_at = int(member.joined_at.replace(tzinfo=timezone.utc).timestamp())
+        if member.is_avatar_animated() is True: member_has_nitro = True
+        else: member_has_nitro = False
         # ---------------- Embed ---------------------
 
         embed = discord.Embed(title=f"{member_name}'s Information", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
@@ -240,10 +269,10 @@ class Utilities(commands.Cog):
         embed.add_field(name="<:foxia:832549597892313159> ID", value=member_id, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> Nickname", value=member_nickname, inline=True)
         embed.add_field(name="<:bot:773145401611255808> BOT?", value=is_bot, inline=True)
-        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True)
+        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True) 
         embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
-        embed.add_field(name="🕦 Created At", value=member_created_at, inline=True)
-        embed.add_field(name=":clock8: Joined At", value=member_joined_at, inline=True)
+        embed.add_field(name="🕦 Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)", inline=True)
+        embed.add_field(name=":clock8: Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)", inline=True)
         embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?", value=member_has_nitro, inline=True)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url=member_avatar_url)
@@ -418,6 +447,38 @@ class Utilities(commands.Cog):
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
 
+
+    @commands.command(name='calcu')
+    async def calculator(self, ctx):
+        msg = await ctx.channel.send(content="Calculator is Starting...")
+        await asyncio.sleep(1.0)
+        expr = 'None'
+        tdelta = datetime.utcnow() + timedelta(minutes=3)
+        embed = discord.Embed(title=f"<:calculator:870610558188126229> {ctx.author.name}'s Personal Calculator", description=expr, timestamp=tdelta, color=discord.Color.dark_magenta())
+        await msg.edit(
+            components=Buttons, embed=embed
+        )
+        while msg.created_at < tdelta:
+            res = await self.client.wait_for('button_click')
+            if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
+                expr = res.message.embeds[0].description
+                if expr == 'None' or expr == "<a:alienalien:870611180232769596> Oops! I went Brainded. Try again Later.":
+                    expr = ''
+                if res.component.label == 'Quit':
+                    await res.respond(
+                        content='<a:alienalien:870611180232769596> Your Calculator is now Dead.', type=7
+                    )
+                    break
+                elif res.component.label == 'BckSpce':
+                    expr = expr[:-1]
+                elif res.component.label == 'ClrScrn':
+                    expr = None
+                elif res.component.label == 'Answr':
+                    expr = calculate(expr)
+                else:
+                    expr += res.component.label
+                emptyembed = discord.Embed(title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...", description=expr, timestamp=tdelta, color=discord.Color.dark_blue())
+                await res.respond(content='', embed=emptyembed, components=Buttons, type=7)
 
 def setup(client):
     DiscordComponents(client)
