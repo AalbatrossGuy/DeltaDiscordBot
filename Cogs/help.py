@@ -15,10 +15,11 @@ class HelpMsgTwo(commands.Cog):
     async def help(self, ctx):
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
-        embed = discord.Embed(title="Made by AalbatrossGuy", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
+        embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
                 description=f"**Total Commands: {len(list(self.client.walk_commands()))} Server Prefix: `{prefix}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
                         
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_author(name="Made By AalbatrossGuy", icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
         
         embed.add_field(name="<:folder:870237774362583040> Modules[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
@@ -67,7 +68,7 @@ class HelpMsgTwo(commands.Cog):
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
 
-        await ctx.channel.send(embed=embed, components=[
+        await ctx.reply(embed=embed, components=[
                     Button(style=ButtonStyle.URL, label="Invite Me!", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"),
                     Select(
                     placeholder="Select a Category",
