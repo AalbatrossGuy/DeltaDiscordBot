@@ -11,3 +11,4 @@ pistonapi~=1.0.1
 qrcode~=6.1
 asyncdagpi~=3.3.4
 sr-api~=1.1.3
+jishaku~=2.2.0
