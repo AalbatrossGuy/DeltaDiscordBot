@@ -65,6 +65,25 @@ class Fun(commands.Cog):
                 else:
                     await ctx.send('Oops! An error occured. Please Try Again Later.')
                 await session.close()
+    
+    @commands.command(name="pet")
+    async def petpat(self, ctx, username: discord.Member = None):
+        username = username or ctx.author
+        avatar = username.avatar_url_as(format='png')
+        url = f"https://some-random-api.ml/premium/petpet?avatar={avatar}&key=KdRrQKvpk35OfxNGIm997pEvC"
+        #print(url)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as af:
+                if 300 > af.status >= 200:
+                    fp = io.BytesIO(await af.read())
+                    file = discord.File(fp, "petpat.gif")
+                    await ctx.reply(file=file, mention=False)
+                    
+                else:
+                    await ctx.send('Oops! An error occured. Please Try Again Later.')
+                    await session.close()
+
+
 
 def setup(client):
     client.add_cog(Fun(client))
