@@ -29,21 +29,21 @@ Buttons = [
         Button(style=ButtonStyle.grey, label='5'),
         Button(style=ButtonStyle.grey, label='6'),
         Button(style=ButtonStyle.blue, label='÷'),
-        Button(style=ButtonStyle.red, label='BckSpce')
+        Button(style=ButtonStyle.red, label='⟵')
     ],
     [
         Button(style=ButtonStyle.grey, label='7'),
         Button(style=ButtonStyle.grey, label='8'),
         Button(style=ButtonStyle.grey, label='9'),
         Button(style=ButtonStyle.blue, label='+'),
-        Button(style=ButtonStyle.red, label='ClrScrn')
+        Button(style=ButtonStyle.red, label='Clear')
     ],
     [
         Button(style=ButtonStyle.grey, label='00'),
         Button(style=ButtonStyle.grey, label='0'),
         Button(style=ButtonStyle.blue, label='.'),
         Button(style=ButtonStyle.blue, label='-'),
-        Button(style=ButtonStyle.red, label='Answr')
+        Button(style=ButtonStyle.red, label='Answ')
     ],
 ]
 
@@ -60,14 +60,14 @@ KillButtons = [
         Button(style=ButtonStyle.grey, label='5', disabled=True),
         Button(style=ButtonStyle.grey, label='6', disabled=True),
         Button(style=ButtonStyle.blue, label='÷', disabled=True),
-        Button(style=ButtonStyle.red, label='BckSpce', disabled=True)
+        Button(style=ButtonStyle.red, label='⟵', disabled=True)
     ],
     [
         Button(style=ButtonStyle.grey, label='7', disabled=True),
         Button(style=ButtonStyle.grey, label='8', disabled=True),
         Button(style=ButtonStyle.grey, label='9', disabled=True),
         Button(style=ButtonStyle.blue, label='+', disabled=True),
-        Button(style=ButtonStyle.red, label='ClrScrn', disabled=True)
+        Button(style=ButtonStyle.red, label='Clear', disabled=True)
     ],
     [
         Button(style=ButtonStyle.grey, label='00', disabled=True),
@@ -83,7 +83,7 @@ def calculate(expr):
     x = x.replace('÷', '/')
     answr = ''
     try:
-        answr = f"```{str(eval(x))}```"
+        answr = str(eval(x))
     except:
         answr = "```Oops! I went Brainded. Try again Later.```"
     
@@ -482,7 +482,7 @@ class Utilities(commands.Cog):
     async def calculator(self, ctx):
         msg = await ctx.reply(content="Calculator is Starting...")
         await asyncio.sleep(1.0)
-        expr = 'None'
+        expr = '```None```'
         deathEmbed = discord.Embed(title="<a:alienalien:870611180232769596> Wasted!", description="Your calculator's ded. Sadly it's battery lasts only for 3 minutes. Try creating another calculator.")
         deathEmbed.set_thumbnail(url='https://i.ytimg.com/vi/mm1EGefKyqY/maxresdefault.jpg')
         tdelta = datetime.utcnow() + timedelta(minutes=3)
@@ -495,7 +495,8 @@ class Utilities(commands.Cog):
             while msg.created_at < tdelta:
                 res = await self.client.wait_for('button_click', timeout=180)
                 if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
-                    expr = f"{res.message.embeds[0].description}"
+                    expr = f"{res.message.embeds[0].description}".replace("`", '')
+                    #print(expr)
                     if expr == 'None' or expr == "<a:alienalien:870611180232769596> Oops! I went Brainded. Try again Later.":
                         expr = ''
                     if res.component.label == 'Quit':
@@ -512,8 +513,8 @@ class Utilities(commands.Cog):
                         expr = calculate(expr)
                     else:
                         expr += res.component.label
-                        
-                    emptyembed = discord.Embed(title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...", description=expr, timestamp=tdelta, color=discord.Color.dark_blue())
+                        #print(expr)    
+                    emptyembed = discord.Embed(title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...", description=f"```{expr}```", timestamp=tdelta, color=discord.Color.dark_blue())
                     await res.respond(content='', embed=emptyembed, components=Buttons, type=7)
 
         except asyncio.TimeoutError:
