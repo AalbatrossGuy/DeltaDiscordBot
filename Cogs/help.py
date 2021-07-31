@@ -5,8 +5,9 @@
 import discord
 from discord.ext import commands
 from lib import db
+from datetime import datetime, timedelta
 from discord_components import DiscordComponents, ButtonStyle, Button, Select, SelectOption
-
+import asyncio
 class HelpMsgTwo(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -16,7 +17,7 @@ class HelpMsgTwo(commands.Cog):
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
-                description=f"**Total Commands: {len(list(self.client.walk_commands()))} Server Prefix: `{prefix}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
+                description=f"**Total Commands: {len(list(self.client.walk_commands()))} Server Prefix: `{prefix}` Servers: `{len(list(self.client.guilds))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
                         
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy", icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
@@ -26,7 +27,7 @@ class HelpMsgTwo(commands.Cog):
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
                  <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",inline=True)
 
-        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Added `ytcomm` command[NEW].\n<:rightarrow:870236404301578250> Added `calcu` command[NEW].\n<:rightarrow:870236404301578250> Added `twt` command[NEW]", inline=True)
+        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates", value="<:rightarrow:870236404301578250> Added `pet` command[NEW].\n<:rightarrow:870236404301578250> Improved help command. Now stays active for `1min`.\n<:rightarrow:870236404301578250> Added `twt` command[NEW]", inline=True)
         
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(), timestamp=ctx.message.created_at)
         embedImages.add_field(name="Commands: ", value="`bw_u`, `negative_u`, `blur_u`, `bw_f`, `negative_f`, `blur_f`, `wasted`, `trigger`, `magic`, `pixel`, `angel`, `devil`, `windel`, `hitler`, `stringify`")
@@ -68,44 +69,48 @@ class HelpMsgTwo(commands.Cog):
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
 
+        tdelta = ctx.message.created_at + timedelta(minutes=1)
         await ctx.reply(embed=embed, components=[
-                    Button(style=ButtonStyle.URL, label="Invite Me!", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"),
-                    Select(
-                    placeholder="Select a Category",
-                    min_values=1,
-                    options=[
-                        SelectOption(label="Images", value="<:image:870236033348956161>"),
-                        SelectOption(label="Info", value="🔍"),
-                        SelectOption(label="Reddit", value="<:reddit:870239682775121980>"),
-                        SelectOption(label="Programming", value="⌨️ "),
-                        SelectOption(label="Fun", value="<:gamepad:870240679719215154>"),
-                        SelectOption(label="Admin", value="<:OkayAdmins:864717982622416906>"),
-                        SelectOption(label="Utilities", value="<:gear:870262838789296191>"),
-                        SelectOption(label="Settings", value="<:3898_ww_circle_hammer:870262838600532008>")
-                    ],
-                ),
-                    ])
-            
-        interaction = await self.client.wait_for("select_option")
-        check_for = interaction.component[0].label
-        if check_for.lower() == 'programming':
-            await interaction.respond(embed=embedProgramming)
-        elif check_for.lower() == 'fun':
-            await interaction.respond(embed=embedFun)
-        elif check_for.lower() == 'images':
-            await interaction.respond(embed=embedImages)
-        elif check_for.lower() == 'reddit':
-            await interaction.respond(embed=embedReddit)
-        elif check_for.lower() == 'admin':
-            await interaction.respond(embed=embedAdmin)
-        elif check_for.lower() == 'utilities' or check_for.lower() == 'utility':
-            await interaction.respond(embed=embedUtility)
-        elif check_for.lower() == 'settings' or check_for.lower() == 'setting':
-            await interaction.respond(embed=embedSettings)
-        elif check_for.lower() == 'info':
-            await interaction.respond(embed=embedInfo)
+            Button(style=ButtonStyle.URL, label="Invite Me!", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"),
+            Select(
+            placeholder="Select a Category",
+            min_values=1,
+            options=[
+                SelectOption(label="Images", value="<:image:870236033348956161>"),
+                SelectOption(label="Info", value="🔍"),
+                SelectOption(label="Reddit", value="<:reddit:870239682775121980>"),
+                SelectOption(label="Programming", value="⌨️ "),
+                SelectOption(label="Fun", value="<:gamepad:870240679719215154>"),
+                SelectOption(label="Admin", value="<:OkayAdmins:864717982622416906>"),
+                SelectOption(label="Utilities", value="<:gear:870262838789296191>"),
+                SelectOption(label="Settings", value="<:3898_ww_circle_hammer:870262838600532008>")
+            ],
+            ),
+        ])
+        try:
+            while ctx.message.created_at < tdelta:
+                interaction = await self.client.wait_for("select_option", timeout=60)
+                if interaction.author.id == ctx.author.id and  interaction.message.embeds[0].timestamp < tdelta:
+                    check_for = interaction.component[0].label
+                    if check_for.lower() == 'programming':
+                        await interaction.respond(embed=embedProgramming)
+                    elif check_for.lower() == 'fun':
+                        await interaction.respond(embed=embedFun)
+                    elif check_for.lower() == 'images':
+                        await interaction.respond(embed=embedImages)
+                    elif check_for.lower() == 'reddit':
+                        await interaction.respond(embed=embedReddit)
+                    elif check_for.lower() == 'admin':
+                        await interaction.respond(embed=embedAdmin)
+                    elif check_for.lower() == 'utilities' or check_for.lower() == 'utility':
+                        await interaction.respond(embed=embedUtility)
+                    elif check_for.lower() == 'settings' or check_for.lower() == 'setting':
+                        await interaction.respond(embed=embedSettings)
+                    elif check_for.lower() == 'info':
+                        await interaction.respond(embed=embedInfo)
 
-
+        except asyncio.TimeoutError:
+            print("help command has reached it's time limit.")
 
     @help.command()
     async def ping(self, ctx):
