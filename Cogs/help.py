@@ -17,7 +17,7 @@ class HelpMsgTwo(commands.Cog):
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
-                description=f"**Total Commands: {len(list(self.client.walk_commands()))} Server Prefix: `{prefix}` Servers: `{len(list(self.client.guilds))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
+                description=f"**Total Commands: {len(list(self.client.walk_commands()))} | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
                         
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy", icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
@@ -50,7 +50,7 @@ class HelpMsgTwo(commands.Cog):
         embedReddit.set_thumbnail(url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
 
         embedFun = discord.Embed(title="Fun Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
-        embedFun.add_field(name="Commands: ", value="`say`, `tictactoe`, `ytcomm`, `twt`")
+        embedFun.add_field(name="Commands: ", value="`say`, `tictactoe`, `ytcomm`, `twt`, `pet`")
         embedFun.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedFun.set_thumbnail(url="https://www.thesimpledollar.com/wp-content/uploads/2020/04/TheSimpleDollar-Fun-With-Friends.png")
 
@@ -864,6 +864,23 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```tweet AalbatrossGuy Hi there guys.```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def pet(self, ctx):
+        embed = discord.Embed(title="Pet Someone", colour=discord.Colour.dark_gold(),
+            timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        #Context
+
+        embed.add_field(name="<a:typing:773870195336937532> pet <member-name/id/mention>",
+                        value="Use this command to generate a pet gif of the  <member-name/id/mention>. Not Providing any arguments will return the pet of the author's avatar.")
+
+
+        embed.add_field(name="Example",
+                        value="```pet AalbatrossGuy```")
         await ctx.send(embed=embed)
 
 def setup(client):
