@@ -185,90 +185,90 @@ from matplotlib import pyplot as plt
 #print(makebar('1 2 3 4 | 9 6 7 8'))
 
 
-def makebar_test2(args):
-    args = tuple(args.split(' '))
-    index = args.index('|')
-    args = list(args)
-    args.pop(index)
-    args = tuple(args)
-    before = args[:index]
-    after = args[index:]
-    plt.rcdefaults()
-    fig, axes = plt.subplots()
-    axes.barh(before, after, align='center')
-    axes.set_xlabel("X Axis --->")
-    axes.set_ylabel("Y Axis --->")
-    axes.set_title("Horizontal Bar Chart")
-    #plt.show()
+# def makebar_test2(args):
+#     args = tuple(args.split(' '))
+#     index = args.index('|')
+#     args = list(args)
+#     args.pop(index)
+#     args = tuple(args)
+#     before = args[:index]
+#     after = args[index:]
+#     plt.rcdefaults()
+#     fig, axes = plt.subplots()
+#     axes.barh(before, after, align='center')
+#     axes.set_xlabel("X Axis --->")
+#     axes.set_ylabel("Y Axis --->")
+#     axes.set_title("Horizontal Bar Chart")
+#     #plt.show()
 
-print(makebar_test2('Sammy Jonny 3 4 3 9 0 | 12 14 15.5 18 3 7 7'))
+# print(makebar_test2('Sammy Jonny 3 4 3 9 0 | 12 14 15.5 18 3 7 7'))
 
-qr = qrcode.QRCode(
-    version=1,
-    error_correction=qrcode.constants.ERROR_CORRECT_H,
-    box_size=20,
-    border=4,
-)
-#qr.add_data('THis is an example test line')
-#qr.make(fit=True)
-#img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+# qr = qrcode.QRCode(
+#     version=1,
+#     error_correction=qrcode.constants.ERROR_CORRECT_H,
+#     box_size=20,
+#     border=4,
+# )
+# #qr.add_data('THis is an example test line')
+# #qr.make(fit=True)
+# #img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
 
-#img.show()
-
-
-#img = Image.open('referenceqrcode.png')
-
-#result = decode(img)
-#for i in result:
-   #print(i.data.decode("utf-8"))
-   #print(i.type)
-   #print(i.rect)
+# #img.show()
 
 
+# #img = Image.open('referenceqrcode.png')
+
+# #result = decode(img)
+# #for i in result:
+#    #print(i.data.decode("utf-8"))
+#    #print(i.type)
+#    #print(i.rect)
 
 
-import re
-from pistonapi import PistonAPI
-op = """
-```java
-class java{
-   public static void main(String args[]){
-        System.out.println("test");
-}
- }
-```
-"""
 
-def regex(code):
-    pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
-    replace=''
-    result=re.compile(pattern)
-    if re.findall(result, code)[0][0] == '':
-        print('no prefix')
-    else:
-        print('prefix present')
-    stdin = re.findall(result, code)[0][1]
-    print(stdin)
 
-#regex(op)
+# import re
+# from pistonapi import PistonAPI
+# op = """
+# ```java
+# class java{
+#    public static void main(String args[]){
+#         System.out.println("test");
+# }
+#  }
+# ```
+# """
 
-piston = PistonAPI()
-#print(piston.languages)
-from collections import Counter
+# def regex(code):
+#     pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
+#     replace=''
+#     result=re.compile(pattern)
+#     if re.findall(result, code)[0][0] == '':
+#         print('no prefix')
+#     else:
+#         print('prefix present')
+#     stdin = re.findall(result, code)[0][1]
+#     print(stdin)
 
-pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
+# #regex(op)
 
-result=re.compile(pattern)
-stdin = re.findall(result, op)
+# piston = PistonAPI()
+# #print(piston.languages)
+# from collections import Counter
+
+# pattern="`{3}([\w]*)\n([\S\s]+?)\n`{3}"
+
+# result=re.compile(pattern)
+# stdin = re.findall(result, op)
 
 langtest = 'javascript'
 #for language, version in zip(language, versions):
     #print(f"{language}: v{version}")
 #regex(op)
 
-import json
+# import json
 
-base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
+# base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
 
 #languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 
@@ -306,3 +306,10 @@ base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
 #print(i_run_code('js'))
 
 
+url = "https://some-random-api.ml/animal/panda"
+
+response = requests.request("GET", url=url)
+data = response.json()
+image = response.json()['image']
+fact = data['fact']
+print(image)
