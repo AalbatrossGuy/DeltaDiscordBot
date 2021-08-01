@@ -70,7 +70,7 @@ class Fun(commands.Cog):
                 await session.close()
     
     @commands.command(name="pet")
-    async def petpat(self, ctx, username: discord.Member = None):
+    async def petpat(self, ctx, *, username: discord.Member = None):
         username = username or ctx.author
         avatar = username.avatar_url_as(format='png')
         url = f"https://some-random-api.ml/premium/petpet?avatar={avatar}&key=KdRrQKvpk35OfxNGIm997pEvC"
