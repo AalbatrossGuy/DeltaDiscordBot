@@ -74,7 +74,7 @@ KillButtons = [
         Button(style=ButtonStyle.grey, label='0', disabled=True),
         Button(style=ButtonStyle.blue, label='.', disabled=True),
         Button(style=ButtonStyle.blue, label='-', disabled=True),
-        Button(style=ButtonStyle.red, label='Answr', disabled=True)
+        Button(style=ButtonStyle.red, label='Answ', disabled=True)
     ],
 ]
 
@@ -497,19 +497,19 @@ class Utilities(commands.Cog):
                 if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
                     expr = f"{res.message.embeds[0].description}".replace("`", '')
                     #print(expr)
-                    if expr == 'None' or expr == "<a:alienalien:870611180232769596> Oops! I went Brainded. Try again Later.":
+                    if expr == 'None' or expr == "```Oops! I went Brainded. Try again Later.```":
                         expr = ''
                     if res.component.label == 'Quit':
                         await res.respond(
                             content='<a:alienalien:870611180232769596> You have quitted your calculator.', type=7, components=KillButtons
                         )
                         break
-                    elif res.component.label == 'BckSpce':
+                    elif res.component.label == '⟵':
                         expr = expr[:-1]
-                    elif res.component.label == 'ClrScrn':
+                    elif res.component.label == 'Clear':
                         #expr = None
                         expr = None
-                    elif res.component.label == 'Answr':
+                    elif res.component.label == 'Answ':
                         expr = calculate(expr)
                     else:
                         expr += res.component.label
