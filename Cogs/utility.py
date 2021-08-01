@@ -303,8 +303,8 @@ class Utilities(commands.Cog):
         embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
         embed.add_field(name="🕦 Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)", inline=True)
         embed.add_field(name=":clock8: Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)", inline=True)
-        embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?", value=member_has_nitro, inline=True)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?*", value=member_has_nitro, inline=True)
+        embed.set_footer(text="*Nitro checks are done based on the user's avatar", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url=member_avatar_url)
         await ctx.channel.send(embed=embed)
 
