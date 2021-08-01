@@ -52,7 +52,7 @@ async def change_prefix(ctx, new_prefix):
     if len(new_prefix) > 6:
         await ctx.send("<:wrong:773145931973525514> The prefix cannot be more than 6 letters!")
     else:
-        await ctx.send(f"Prefix changed to `{new_prefix}` successfully!")
+        await ctx.reply(f"Prefix changed to `{new_prefix}` successfully!")
         db.execute("UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new_prefix, ctx.guild.id)
         db.commit()
 
@@ -85,7 +85,7 @@ async def pingme(ctx):
     embed.add_field(name=":green_heart: DB Ping", value=f"```py\n{db_ping.__format__('0.2f')} ms```")
     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
     embed.set_thumbnail(url="https://i.gifer.com/fyMe.gif")
-    await ctx.reply(embed=embed)
+    await ctx.reply(embed=embed, mention_author=False)
 
 @client.command(name='uptime')
 async def uptime(ctx):
@@ -93,7 +93,7 @@ async def uptime(ctx):
     #time.tzset()
     #difference = int((datetime.datetime.now() - start_time).timestamp())
     
-    await ctx.reply(f"<:gear:870262838789296191> I was started <t:{int(start_time.timestamp())}:R>")
+    await ctx.reply(f"<:gear:870262838789296191> I was started <t:{int(start_time.timestamp())}:R>", mention_author=False)
 
 @client.command()
 async def load_extension(ctx, extension):
