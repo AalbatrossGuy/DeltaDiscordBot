@@ -35,10 +35,10 @@ class Fun(commands.Cog):
                         color=discord.Color.dark_red(),
                     )
                     em.set_image(url="attachment://ytcomment.png")
-                    await ctx.send(embed=em, file=file)
+                    await ctx.reply(embed=em, file=file, mention_author=False)
                     
                 else:
-                    await ctx.send('Oops! An error occured. Please Try Again Later.')
+                    await ctx.reply('Oops! An error occured. Please Try Again Later.')
                 await session.close()
 
     @commands.command(name="twt")
@@ -60,10 +60,10 @@ class Fun(commands.Cog):
                         color=discord.Color.dark_red(),
                     )
                     em.set_image(url="attachment://tweet.png")
-                    await ctx.send(embed=em, file=file)
+                    await ctx.reply(embed=em, file=file, mention_author=False)
                     
                 else:
-                    await ctx.send('Oops! An error occured. Please Try Again Later.')
+                    await ctx.reply('Oops! An error occured. Please Try Again Later.')
                 await session.close()
     
     @commands.command(name="pet")
@@ -77,10 +77,10 @@ class Fun(commands.Cog):
                 if 300 > af.status >= 200:
                     fp = io.BytesIO(await af.read())
                     file = discord.File(fp, "petpat.gif")
-                    await ctx.reply(file=file, mention=False)
+                    await ctx.reply(file=file, mention_author=False)
                     
                 else:
-                    await ctx.send('Oops! An error occured. Please Try Again Later.')
+                    await ctx.reply('Oops! An error occured. Please Try Again Later.')
                     await session.close()
 
 

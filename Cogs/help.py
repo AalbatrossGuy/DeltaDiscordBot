@@ -17,7 +17,7 @@ class HelpMsgTwo(commands.Cog):
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at,
-                description=f"**Total Commands: {len(list(self.client.walk_commands()))} | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
+                description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://github.com/AaalbatrossGuy/DeltaDiscordBot)|[Support Server](https://discord.gg/D9U4y7WZuF)")
                         
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy", icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
