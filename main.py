@@ -9,8 +9,9 @@ from datetime import timedelta
 from decouple import config
 from lib import db
 from time import perf_counter
+import datetime
 
-start_time = time.time()
+start_time = datetime.datetime.now()
 
 
 def get_prefix(bot, message):
@@ -71,9 +72,6 @@ async def restart(ctx):
 @client.command(name="ping")
 async def pingme(ctx):
     # ws ping
-    current_time = time.time()
-    difference = int(round(current_time - start_time))
-    text = str(timedelta(seconds=difference))
     embed = discord.Embed(title=':ping_pong: Ping', color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
     embed.add_field(name=":green_heart: WS Ping", value=f"```py\n{round(client.latency * 1000)} ms```")
 
@@ -89,6 +87,13 @@ async def pingme(ctx):
     embed.set_thumbnail(url="https://i.gifer.com/fyMe.gif")
     await ctx.reply(embed=embed)
 
+@client.command(name='uptime')
+async def uptime(ctx):
+    
+    #time.tzset()
+    #difference = int((datetime.datetime.now() - start_time).timestamp())
+    
+    await ctx.reply(f"<:gear:870262838789296191> I was started <t:{int(start_time.timestamp())}:R>")
 
 @client.command()
 async def load_extension(ctx, extension):
@@ -103,5 +108,7 @@ async def unload_extension(ctx, extension):
 for filename in os.listdir('./Cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'Cogs.{filename[:-3]}')
+
+client.load_extension('jishaku')
 
 client.run(Token)
