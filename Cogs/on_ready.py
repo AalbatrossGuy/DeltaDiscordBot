@@ -19,7 +19,7 @@ class OnReady(commands.Cog):
         cogs = [x[:-3] for x in os.listdir('./Cogs')]
         for cogsname in cogs:
             if cogsname == "__pycach":
-                break
+                continue
             else:
                 try:
                     print(f"Loaded cogs.{cogsname} successfully!")
