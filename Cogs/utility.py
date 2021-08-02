@@ -442,26 +442,26 @@ class Utilities(commands.Cog):
         for decoded in result:
             await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
 
-    @commands.command(name='cheatsh')
-    async def cheat_sh_data(self, ctx, language:str, *, query):
-        query = query.replace(" ", "%20")
-        url = f"https://cheat.sh/{language}/{query}"
-        response = requests.request("GET", url=url)
-        await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
+    # @commands.command(name='cheatsh')
+    # async def cheat_sh_data(self, ctx, language:str, *, query):
+    #     query = query.replace(" ", "%20")
+    #     url = f"https://cheat.sh/{language}/{query}"
+    #     response = requests.request("GET", url=url)
+    #     await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
 
-    @commands.command(name='socials')
-    async def social_links(self, ctx):
-        embed=discord.Embed(title="<:drake_yes:773487910673580043> Socials", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
-        embed.add_field(name="<:github:851778689648689152> Github", value="[github](https://github.com/AaalbatrossGuy)")
-        embed.add_field(name="<:yt:851778739347783740> YouTube #1", value="[youtube](https://www.youtube.com/channel/UC6WW1pBnNICD4Xz4abrU4rg)")
-        embed.add_field(name="<:yt:851778739347783740> YouTube #2", value="[youtube](https://www.youtube.com/channel/UC6cFR07R5toAZKZ3hToKgyw)")
-        embed.add_field(name="<:instagram:851778716429189140> Instagram", value="[instagram](https://www.instagram.com/xcelsiorplayz/)")
-        embed.set_thumbnail(url="https://assets.website-files.com/5e4ef646507f139934406108/5e52e73aeba259d1553eee29_blog-post-5.jpeg")
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+    # @commands.command(name='socials')
+    # async def social_links(self, ctx):
+    #     embed=discord.Embed(title="<:drake_yes:773487910673580043> Socials", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+    #     embed.add_field(name="<:github:851778689648689152> Github", value="[github](https://github.com/AaalbatrossGuy)")
+    #     embed.add_field(name="<:yt:851778739347783740> YouTube #1", value="[youtube](https://www.youtube.com/channel/UC6WW1pBnNICD4Xz4abrU4rg)")
+    #     embed.add_field(name="<:yt:851778739347783740> YouTube #2", value="[youtube](https://www.youtube.com/channel/UC6cFR07R5toAZKZ3hToKgyw)")
+    #     embed.add_field(name="<:instagram:851778716429189140> Instagram", value="[instagram](https://www.instagram.com/xcelsiorplayz/)")
+    #     embed.set_thumbnail(url="https://assets.website-files.com/5e4ef646507f139934406108/5e52e73aeba259d1553eee29_blog-post-5.jpeg")
+    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
 
-        await ctx.send(
-              embed=embed
-                )
+    #     await ctx.send(
+    #           embed=embed
+    #             )
     
     @commands.command(name='shell')
     @commands.is_owner()
@@ -520,6 +520,33 @@ class Utilities(commands.Cog):
         except asyncio.TimeoutError:
             await ctx.reply(embed=deathEmbed)
             
+
+    #Error Handlers
+    @user_profileimage.error
+    async def user_profileimage_error_handling(self, ctx, error):
+        if isinstance(error, commands.MemberNotFound):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]```", timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
+
+    @movie_info.error
+    async def movie_info_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [query] parameter```", timestamp=ctx.message.created_at, color=discord.Color.blurple()))
+
+    @member_info_command.error
+    async def member_info_error_handling(self, ctx, error):
+        if isinstance(error, commands.MemberNotFound):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]```", timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
+
+    @password_generator.error
+    async def password_generator_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [length] parameter```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+
+    @weather_details.error
+    async def weather_details_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [place] parameter```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+
 
 def setup(client):
     DiscordComponents(client)

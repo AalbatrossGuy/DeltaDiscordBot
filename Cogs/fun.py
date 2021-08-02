@@ -14,13 +14,6 @@ class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="predict")
-    async def predict(self, ctx, *, question:str):
-        responses = [
-            "yes", "ok", "i don't know", "no", "absolutely not"
-        ]
-
-        await ctx.channel.send(f"{random.random(responses)}")
 
     @commands.command(name='ytcomm')
     async def youtube_comment_fake(self, ctx, username: discord.Member, *, comment):
@@ -167,6 +160,40 @@ class Fun(commands.Cog):
                 await interaction.respond(embed=embedKoala, ephemeral=False)
             elif check_for.lower() == '🐦 bird':
                 await interaction.respond(embed=embedBird, ephemeral=False)
+
+
+
+    # Error Handlers
+    @youtube_comment_fake.error 
+    async def yt_fake_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [username]* and the [comment]```", timestamp=ctx.message.created_at, color=discord.Color.dark_grey())
+            embed.set_footer(text="*Usernames mustn't contain spaces if they are typed instead of pinging or using id's", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+        if isinstance(error, commands.MemberNotFound):
+            embed = discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]* and the [comment]```", timestamp=ctx.message.created_at, color=discord.Color.dark_grey())
+            embed.set_footer(text="*Usernames mustn't contain spaces if they are typed instead of pinging or using id's", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+    @tweet_fake.error 
+    async def tweet_fake_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [username]* and the [comment]```", timestamp=ctx.message.created_at, color=discord.Color.dark_grey())
+            embed.set_footer(text="*Usernames mustn't contain spaces if they are typed instead of pinging or using id's", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+        if isinstance(error, commands.MemberNotFound):
+            embed = discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]* and the [comment]```", timestamp=ctx.message.created_at, color=discord.Color.dark_grey())
+            embed.set_footer(text="*Usernames mustn't contain spaces if they are typed instead of pinging or using id's", icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+    @petpat.error
+    async def petpat_error_handling(self, ctx, error):
+        if isinstance(error, commands.MemberNotFound):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]```", timestamp=ctx.message.created_at, color=discord.Color.dark_teal()))
+
+
 
 
 def setup(client):
