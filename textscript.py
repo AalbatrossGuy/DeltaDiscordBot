@@ -4,6 +4,7 @@ import datetime
 import qrcode
 from pyzbar.pyzbar import decode
 from matplotlib import pyplot as plt
+from currency_converter import CurrencyConverter
 # print(image.size)
 # print(image.format)
 # print(image.show())
@@ -80,7 +81,6 @@ from matplotlib import pyplot as plt
 
 """This is a test for a movie based api command. The command is not complete yet."""
 
-
 # def test_for_api(query: str):
 #     url = f"https://www.omdbapi.com/?t={query}&apikey=706a1bfd"
 #     print(url)
@@ -139,7 +139,6 @@ from matplotlib import pyplot as plt
 #     city_name = data['name']
 
 
-
 # test_for_weather_api("delhi")
 
 """ Horizontal Bar Chart related tests"""
@@ -161,28 +160,28 @@ from matplotlib import pyplot as plt
 
 
 # def makebar(args):
-    #args = str(args).replace(' ', '')
-    #args = list(args)
-    #tupbefore = []
-    #tupafter = []
-    #index = args.index('|')
-    #tupbefore = args[0:index]
-    #tupafter = args[index+1:]
-    # print(tupbefore)
-    # print(tupafter)
-    #plt.rcdefaults()
-    #fig, axes = plt.subplots()
-    #numbers = tupbefore
-    #labels = tupafter
-    #axes.barh(labels, numbers, align='center')
-    #axes.set_xlabel('X Axis --->')
-    #axes.set_ylabel("Y Axis --->")
-    #axes.set_title('Horizontal Bar Chart')
-    #plt.savefig('chart.png')
-    #plt.show()
+# args = str(args).replace(' ', '')
+# args = list(args)
+# tupbefore = []
+# tupafter = []
+# index = args.index('|')
+# tupbefore = args[0:index]
+# tupafter = args[index+1:]
+# print(tupbefore)
+# print(tupafter)
+# plt.rcdefaults()
+# fig, axes = plt.subplots()
+# numbers = tupbefore
+# labels = tupafter
+# axes.barh(labels, numbers, align='center')
+# axes.set_xlabel('X Axis --->')
+# axes.set_ylabel("Y Axis --->")
+# axes.set_title('Horizontal Bar Chart')
+# plt.savefig('chart.png')
+# plt.show()
 
 
-#print(makebar('1 2 3 4 | 9 6 7 8'))
+# print(makebar('1 2 3 4 | 9 6 7 8'))
 
 
 # def makebar_test2(args):
@@ -225,8 +224,6 @@ from matplotlib import pyplot as plt
 #    #print(i.rect)
 
 
-
-
 # import re
 # from pistonapi import PistonAPI
 # op = """
@@ -262,54 +259,58 @@ from matplotlib import pyplot as plt
 # stdin = re.findall(result, op)
 
 langtest = 'javascript'
-#for language, version in zip(language, versions):
-    #print(f"{language}: v{version}")
-#regex(op)
+# for language, version in zip(language, versions):
+# print(f"{language}: v{version}")
+# regex(op)
 
 # import json
 
 # base_fetch_url = "https://emkc.org/api/v2/piston/runtimes"
 
-#languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+# languages = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 
-#for lang in languages:
-    #if lang['language'] == langtest:
-        #print(f"{lang['language']} : {lang['version']}")
-#dic = {}
-#for lang in languages:
- #   if langtest in lang['language']:
- #       dic = {'language' : lang['language'], 'version' : lang['version']}
+# for lang in languages:
+# if lang['language'] == langtest:
+# print(f"{lang['language']} : {lang['version']}")
+# dic = {}
+# for lang in languages:
+#   if langtest in lang['language']:
+#       dic = {'language' : lang['language'], 'version' : lang['version']}
 
-#print(dic)
+# print(dic)
 
 
-#langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
+# langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 # with open('languages.json', 'w') as file:
-   # file.write(json.dumps(langs))
+# file.write(json.dumps(langs))
 
 # read collected langs and versions 
 # langs = json.loads(open('languages.json').read())
 
 # def i_run_code(lang_call):
-    #latest = []
-   # for lang in langs:
-  #      if (lang['language'] == lang_call) or (lang_call in lang['aliases']):
- #           latest.append(lang['version'])
+# latest = []
+# for lang in langs:
+#      if (lang['language'] == lang_call) or (lang_call in lang['aliases']):
+#           latest.append(lang['version'])
 #
-      #      json_body = {
-     #           "language": lang['language'],
-    #            "version": ''.join(max([latest]))
-   #         }
-  #          
- #           return json.dumps(json_body)
+#      json_body = {
+#           "language": lang['language'],
+#            "version": ''.join(max([latest]))
+#         }
+#
+#           return json.dumps(json_body)
 
-#print(i_run_code('js'))
+# print(i_run_code('js'))
 
 
-url = "https://some-random-api.ml/animal/panda"
+# url = "https://some-random-api.ml/animal/panda"
+#
+# response = requests.request("GET", url=url)
+# data = response.json()
+# image = response.json()['image']
+# fact = data['fact']
+# print(image)
 
-response = requests.request("GET", url=url)
-data = response.json()
-image = response.json()['image']
-fact = data['fact']
-print(image)
+# c = CurrencyConverter()
+# for num, val in enumerate(c.currencies):
+#     print(f"{num}. {val}")
