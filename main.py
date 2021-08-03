@@ -3,9 +3,8 @@
 # !/usr/bin/env python3
 # main.py
 
-import discord, os, time
+import discord, os
 from discord.ext import commands
-from datetime import timedelta
 from decouple import config
 from lib import db
 from time import perf_counter
@@ -16,10 +15,9 @@ start_time = datetime.datetime.now()
 
 def get_prefix(bot, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
-    #bot.process_commands(message)
-    
+    # bot.process_commands(message)
+
     return commands.when_mentioned_or(prefix)(bot, message)
-    
 
 
 Token = config('TOKEN')
@@ -69,6 +67,7 @@ async def restart(ctx):
     await ctx.message.add_reaction('<:correct:773145931859886130>')
     await client.close()
 
+
 @client.command(name="ping")
 async def pingme(ctx):
     # ws ping
@@ -87,13 +86,15 @@ async def pingme(ctx):
     embed.set_thumbnail(url="https://i.gifer.com/fyMe.gif")
     await ctx.reply(embed=embed, mention_author=False)
 
+
 @client.command(name='uptime')
 async def uptime(ctx):
-    
-    #time.tzset()
-    #difference = int((datetime.datetime.now() - start_time).timestamp())
-    
-    await ctx.reply(f"<:gear:870262838789296191> I was started <t:{int(start_time.timestamp())}:R>", mention_author=False)
+    # time.tzset()
+    # difference = int((datetime.datetime.now() - start_time).timestamp())
+
+    await ctx.reply(f"<:gear:870262838789296191> I was started <t:{int(start_time.timestamp())}:R>",
+                    mention_author=False)
+
 
 @client.command()
 async def load_extension(ctx, extension):
