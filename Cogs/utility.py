@@ -9,12 +9,12 @@ from lib import db
 from PIL import Image
 from io import BytesIO
 from pyzbar.pyzbar import decode
-import requests, random, array, qrcode 
-from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
+import requests, random, array, qrcode
+from discord_components import DiscordComponents, Button, ButtonStyle
 import asyncio
 from aiohttp import ClientSession
 from datetime import datetime, timezone, timedelta
-
+from currency_converter import CurrencyConverter
 
 Buttons = [
     [
@@ -78,6 +78,7 @@ KillButtons = [
     ],
 ]
 
+
 def calculate(expr):
     x = expr.replace('x', '*')
     x = x.replace('÷', '/')
@@ -86,8 +87,9 @@ def calculate(expr):
         answr = str(eval(x))
     except:
         answr = "```Oops! I went Brainded. Try again Later.```"
-    
+
     return answr
+
 
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
@@ -135,7 +137,7 @@ class Utilities(commands.Cog):
             await ctx.channel.send('⚒  Webhook has been created for this channel')
         elif guild_id_exists is True:
             await ctx.channel.send(
-                "You have already set the webhook for this channel. For resetting, delete the exisiting webhook by using `delete_webhook` and then type this command.")
+                "You have already set the webhook for this channel. For resetting, delete the existing webhook by using `delete_webhook` and then type this command.")
 
     @commands.command(name="delete_webhook")
     async def delete_bot_webhook(self, ctx):
@@ -170,7 +172,6 @@ class Utilities(commands.Cog):
             webhook = discord.Webhook.from_url(webhook_url, adapter=discord.AsyncWebhookAdapter(session))
             await message.channel.purge(limit=1)
             await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
-
 
     # Utility Command
     @commands.command(name="minfo")
@@ -264,7 +265,8 @@ class Utilities(commands.Cog):
         embed.add_field(name=" <:foxia:832549597892313159> Guild Name", value=guild_name, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> Guild ID", value=guild_id, inline=True)
         embed.add_field(name="🌏 Guild Region", value=guild_region, inline=True)
-        embed.add_field(name="🕐 Guild Created At", value=f"<t:{guild_created_at}:F>\n(<t:{guild_created_at}:R>)", inline=True)
+        embed.add_field(name="🕐 Guild Created At", value=f"<t:{guild_created_at}:F>\n(<t:{guild_created_at}:R>)",
+                        inline=True)
         embed.add_field(name="🧑‍🤝‍🧑 Guild Humans", value=str(guild_humans))
         embed.add_field(name="<:bot:773145401611255808> Guild Bots", value=str(guild_bots))
         embed.add_field(name="♾️ Guild Members", value=str(guild_members))
@@ -290,77 +292,73 @@ class Utilities(commands.Cog):
         member_activity = f"{str(member.activity.type).split('.')[-1].title() if member.activity else 'No Activity'} {member.activity.name if member.activity else ''}"
         member_created_at = int(member.created_at.replace(tzinfo=timezone.utc).timestamp())
         member_joined_at = int(member.joined_at.replace(tzinfo=timezone.utc).timestamp())
-        if member.is_avatar_animated() is True: member_has_nitro = True
-        else: member_has_nitro = False
+        if member.is_avatar_animated() is True:
+            member_has_nitro = True
+        else:
+            member_has_nitro = False
         # ---------------- Embed ---------------------
 
-        embed = discord.Embed(title=f"{member_name}'s Information", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed = discord.Embed(title=f"{member_name}'s Information", timestamp=ctx.message.created_at,
+                              color=ctx.message.author.colour)
         embed.add_field(name="<:foxia:832549597892313159> Name", value=member_name, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> ID", value=member_id, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> Nickname", value=member_nickname, inline=True)
         embed.add_field(name="<:bot:773145401611255808> BOT?", value=is_bot, inline=True)
-        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True) 
+        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True)
         embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
-        embed.add_field(name="🕦 Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)", inline=True)
-        embed.add_field(name=":clock8: Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)", inline=True)
+        embed.add_field(name="🕦 Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)",
+                        inline=True)
+        embed.add_field(name=":clock8: Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)",
+                        inline=True)
         embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?*", value=member_has_nitro, inline=True)
         embed.set_footer(text="*Nitro checks are done based on the user's avatar", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url=member_avatar_url)
         await ctx.channel.send(embed=embed)
 
     @commands.command(name="paswdgen")
-    async def password_generator(self, ctx, len:int):
+    async def password_generator(self, ctx, len: int):
         if len > 60:
             await ctx.channel.send("Length Cannot Be More Than `50` Characters.")
         else:
             MAX_LEN = len
-            
-        
-            DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] 
+
+            DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
             LOCASE_CHARACTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-                                'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q',
-                                'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
-                                'z']
-            
+                                 'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q',
+                                 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                                 'z']
+
             UPCASE_CHARACTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                                'I', 'J', 'K', 'M', 'N', 'O', 'p', 'Q',
-                                'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
-                                'Z']
-            
+                                 'I', 'J', 'K', 'M', 'N', 'O', 'p', 'Q',
+                                 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+                                 'Z']
+
             SYMBOLS = ['@', '#', '$', '%', '=', ':', '?', '.', '/', '|', '~', '>',
-                    '*', '(', ')', '<']
-            
+                       '*', '(', ')', '<']
 
             COMBINED_LIST = DIGITS + UPCASE_CHARACTERS + LOCASE_CHARACTERS + SYMBOLS
-            
 
             rand_digit = random.choice(DIGITS)
             rand_upper = random.choice(UPCASE_CHARACTERS)
             rand_lower = random.choice(LOCASE_CHARACTERS)
             rand_symbol = random.choice(SYMBOLS)
-            
 
             temp_pass = rand_digit + rand_upper + rand_lower + rand_symbol
-            
-            
 
             for x in range(MAX_LEN - 4):
                 temp_pass = temp_pass + random.choice(COMBINED_LIST)
-            
 
                 temp_pass_list = array.array('u', temp_pass)
                 random.shuffle(temp_pass_list)
-            
 
             password = ""
             for x in temp_pass_list:
-                    password = password + x
-                    
-            
+                password = password + x
+
             await ctx.channel.send(f"🔑 Here's Your Password\n```yaml\n{password}```")
 
     @commands.command(name='wcheck')
-    async def weather_details(self, ctx, *, query:str):
+    async def weather_details(self, ctx, *, query: str):
         url = f"http://api.openweathermap.org/data/2.5/weather?appid=77f5585dd715ec1e39ba87b818b44498&q={query}"
 
         response = requests.request("GET", url=url)
@@ -382,14 +380,15 @@ class Utilities(commands.Cog):
         min_temp = (min_temp - 273.15).__format__('0.2f')
         max_temp = data['main']['temp_max']
         max_temp = (max_temp - 273.15).__format__('0.2f')
-        pressure = data['main']['pressure'] # unit hPa
-        humidity = data['main']['humidity'] # unit percentage
+        pressure = data['main']['pressure']  # unit hPa
+        humidity = data['main']['humidity']  # unit percentage
         wind_speed = data['wind']['speed']
         # print(min_temp, max_temp, pressure, humidity, wind_speed)
         country = data['sys']['country']
         city_name = data['name']
 
-        embed=discord.Embed(title=f"⛅ {city_name}'s Weather Info", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed = discord.Embed(title=f"⛅ {city_name}'s Weather Info", timestamp=ctx.message.created_at,
+                              color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://i.pinimg.com/originals/e7/7a/60/e77a6068aa8bb2731e3b6d835c09c84c.gif")
 
@@ -407,15 +406,15 @@ class Utilities(commands.Cog):
         embed.add_field(name="Wind Speed", value=f"{wind_speed}m/s")
         embed.add_field(name="Humidity", value=f"{humidity}%")
         await ctx.channel.send(embed=embed)
-    
+
     @commands.command(name='qr')
-    async def qr_code_gen(self, ctx, size, *, encode:str) -> BytesIO:
+    async def qr_code_gen(self, ctx, size, *, encode: str) -> BytesIO:
         qr = qrcode.QRCode(
-                version=1,
-                error_correction=qrcode.constants.ERROR_CORRECT_H,
-                box_size=size, 
-                border=4,
-                )
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=size,
+            border=4,
+        )
         qr.add_data(f'{encode}')
         qr.make(fit=True)
 
@@ -428,16 +427,16 @@ class Utilities(commands.Cog):
             imgbytes.seek(0)
             read_image = buffer_obj.read()
             await ctx.channel.send(
-                    file=discord.File(fp=imgbytes, filename='qrcode.png')
-                    )
-        #img.show()
+                file=discord.File(fp=imgbytes, filename='qrcode.png')
+            )
+        # img.show()
 
     @commands.command(name='qrdec')
     async def qr_code_decode(self, ctx):
         image = ctx.message.attachments[0].url
 
         image = Image.open(requests.get(url=image, stream=True).raw)
-        
+
         result = decode(image)
         for decoded in result:
             await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
@@ -462,31 +461,32 @@ class Utilities(commands.Cog):
     #     await ctx.send(
     #           embed=embed
     #             )
-    
+
     @commands.command(name='shell')
     @commands.is_owner()
-    async def run_shell_cmds(self, ctx,*, cmd:str):
+    async def run_shell_cmds(self, ctx, *, cmd: str):
         process = await asyncio.create_subprocess_shell(
-                cmd, stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
-                )
+            cmd, stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
         stdout, stderr = await process.communicate()
-        
+
         if stdout:
             await ctx.channel.send(f"```[stdout]\n{stdout.decode()[:1800]}```")
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
-
 
     @commands.command(name='calcu')
     async def calculator(self, ctx):
         msg = await ctx.reply(content="Calculator is Starting...")
         await asyncio.sleep(1.0)
         expr = '```None```'
-        deathEmbed = discord.Embed(title="<a:alienalien:870611180232769596> Wasted!", description="Your calculator's ded. Sadly it's battery lasts only for 3 minutes. Try creating another calculator.")
+        deathEmbed = discord.Embed(title="<a:alienalien:870611180232769596> Wasted!",
+                                   description="Your calculator's ded. Sadly it's battery lasts only for 3 minutes. Try creating another calculator.")
         deathEmbed.set_thumbnail(url='https://i.ytimg.com/vi/mm1EGefKyqY/maxresdefault.jpg')
         tdelta = datetime.utcnow() + timedelta(minutes=3)
-        embed = discord.Embed(title=f"<:calculator:870610558188126229> {ctx.author.name}'s Personal Calculator", description=expr, timestamp=tdelta, color=discord.Color.dark_magenta())
+        embed = discord.Embed(title=f"<:calculator:870610558188126229> {ctx.author.name}'s Personal Calculator",
+                              description=expr, timestamp=tdelta, color=discord.Color.dark_magenta())
         await msg.edit(
             content='', components=Buttons, embed=embed
         )
@@ -496,56 +496,116 @@ class Utilities(commands.Cog):
                 res = await self.client.wait_for('button_click', timeout=180)
                 if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
                     expr = f"{res.message.embeds[0].description}".replace("`", '')
-                    #print(expr)
+                    # print(expr)
                     if expr == 'None' or expr == "```Oops! I went Brainded. Try again Later.```":
                         expr = ''
                     if res.component.label == 'Quit':
                         await res.respond(
-                            content='<a:alienalien:870611180232769596> You have quitted your calculator.', type=7, components=KillButtons
+                            content='<a:alienalien:870611180232769596> You have quitted your calculator.', type=7,
+                            components=KillButtons
                         )
                         break
                     elif res.component.label == '⟵':
                         expr = expr[:-1]
                     elif res.component.label == 'Clear':
-                        #expr = None
+                        # expr = None
                         expr = None
                     elif res.component.label == 'Answ':
                         expr = calculate(expr)
                     else:
                         expr += res.component.label
-                        #print(expr)    
-                    emptyembed = discord.Embed(title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...", description=f"```{expr}```", timestamp=tdelta, color=discord.Color.dark_blue())
+                        # print(expr)
+                    emptyembed = discord.Embed(
+                        title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...",
+                        description=f"```{expr}```", timestamp=tdelta, color=discord.Color.dark_blue())
                     await res.respond(content='', embed=emptyembed, components=Buttons, type=7)
 
         except asyncio.TimeoutError:
             await ctx.reply(embed=deathEmbed)
-            
 
-    #Error Handlers
+    @commands.command(name='mconv')
+    async def money_coverter(self, ctx, base: str, target: str, amount=100):
+        c = CurrencyConverter()
+        amount = int(amount)
+        try:
+            value = c.convert(amount, base.upper(), target.upper())
+            await ctx.reply(
+                f'<a:moneyfly:871972801538584596> I have converted **{amount} {base.upper()}** to {target.upper()} and the value is **{value.__format__("0.2f")} {target.upper()}**')
+        except ValueError:
+            await ctx.reply(
+                '<:wrong:773145931973525514> Oops! One of your currency values does not exists. Do `mconvlist` to find all the valid currencies.')
+
+    @commands.command(name='mconvlist')
+    async def money_converter_list(self, ctx):
+        c = CurrencyConverter()
+        set_curr = "\n".join(f"{num}. {val}" for num, val in enumerate(c.currencies))
+        embed = discord.Embed(title="Supported Currencies", description=f'```py\n{set_curr}```',
+                              timestamp=ctx.message.created_at, colour=discord.Colour.dark_blue())
+
+        embed.set_thumbnail(
+            url="https://www.investopedia.com/thmb/lqOcGlE7PI6vLMzhn5EDdO0HvYk=/1337x1003/smart/filters:no_upscale()/GettyImages-1054017850-7ef42af7b8044d7a86cfb2bff8641e1d.jpg")
+
+        await ctx.reply(embed=embed)
+
+    # Error Handlers
     @user_profileimage.error
     async def user_profileimage_error_handling(self, ctx, error):
         if isinstance(error, commands.MemberNotFound):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]```", timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found",
+                                               description="```ini\nMake sure you have run the command providing the [username]```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
 
     @movie_info.error
     async def movie_info_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [query] parameter```", timestamp=ctx.message.created_at, color=discord.Color.blurple()))
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [query] parameter```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.blurple()))
 
     @member_info_command.error
     async def member_info_error_handling(self, ctx, error):
         if isinstance(error, commands.MemberNotFound):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nMake sure you have run the command providing the [username]```", timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found",
+                                               description="```ini\nMake sure you have run the command providing the [username]```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
 
     @password_generator.error
     async def password_generator_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [length] parameter```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [length] parameter```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
     @weather_details.error
     async def weather_details_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have run the command providing the [place] parameter```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [place] parameter```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+
+    @money_coverter.error
+    async def money_converter_error_handling(self, ctx, error):
+        if isinstance(error, commands.CommandInvokeError):
+            embed = discord.Embed(title="<:hellno:871582891585437759> Command Invoke Error",
+                                  description="```ini\nMake sure you have run the command providing the [current-currency] [changeto-currency] [amount]* respectively```",
+                                  timestamp=ctx.message.created_at, color=discord.Color.magenta())
+            embed.set_footer(text="*Amount is optional. If not specified it will be 100",
+                             icon_url=ctx.author.avatar_url)
+            await ctx.send(embed=embed)
+
+    @qr_code_decode.error
+    async def qrdec_error_handling(self, ctx, error):
+        if isinstance(error, commands.CommandInvokeError) or isinstance(error, IndexError):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [attachment].```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+
+    @qr_code_gen.error
+    async def qrcodegen_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [barcode-size] [text-to-encode] parameters respectively.```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
 
 def setup(client):
