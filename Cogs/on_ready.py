@@ -10,8 +10,6 @@ class OnReady(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
-
     @commands.Cog.listener()
     async def on_ready(self):
 
@@ -25,6 +23,7 @@ class OnReady(commands.Cog):
                     print(f"Loaded cogs.{cogsname} successfully!")
                 except:
                     pass
+
 
 def setup(client):
     client.add_cog(OnReady(client))
