@@ -1,0 +1,9 @@
+version: '2'
+services:
+    python:
+        container_name: delta_discord
+        build: .
+        volumes:
+            - ./:/DeltaBot
+        command: bash -c 'cd /DeltaBot && apt-get install libzbar0 && ./start.sh'
+          #restart: always
