@@ -41,8 +41,8 @@ class WelcomeMsg(commands.Cog):
 
     @commands.has_permissions(manage_guild=True)
     @commands.command(name="set_welcome")
-    async def set_welcome_message(self, message, channel_id: int = 0, choice: str = "false"):
-
+    async def set_welcome_message(self, message, channel_id: int = 0):
+        choice = "true"
         # Checks if the guild id exists in database or not
 
         guild_id = db.cursor.execute("SELECT 1 FROM welcome WHERE GuildID = ? ",
@@ -116,6 +116,16 @@ class WelcomeMsg(commands.Cog):
             # await self.client.get_channel(channel_id).send(f'{member.name}, {member.discriminator}, {guild_name}, {member.avatar_url_as(format="png")}')
             else:
                 pass
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        gid = db.cursor.execute("SELECT 1 FROM welcome WHERE GuildID = ?", (guild.id,))
+
+        gid_exists = gid.fetchone() is not None
+        if gid_exists is not False:
+            print(type(guild.id))
+            db.execute("DELETE FROM welcome WHERE GuildID = ?", guild.id)
+            db.commit()
 
 
 def setup(client):

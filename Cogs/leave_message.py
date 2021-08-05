@@ -14,8 +14,8 @@ class LeaveMsg(commands.Cog):
 
     @commands.has_permissions(manage_guild=True)
     @commands.command(name="set_leave")
-    async def set_welcome_message(self, message, channel_id: int = 0, choice: str = "false"):
-
+    async def set_welcome_message(self, message, channel_id: int = 0):
+        choice = "true"
         # Checks if the guild id exists in database or not
 
         guild_id = db.cursor.execute("SELECT 1 FROM leave WHERE GuildID = ? ",
@@ -78,8 +78,18 @@ class LeaveMsg(commands.Cog):
                     async with session.get(url) as af:
                         if 300 > af.status >= 200:
                             fp = io.BytesIO(await af.read())
-                            file = discord.File(fp, "welcome.png")
+                            file = discord.File(fp, "leave.png")
                             await self.client.get_channel(channel_id).send(file=file, mention_author=False)
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        gid = db.cursor.execute("SELECT 1 FROM leave WHERE GuildID = ?", (guild.id,))
+
+        gid_exists = gid.fetchone() is not None
+        if gid_exists is not False:
+            print(type(guild.id))
+            db.execute("DELETE FROM leave WHERE GuildID = ?", guild.id)
+            db.commit()
 
 
 def setup(client):
