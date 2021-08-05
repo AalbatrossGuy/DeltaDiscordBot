@@ -1,18 +1,9 @@
 # Delta-Discord-Bot
 The official repository of the discord bot, Delta Δ
 
-# How to install 
-1. Clone this repo by doing ```git clone https://github.com/AaalbatrossGuy/Delta-Discord-Bot.git```
-2. Get into the bot's folder by doing ```cd Delta-Discord-Bot```
-3. Download the requirements file by doing ```pip install -r requirements.txt```
-4. Make a `.env` file and paste ur bot token like ```TOKEN=<token>```
-## To Run The Bot:
-   ### For Linux:
-        chmod 755 ./start.sh && ./start.sh
-   ### For Windows:
-        Double Click on start.bat
-   ### For Hosting On Websites:
-        python3 main.py (When hosted on websites, the restart command will not work.)
+#How To Install
+
+```Figure it out yourself :D```
 
 # Note
 The bot's code has been made public for educational purposes only. Recreation of this bot will not be entertained.

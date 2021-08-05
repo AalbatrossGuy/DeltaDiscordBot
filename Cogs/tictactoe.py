@@ -166,8 +166,8 @@ class TicTacToe(Cog):
                     
 
                 except asyncio.TimeoutError:
-                    await msg.edit(
-                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
+                    await m.edit(
+                        embed=discord.Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
                         components=[
                             Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True),
                             Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot")
@@ -189,7 +189,7 @@ class TicTacToe(Cog):
                         accept = False
                         return
                     if istie('red'):
-                        e = discord.Embed(color=0xF5F5F5, title=f"LOL! Call it a tie")
+                        e = discord.Embed(color=0xF5F5F5, title=f"LOL! You Guys ended up in a tie.")
                         board.append(Button(style=ButtonStyle.URL, label="Invite Me", url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"))
                         await m.edit(embed=e, components=board)
                         accept = False
@@ -200,8 +200,8 @@ class TicTacToe(Cog):
 
 
                 except asyncio.TimeoutError:
-                    await msg.edit(
-                        embed=Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
+                    await m.edit(
+                        embed=discord.Embed(color=0xED564E, title="Timeout!", description="No-one reacted. Sed but funny!"),
                         components=[
                             Button(style=ButtonStyle.red, label="Oh-no! Timeout reached!", disabled=True)                            
                         ],

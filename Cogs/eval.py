@@ -56,8 +56,12 @@ class Eval(commands.Cog):
         await ctx.send(embed=embed)
         fp = "languages.json" 
         #os.remove(fp)
-        
-      
+
+    @evaluate_code.error 
+    async def run_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments", description="```ini\nMake sure you have ran the command using the arguments, [lang] and [code]```", timestamp=ctx.message.created_at, color=discord.Color.dark_green()))
+
 
 def setup(client):
     client.add_cog(Eval(client))
