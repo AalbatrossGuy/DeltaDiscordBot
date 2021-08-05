@@ -641,7 +641,7 @@ class HelpMsgTwo(commands.Cog):
         #Context
 
         embed.add_field(name="<a:typing:773870195336937532> run <language> <code-in-codeblocks>",
-                        value="Use this command to run on your code in discord itself. The proper format for running this command is - run <language> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
+                        value="Use this command to run on your code in discord itself. The proper format for running this command is - run <language> <new-line> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
 
         await ctx.send(embed=embed)
 
