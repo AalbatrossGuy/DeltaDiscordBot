@@ -33,7 +33,11 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
+<<<<<<< HEAD
                         value="<:rightarrow:870236404301578250> `run` can now take single-line print statements for some languages.\n<:rightarrow:870236404301578250> Added `mconvlist` command[NEW].\n<:rightarrow:870236404301578250> `Welcome Messages` are back!",
+=======
+                        value="<:rightarrow:870236404301578250> `Welcome Messages` are back!.\n<:rightarrow:870236404301578250> `Leave Messages` are back!\n<:rightarrow:870236404301578250> Added `mconv` command[NEW]",
+>>>>>>> c0bbb74479dc3d8cc63316228e76d7f158d77f9f
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
@@ -86,7 +90,8 @@ class HelpMsgTwo(commands.Cog):
 
         embedSettings = discord.Embed(title="Setting Commands", color=discord.Color.blurple(),
                                       timestamp=ctx.message.created_at)
-        embedSettings.add_field(name="Commands: ", value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`")
+        embedSettings.add_field(name="Commands: ",
+                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`")
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(
             url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
@@ -661,7 +666,7 @@ class HelpMsgTwo(commands.Cog):
         # Context
 
         embed.add_field(name="<a:typing:773870195336937532> run <language> <code-in-codeblocks>",
-                        value="Use this command to run on your code in discord itself. The proper format for running this command is - run <language> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
+                        value="Use this command to run on your code in discord itself. The proper format for running this command is - run <language> <new-line> \```[syntax] <new-line> your-code-here```. The bot uses the [piston api](https://github.com/engineer-man/piston#Public-API) for running the codes you provide. The bot currently supports 51 languages. To view them, [click here](https://drive.google.com/file/d/1oEsJkgfPOzWig9PWnncIDbfuSmo93JFt/view?usp=sharing)")
 
         await ctx.send(embed=embed)
 
@@ -946,11 +951,11 @@ class HelpMsgTwo(commands.Cog):
 
         # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> set_welcome <channel-id> <choice>",
-                        value="Use this command to set a welcome message for a specific <channel-id>. Use, `set_welcome <channel-id> true` only once to enable welcome. If you want to change your choice refer to `update_welcome`.")
+        embed.add_field(name="<a:typing:773870195336937532> set_welcome <channel-id>",
+                        value="Use this command to set a welcome message for a specific <channel-id>. Use, `set_welcome <channel-id>` only once to enable welcome. If you want to change your choice refer to `update_welcome`.")
 
         embed.add_field(name="Example",
-                        value="```set_welcome <channel-id> <choice(either true or false>```")
+                        value="```set_welcome <channel-id>```")
         await ctx.send(embed=embed)
 
     @help.command()
@@ -967,6 +972,38 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```update_welcome <choice(either true or false>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def set_leave(self, ctx):
+        embed = discord.Embed(title="Set Leave", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> set_leave <channel-id>",
+                        value="Use this command to set a leave message for a specific <channel-id>. Use, `set_welcome <channel-id>` only once to enable leave. If you want to change your choice refer to `update_welcome`.")
+
+        embed.add_field(name="Example",
+                        value="```set_welcome <channel-id>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def update_leave(self, ctx):
+        embed = discord.Embed(title="Update Leave", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> update_leave <choice>",
+                        value="Use this command to update leave message. Value can be either true (leave message will be sent) or false (leave message won't be sent).")
+
+        embed.add_field(name="Example",
+                        value="```update_leave <choice(either true or false>```")
         await ctx.send(embed=embed)
 
 

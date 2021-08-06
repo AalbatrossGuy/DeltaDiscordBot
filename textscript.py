@@ -5,6 +5,7 @@ import qrcode
 from pyzbar.pyzbar import decode
 from matplotlib import pyplot as plt
 from currency_converter import CurrencyConverter
+
 # print(image.size)
 # print(image.format)
 # print(image.show())
@@ -314,3 +315,13 @@ langtest = 'javascript'
 # c = CurrencyConverter()
 # for num, val in enumerate(c.currencies):
 #     print(f"{num}. {val}")
+
+
+# url = "https://some-random-api.ml/lyrics?title=drag%20me%20down"
+# data = requests.request("GET", url=url).json()
+# title = data['title']
+# author = data['author']
+# lyrics = data['lyrics']
+# thumbnail = data['thumbnail']['genius']
+# print(lyrics)
+# # print(data)
