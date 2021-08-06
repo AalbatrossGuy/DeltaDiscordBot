@@ -33,7 +33,7 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250> `Welcome Messages` are back!.\n<:rightarrow:870236404301578250> Added `mconvlist` command[NEW].\n<:rightarrow:870236404301578250> Added `fact` command[NEW]",
+                        value="<:rightarrow:870236404301578250> `run` can now take single-line print statements for some languages.\n<:rightarrow:870236404301578250> Added `mconvlist` command[NEW].\n<:rightarrow:870236404301578250> `Welcome Messages` are back!",
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
