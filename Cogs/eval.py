@@ -10,11 +10,11 @@ from pistonapi import PistonAPI
 langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 
 """this code below fetches all the available languages by calling the api. It is recommended to run this code once in a week."""
-with open('languages.json', 'w') as file:
-    file.write(json.dumps(langs))
-
-# read collected langs and versions 
-langs = json.loads(open('languages.json').read())
+# with open('languages.json', 'w') as file:
+#     file.write(json.dumps(langs))
+#
+# # read collected langs and versions
+# langs = json.loads(open('languages.json').read())
 
 
 def check_language_and_alias(lang_call):
@@ -50,7 +50,43 @@ def format_java(code: str):
     return '\n'.join(imports + codes)
 
 
-def format_c(code: str):
+# def format_c(code: str):
+#     if 'main' in code:
+#         return code
+#
+#     imports = []
+#     codes = ['int main() {']
+#
+#     lines = code.replace(';', ';\n').split('\n')
+#     for line in lines:
+#         if line.lstrip().startswith('#include'):
+#             imports.append(line)
+#         else:
+#             codes.append(line)
+#     codes.append('return 0;\n}')
+#     return '\n'.join(imports + codes)
+
+
+def format_go(code: str):
+    if 'main' in code:
+        return code
+
+    package = ['package main']
+    imports = []
+    codes = ['func main() {']
+
+    lines = code.split('\n')
+    for line in lines:
+        if line.lstrip().startswith('import'):
+            imports.append(line)
+        else:
+            codes.append(line)
+
+    codes.append('}')
+    return '\n'.join(package + imports + codes)
+
+
+def format_c_cpp(code: str):
     if 'main' in code:
         return code
 
@@ -63,7 +99,31 @@ def format_c(code: str):
             imports.append(line)
         else:
             codes.append(line)
-    codes.append('return 0;\n}')
+
+    codes.append('}')
+    return '\n'.join(imports + codes)
+
+
+def format_csharp(code: str):
+    if 'class' in code:
+        return code
+
+    imports = []
+    codes = ['class Program{']
+    if not 'static void Main' in code:
+        codes.append('static void Main(string[] args){')
+
+    lines = code.replace(';', ';\n').split('\n')
+    for line in lines:
+        if line.lstrip().startswith('using'):
+            imports.append(line)
+        else:
+            codes.append(line)
+
+    if not 'static void Main' in code:
+        codes.append('}')
+    codes.append('}')
+
     return '\n'.join(imports + codes)
 
 
@@ -85,8 +145,12 @@ class Eval(commands.Cog):
             if matchlanguage['language'] == 'java':
                 # print('yes')
                 stdin = format_java(stdin)
-            if matchlanguage['language'] == 'c':
-                stdin = format_c(stdin)
+            if matchlanguage['language'] == 'c' or matchlanguage['language'] == 'cpp':
+                stdin = format_c_cpp(stdin)
+            if matchlanguage['language'] == 'go':
+                stdin = format_go(stdin)
+            if matchlanguage['language'] == 'csharp':
+                stdin = format_csharp(stdin)
             else:
                 stdin = stdin
         except TypeError:
