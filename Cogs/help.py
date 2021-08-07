@@ -33,7 +33,7 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250> Fixed `run` command's wrong-recog bug [FIX].\n<:rightarrow:870236404301578250> Fixed markdown error of `calcu` command[Fix].\n<:rightarrow:870236404301578250> Added bot presence",
+                        value="<:rightarrow:870236404301578250>Added `run` templates for go, c#, c & c++.\n<:rightarrow:870236404301578250> Fixed markdown error of `calcu` command[Fix].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong-recog bug [FIX].",
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
