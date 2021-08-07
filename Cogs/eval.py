@@ -77,12 +77,12 @@ class Eval(commands.Cog):
         pattern = "`{3}([\w]*)\n([\S\s]+?)\n`{3}"
         regex = re.compile(pattern)
         stdin = re.findall(regex, code)[0][1]
-        print(stdin)
+        # print(stdin)
         matchlanguage = check_language_and_alias(lang)
         try:
             matchlanguage = json.loads(matchlanguage)
             print(matchlanguage)
-            if matchlanguage['language'] == 'java' and stdin.startswith('System') or stdin.startswith("import") and ['public', 'class', 'static'] != stdin:
+            if matchlanguage['language'] == 'java':
                 # print('yes')
                 stdin = format_java(stdin)
             if matchlanguage['language'] == 'c':
