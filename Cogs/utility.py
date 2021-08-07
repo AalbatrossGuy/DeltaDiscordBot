@@ -86,7 +86,7 @@ def calculate(expr):
     try:
         answr = str(eval(x))
     except:
-        answr = "```Oops! I went Brainded. Try again Later.```"
+        answr = "Oops! I went Brainded. Try again Later."
 
     return answr
 
@@ -497,11 +497,11 @@ class Utilities(commands.Cog):
                 if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
                     expr = f"{res.message.embeds[0].description}".replace("`", '')
                     # print(expr)
-                    if expr == 'None' or expr == "```Oops! I went Brainded. Try again Later.```":
+                    if expr == 'None' or expr == "Oops! I went Brainded. Try again Later.":
                         expr = ''
                     if res.component.label == 'Quit':
                         await res.respond(
-                            content='<a:alienalien:870611180232769596> You have quitted your calculator.', type=7,
+                            content='<a:alienalien:870611180232769596> You have quit your calculator.', type=7,
                             components=KillButtons
                         )
                         break
