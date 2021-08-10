@@ -27,13 +27,13 @@ class HelpMsgTwo(commands.Cog):
                          icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> Modules[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
+        embed.add_field(name="<:folder:870237774362583040> Modules[9]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
-                 <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
+                <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250> <:gamenight:874515977956651040> Games\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250>Added `run` templates for go, c#, c & c++.\n<:rightarrow:870236404301578250> Fixed markdown error of `calcu` command[Fix].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong-recog bug [FIX].",
+                        value="<:rightarrow:870236404301578250>Added new module, `Games`\n<:rightarrow:870236404301578250> Added rinfo command[NEW].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
@@ -84,6 +84,12 @@ class HelpMsgTwo(commands.Cog):
         embedAdmin.set_thumbnail(
             url="https://thumbs.dreamstime.com/b/admin-seal-print-corroded-texture-red-vector-rubber-text-unclean-title-placed-double-parallel-lines-scratched-122073406.jpg")
 
+        embedGames = discord.Embed(title="Games Information Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
+        embedGames.add_field(name="Commands: ", value="`rinfo`, `coming soon...`")
+        embedGames.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
+        embedGames.set_thumbnail(
+            url="https://ihash.eu/wp-content/uploads/2020/06/Online-gaming-5-most-dangerous-threats.jpg")
+
         embedSettings = discord.Embed(title="Setting Commands", color=discord.Color.blurple(),
                                       timestamp=ctx.message.created_at)
         embedSettings.add_field(name="Commands: ",
@@ -97,7 +103,7 @@ class HelpMsgTwo(commands.Cog):
             Button(style=ButtonStyle.URL, label="Invite Me!",
                    url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"),
             Select(
-                placeholder="Select a Category",
+                placeholder="Select a Help Category",
                 min_values=1,
                 options=[
                     SelectOption(label="Images", value="<:image:870236033348956161>"),
@@ -120,6 +126,8 @@ class HelpMsgTwo(commands.Cog):
                         await interaction.respond(embed=embedProgramming)
                     elif check_for.lower() == 'fun':
                         await interaction.respond(embed=embedFun)
+                    elif check_for.lower() == 'games':
+                        await interaction.respond(embed=embedGames)
                     elif check_for.lower() == 'images':
                         await interaction.respond(embed=embedImages)
                     elif check_for.lower() == 'reddit':
@@ -1000,6 +1008,22 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```update_leave <choice(either true or false>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def rinfo(self, ctx):
+        embed = discord.Embed(title="Roblox User Information", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> rinfo <game-name>",
+                        value="Use this command to get information about a user's roblox account. \n**NOTE:** <game-name> is case sensitive!")
+
+        embed.add_field(name="Example",
+                        value="```rinfo AalbatrossGuy```")
         await ctx.send(embed=embed)
 
 
