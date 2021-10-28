@@ -27,7 +27,7 @@ class HelpMsgTwo(commands.Cog):
                          icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> Modules[9]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
+        embed.add_field(name="<:folder:870237774362583040> Modules[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
                 <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250> <:gamenight:874515977956651040> Games\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
                         inline=True)
@@ -64,7 +64,7 @@ class HelpMsgTwo(commands.Cog):
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
 
         embedFun = discord.Embed(title="Fun Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
-        embedFun.add_field(name="Commands: ", value="`say`, `tictactoe`, `ytcomm`, `twt`, `pet`, `fact`")
+        embedFun.add_field(name="Commands: ", value="`say`, `ytcomm`, `twt`, `pet`, `fact`")
         embedFun.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedFun.set_thumbnail(
             url="https://www.thesimpledollar.com/wp-content/uploads/2020/04/TheSimpleDollar-Fun-With-Friends.png")
@@ -106,14 +106,14 @@ class HelpMsgTwo(commands.Cog):
                 placeholder="Select a Help Category",
                 min_values=1,
                 options=[
-                    SelectOption(label="Images", value="<:image:870236033348956161>"),
-                    SelectOption(label="Info", value="🔍"),
-                    SelectOption(label="Reddit", value="<:reddit:870239682775121980>"),
-                    SelectOption(label="Programming", value="⌨️ "),
-                    SelectOption(label="Fun", value="<:gamepad:870240679719215154>"),
-                    SelectOption(label="Admin", value="<:OkayAdmins:864717982622416906>"),
-                    SelectOption(label="Utilities", value="<:gear:870262838789296191>"),
-                    SelectOption(label="Settings", value="<:3898_ww_circle_hammer:870262838600532008>")
+                    SelectOption(label="🖌️ Images", value="images"),
+                    SelectOption(label="🔍Info", value="info"),
+                    SelectOption(label="🔴Reddit", value="reddit"),
+                    SelectOption(label="⌨️Programming", value="programming"),
+                    SelectOption(label="🕹️ Fun", value="fun"),
+                    SelectOption(label="🔨Admin", value="admin"),
+                    SelectOption(label="🛠️Utilities", value="utility"),
+                    SelectOption(label="⚙️Settings", value="settings")
                 ],
             ),
         ])
@@ -121,24 +121,26 @@ class HelpMsgTwo(commands.Cog):
             while ctx.message.created_at < tdelta:
                 interaction = await self.client.wait_for("select_option", timeout=60)
                 if interaction.author.id == ctx.author.id and interaction.message.embeds[0].timestamp < tdelta:
-                    check_for = interaction.component[0].label
-                    if check_for.lower() == 'programming':
+                    # DEBUG 
+                    #check_for = interaction.component[0]
+                    #print(type(interaction))
+                    #print(interaction) 
+                    #print(interaction.values[0])
+                    if interaction.values[0] == 'programming':
                         await interaction.respond(embed=embedProgramming)
-                    elif check_for.lower() == 'fun':
+                    elif interaction.values[0] == 'fun':
                         await interaction.respond(embed=embedFun)
-                    elif check_for.lower() == 'games':
-                        await interaction.respond(embed=embedGames)
-                    elif check_for.lower() == 'images':
+                    elif interaction.values[0] == 'images':
                         await interaction.respond(embed=embedImages)
-                    elif check_for.lower() == 'reddit':
+                    elif interaction.values[0] == 'reddit':
                         await interaction.respond(embed=embedReddit)
-                    elif check_for.lower() == 'admin':
+                    elif interaction.values[0] == 'admin':
                         await interaction.respond(embed=embedAdmin)
-                    elif check_for.lower() == 'utilities' or check_for.lower() == 'utility':
+                    elif interaction.values[0] == 'utility':
                         await interaction.respond(embed=embedUtility)
-                    elif check_for.lower() == 'settings' or check_for.lower() == 'setting':
+                    elif interaction.values[0] == 'settings':
                         await interaction.respond(embed=embedSettings)
-                    elif check_for.lower() == 'info':
+                    elif interaction.values[0] == 'info':
                         await interaction.respond(embed=embedInfo)
 
         except asyncio.TimeoutError:
@@ -720,7 +722,7 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```trigger <member-name/id/mention>```")
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed)*blur
 
     @help.command()
     async def magic(self, ctx):
