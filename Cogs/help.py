@@ -29,7 +29,7 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="<:folder:870237774362583040> Modules[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
                 <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
-                <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250> <:gamenight:874515977956651040> Games\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
+                <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
@@ -52,7 +52,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedInfo = discord.Embed(title="Info Commands", color=discord.Colour.dark_teal(),
                                   timestamp=ctx.message.created_at)
-        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `socials`, `sinfo`")
+        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `sinfo`")
         embedInfo.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedInfo.set_thumbnail(url="https://cdn.pixabay.com/photo/2015/10/31/11/59/information-1015297_1280.jpg")
 
@@ -676,21 +676,6 @@ class HelpMsgTwo(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @help.command()
-    async def socials(self, ctx):
-        embed = discord.Embed(title="Author's Socials", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> socials",
-                        value="Use this command to view the socials of the author of the bot.")
-
-        embed.add_field(name="Example",
-                        value="```socials```")
-        await ctx.send(embed=embed)
 
     @help.command()
     async def wasted(self, ctx):
