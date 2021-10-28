@@ -12,3 +12,4 @@ asyncdagpi~=3.3.4
 jishaku~=2.2.0
 CurrencyConverter~=0.16.3
 robloxpy~=0.2.21
+flask>=2.0.2
