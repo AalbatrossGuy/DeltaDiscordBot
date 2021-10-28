@@ -83,7 +83,7 @@ async def pingme(ctx):
     db_ping = db_ping_time * 1000
     embed.add_field(name=":green_heart: DB Ping", value=f"```py\n{db_ping.__format__('0.2f')} ms```")
     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://i.gifer.com/fyMe.gif")
+    embed.set_thumbnail(url="http://25.media.tumblr.com/tumblr_lxo7nldVFH1qint86o1_500.gif")
     await ctx.reply(embed=embed, mention_author=False)
 
 
