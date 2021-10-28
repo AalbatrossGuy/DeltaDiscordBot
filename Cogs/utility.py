@@ -8,10 +8,9 @@ from discord.utils import escape_mentions
 from lib import db
 from PIL import Image
 from io import BytesIO
-from pyzbar.pyzbar import decode
 import requests, random, array, qrcode
 from discord_components import DiscordComponents, Button, ButtonStyle
-import asyncio
+import asyncio, cv2
 from aiohttp import ClientSession
 from datetime import datetime, timezone, timedelta
 from currency_converter import CurrencyConverter
@@ -148,7 +147,7 @@ class Utilities(commands.Cog):
             await ctx.channel.send(
                 'You cannot delete a webhook unless u have created it. Run `set_webhook` to create a webhook first')
         elif guild_id_exists is True:
-            db.execute("DELETE FROM webhook WHERE GuildID = ?", (ctx.message.guild.id))
+            db.execute("DELETE FROM webhook WHERE GuildID = ?ox variable stores th", (ctx.message.guild.id))
             db.commit()
             await ctx.channel.send("⚒  The webhook for this channel has been deleted from the database.")
 
@@ -434,12 +433,19 @@ class Utilities(commands.Cog):
     @commands.command(name='qrdec')
     async def qr_code_decode(self, ctx):
         image = ctx.message.attachments[0].url
+        print(type(image))
+        #image = Image.open(requests.get(url=image, stream=True).raw)
+        #print(image)
+        img = cv2.imread(image)
+        #print(img)
+        detect = cv2.QRCodeDetector()
+        data, bbox, straight_qrcode = detect.detectandDecode(img)
 
-        image = Image.open(requests.get(url=image, stream=True).raw)
+        #if bbox is not None:
+        await ctx.channel.send(f"🕵️ Decoded Data Is: ```{data2}```")
+        #elif bbox is None:
+        #    await ctx.channel.send("Oops! Not a valid QRCode.")
 
-        result = decode(image)
-        for decoded in result:
-            await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
 
     # @commands.command(name='cheatsh')
     # async def cheat_sh_data(self, ctx, language:str, *, query):
@@ -593,12 +599,12 @@ class Utilities(commands.Cog):
                              icon_url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
 
-    @qr_code_decode.error
-    async def qrdec_error_handling(self, ctx, error):
-        if isinstance(error, commands.CommandInvokeError) or isinstance(error, IndexError):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
-                                               description="```ini\nMake sure you have run the command providing the [attachment].```",
-                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+    # @qr_code_decode.error
+    # async def qrdec_error_handling(self, ctx, error):
+    #     if isinstance(error, commands.CommandInvokeError) or isinstance(error, IndexError):
+    #         await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+    #                                            description="```ini\nMake sure you have run the command providing the [attachment].```",
+    #                                            timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
     @qr_code_gen.error
     async def qrcodegen_error_handling(self, ctx, error):
