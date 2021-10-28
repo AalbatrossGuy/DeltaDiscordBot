@@ -9,6 +9,8 @@ from decouple import config
 from lib import db
 from time import perf_counter
 import datetime
+import server 
+from server import keep_alive
 
 start_time = datetime.datetime.now()
 
