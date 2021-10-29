@@ -22,7 +22,7 @@ def get_prefix(bot, message):
     return commands.when_mentioned_or(prefix)(bot, message)
 
 
-Token = config('TOKEN')
+Token = os.getenv('TOKEN')
 
 intents = discord.Intents.default()
 intents.members = True
