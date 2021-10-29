@@ -6,11 +6,11 @@ import discord
 from discord.ext import commands
 from discord.utils import escape_mentions
 from lib import db
-from PIL import Image
-from io import BytesIO
-import requests, random, array, qrcode
+#from PIL import Image
+#from io import BytesIO
+import requests, random, array, asyncio
+#import qrcode
 from discord_components import DiscordComponents, Button, ButtonStyle
-import asyncio, cv2
 from aiohttp import ClientSession
 from datetime import datetime, timezone, timedelta
 from currency_converter import CurrencyConverter

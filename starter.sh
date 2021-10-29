@@ -6,8 +6,6 @@ echo "Installing Dependencies..."
 
 pip install -r requirements.txt
 
-pip install libzbar-cffi==0.2.1
-
 pip install --upgrade discord-components
 
 echo "Dependencies Installation done..."
