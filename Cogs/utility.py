@@ -406,46 +406,29 @@ class Utilities(commands.Cog):
         embed.add_field(name="Humidity", value=f"{humidity}%")
         await ctx.channel.send(embed=embed)
 
-    @commands.command(name='qr')
-    async def qr_code_gen(self, ctx, size, *, encode: str) -> BytesIO:
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=size,
-            border=4,
-        )
-        qr.add_data(f'{encode}')
-        qr.make(fit=True)
-
-        img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
-        buffer_obj = BytesIO()
-        img.save(buffer_obj, 'png')
-
-        with BytesIO() as imgbytes:
-            img.save(imgbytes, 'png')
-            imgbytes.seek(0)
-            read_image = buffer_obj.read()
-            await ctx.channel.send(
-                file=discord.File(fp=imgbytes, filename='qrcode.png')
-            )
-        # img.show()
-
-    @commands.command(name='qrdec')
-    async def qr_code_decode(self, ctx):
-        image = ctx.message.attachments[0].url
-        print(type(image))
-        #image = Image.open(requests.get(url=image, stream=True).raw)
-        #print(image)
-        img = cv2.imread(image)
-        #print(img)
-        detect = cv2.QRCodeDetector()
-        data, bbox, straight_qrcode = detect.detectandDecode(img)
-
-        #if bbox is not None:
-        await ctx.channel.send(f"🕵️ Decoded Data Is: ```{data2}```")
-        #elif bbox is None:
-        #    await ctx.channel.send("Oops! Not a valid QRCode.")
-
+#     @commands.command(name='qr')
+#     async def qr_code_gen(self, ctx, size, *, encode: str) -> BytesIO:
+#         qr = qrcode.QRCode(
+#             version=1,
+#             error_correction=qrcode.constants.ERROR_CORRECT_H,
+#             box_size=size,
+#             border=4,
+#         )
+#         qr.add_data(f'{encode}')
+#         qr.make(fit=True)
+# 
+#         img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+#         buffer_obj = BytesIO()
+#         img.save(buffer_obj, 'png')
+# 
+#         with BytesIO() as imgbytes:
+#             img.save(imgbytes, 'png')
+#             imgbytes.seek(0)
+#             read_image = buffer_obj.read()
+#             await ctx.channel.send(
+#                 file=discord.File(fp=imgbytes, filename='qrcode.png')
+#             )
+#         # img.show()
 
     # @commands.command(name='cheatsh')
     # async def cheat_sh_data(self, ctx, language:str, *, query):
@@ -453,20 +436,6 @@ class Utilities(commands.Cog):
     #     url = f"https://cheat.sh/{language}/{query}"
     #     response = requests.request("GET", url=url)
     #     await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
-
-    # @commands.command(name='socials')
-    # async def social_links(self, ctx):
-    #     embed=discord.Embed(title="<:drake_yes:773487910673580043> Socials", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
-    #     embed.add_field(name="<:github:851778689648689152> Github", value="[github](https://github.com/AaalbatrossGuy)")
-    #     embed.add_field(name="<:yt:851778739347783740> YouTube #1", value="[youtube](https://www.youtube.com/channel/UC6WW1pBnNICD4Xz4abrU4rg)")
-    #     embed.add_field(name="<:yt:851778739347783740> YouTube #2", value="[youtube](https://www.youtube.com/channel/UC6cFR07R5toAZKZ3hToKgyw)")
-    #     embed.add_field(name="<:instagram:851778716429189140> Instagram", value="[instagram](https://www.instagram.com/xcelsiorplayz/)")
-    #     embed.set_thumbnail(url="https://assets.website-files.com/5e4ef646507f139934406108/5e52e73aeba259d1553eee29_blog-post-5.jpeg")
-    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-
-    #     await ctx.send(
-    #           embed=embed
-    #             )
 
     @commands.command(name='shell')
     @commands.is_owner()
