@@ -8,10 +8,9 @@ from discord.utils import escape_mentions
 from lib import db
 from PIL import Image
 from io import BytesIO
-from pyzbar.pyzbar import decode
 import requests, random, array, qrcode
 from discord_components import DiscordComponents, Button, ButtonStyle
-import asyncio
+import asyncio, cv2
 from aiohttp import ClientSession
 from datetime import datetime, timezone, timedelta
 from currency_converter import CurrencyConverter
@@ -148,7 +147,7 @@ class Utilities(commands.Cog):
             await ctx.channel.send(
                 'You cannot delete a webhook unless u have created it. Run `set_webhook` to create a webhook first')
         elif guild_id_exists is True:
-            db.execute("DELETE FROM webhook WHERE GuildID = ?", (ctx.message.guild.id))
+            db.execute("DELETE FROM webhook WHERE GuildID = ?ox variable stores th", (ctx.message.guild.id))
             db.commit()
             await ctx.channel.send("⚒  The webhook for this channel has been deleted from the database.")
 
@@ -407,39 +406,29 @@ class Utilities(commands.Cog):
         embed.add_field(name="Humidity", value=f"{humidity}%")
         await ctx.channel.send(embed=embed)
 
-    @commands.command(name='qr')
-    async def qr_code_gen(self, ctx, size, *, encode: str) -> BytesIO:
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=size,
-            border=4,
-        )
-        qr.add_data(f'{encode}')
-        qr.make(fit=True)
-
-        img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
-        buffer_obj = BytesIO()
-        img.save(buffer_obj, 'png')
-
-        with BytesIO() as imgbytes:
-            img.save(imgbytes, 'png')
-            imgbytes.seek(0)
-            read_image = buffer_obj.read()
-            await ctx.channel.send(
-                file=discord.File(fp=imgbytes, filename='qrcode.png')
-            )
-        # img.show()
-
-    @commands.command(name='qrdec')
-    async def qr_code_decode(self, ctx):
-        image = ctx.message.attachments[0].url
-
-        image = Image.open(requests.get(url=image, stream=True).raw)
-
-        result = decode(image)
-        for decoded in result:
-            await ctx.channel.send(f"🕵️ Decoded Data Is:\n```{decoded.data.decode('utf-8')}```")
+#     @commands.command(name='qr')
+#     async def qr_code_gen(self, ctx, size, *, encode: str) -> BytesIO:
+#         qr = qrcode.QRCode(
+#             version=1,
+#             error_correction=qrcode.constants.ERROR_CORRECT_H,
+#             box_size=size,
+#             border=4,
+#         )
+#         qr.add_data(f'{encode}')
+#         qr.make(fit=True)
+# 
+#         img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+#         buffer_obj = BytesIO()
+#         img.save(buffer_obj, 'png')
+# 
+#         with BytesIO() as imgbytes:
+#             img.save(imgbytes, 'png')
+#             imgbytes.seek(0)
+#             read_image = buffer_obj.read()
+#             await ctx.channel.send(
+#                 file=discord.File(fp=imgbytes, filename='qrcode.png')
+#             )
+#         # img.show()
 
     # @commands.command(name='cheatsh')
     # async def cheat_sh_data(self, ctx, language:str, *, query):
@@ -447,20 +436,6 @@ class Utilities(commands.Cog):
     #     url = f"https://cheat.sh/{language}/{query}"
     #     response = requests.request("GET", url=url)
     #     await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
-
-    # @commands.command(name='socials')
-    # async def social_links(self, ctx):
-    #     embed=discord.Embed(title="<:drake_yes:773487910673580043> Socials", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
-    #     embed.add_field(name="<:github:851778689648689152> Github", value="[github](https://github.com/AaalbatrossGuy)")
-    #     embed.add_field(name="<:yt:851778739347783740> YouTube #1", value="[youtube](https://www.youtube.com/channel/UC6WW1pBnNICD4Xz4abrU4rg)")
-    #     embed.add_field(name="<:yt:851778739347783740> YouTube #2", value="[youtube](https://www.youtube.com/channel/UC6cFR07R5toAZKZ3hToKgyw)")
-    #     embed.add_field(name="<:instagram:851778716429189140> Instagram", value="[instagram](https://www.instagram.com/xcelsiorplayz/)")
-    #     embed.set_thumbnail(url="https://assets.website-files.com/5e4ef646507f139934406108/5e52e73aeba259d1553eee29_blog-post-5.jpeg")
-    #     embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-
-    #     await ctx.send(
-    #           embed=embed
-    #             )
 
     @commands.command(name='shell')
     @commands.is_owner()
@@ -593,19 +568,19 @@ class Utilities(commands.Cog):
                              icon_url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
 
-    @qr_code_decode.error
-    async def qrdec_error_handling(self, ctx, error):
-        if isinstance(error, commands.CommandInvokeError) or isinstance(error, IndexError):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
-                                               description="```ini\nMake sure you have run the command providing the [attachment].```",
-                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+    # @qr_code_decode.error
+    # async def qrdec_error_handling(self, ctx, error):
+    #     if isinstance(error, commands.CommandInvokeError) or isinstance(error, IndexError):
+    #         await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+    #                                            description="```ini\nMake sure you have run the command providing the [attachment].```",
+    #                                            timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
-    @qr_code_gen.error
-    async def qrcodegen_error_handling(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
-                                               description="```ini\nMake sure you have run the command providing the [barcode-size] [text-to-encode] parameters respectively.```",
-                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+    # @qr_code_gen.error
+    # async def qrcodegen_error_handling(self, ctx, error):
+    #     if isinstance(error, commands.MissingRequiredArgument):
+    #         await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+    #                                            description="```ini\nMake sure you have run the command providing the [barcode-size] [text-to-encode] parameters respectively.```",
+    #                                            timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
 
 def setup(client):

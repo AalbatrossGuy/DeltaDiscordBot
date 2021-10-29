@@ -33,7 +33,7 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250>Added new module, `Games`\n<:rightarrow:870236404301578250> Added rinfo command[NEW].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
+                        value="<:rightarrow:870236404301578250>Removed `qr` and `qrdec` for now[BUG]\n<:rightarrow:870236404301578250> Added rinfo command[NEW].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
@@ -72,7 +72,7 @@ class HelpMsgTwo(commands.Cog):
         embedUtility = discord.Embed(title="Utilities Commands'", color=discord.Color.green(),
                                      timestamp=ctx.message.created_at)
         embedUtility.add_field(name="Commands: ",
-                               value="`qr`, `qrdec`, `paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`")
+                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`")
         embedUtility.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedUtility.set_thumbnail(
             url="https://cdn.corporatefinanceinstitute.com/assets/utilities-expense-1024x683.jpeg")
@@ -516,37 +516,37 @@ class HelpMsgTwo(commands.Cog):
                         value="```paswdgen 10```")
         await ctx.send(embed=embed)
 
-    @help.command()
-    async def qr(self, ctx):
-        embed = discord.Embed(title="QR Code Generator", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+#     @help.command()
+#     async def qr(self, ctx):
+#         embed = discord.Embed(title="QR Code Generator", colour=discord.Colour.dark_gold(),
+#                               timestamp=ctx.message.created_at)
+#         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+#         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+# 
+#         # Context
+# 
+#         embed.add_field(name="<a:typing:773870195336937532> qr <size> <text>",
+#                         value="Use this command to generate a qrcode based on your text. The <size> parameter takes a number and decides the size of the QR image. The second parameter, i.e, <text> takes the actual message to encode.")
+# 
+#         embed.add_field(name="Example",
+#                         value="```qr 10 Hello World.```")
+#         await ctx.send(embed=embed)
 
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> qr <size> <text>",
-                        value="Use this command to generate a qrcode based on your text. The <size> parameter takes a number and decides the size of the QR image. The second parameter, i.e, <text> takes the actual message to encode.")
-
-        embed.add_field(name="Example",
-                        value="```qr 10 Hello World.```")
-        await ctx.send(embed=embed)
-
-    @help.command()
-    async def qrdec(self, ctx):
-        embed = discord.Embed(title="QR Code Decoder", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> sinfo",
-                        value="Use this command to decode a qr code. Make sure u attach the image of the qrcode as a discord attachment.")
-
-        embed.add_field(name="Example",
-                        value="```qrdec <file-attached>```")
-        await ctx.send(embed=embed)
+#     @help.command()
+#     async def qrdec(self, ctx):
+#         embed = discord.Embed(title="QR Code Decoder", colour=discord.Colour.dark_gold(),
+#                               timestamp=ctx.message.created_at)
+#         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+#         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+# 
+#         # Context
+# 
+#         embed.add_field(name="<a:typing:773870195336937532> sinfo",
+#                         value="Use this command to decode a qr code. Make sure u attach the image of the qrcode as a discord attachment.")
+# 
+#         embed.add_field(name="Example",
+#                         value="```qrdec <file-attached>```")
+#         await ctx.send(embed=embed)
 
     @help.command()
     async def hbchart(self, ctx):
