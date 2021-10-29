@@ -9,8 +9,7 @@ from decouple import config
 from lib import db
 from time import perf_counter
 import datetime
-import server 
-from server import keep_alive
+import server
 
 start_time = datetime.datetime.now()
 
@@ -112,6 +111,9 @@ for filename in os.listdir('./Cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'Cogs.{filename[:-3]}')
 
+server.keep_alive()
+
 client.load_extension('jishaku')
+
 
 client.run(Token)
