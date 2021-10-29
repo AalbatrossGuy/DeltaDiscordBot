@@ -575,12 +575,12 @@ class Utilities(commands.Cog):
     #                                            description="```ini\nMake sure you have run the command providing the [attachment].```",
     #                                            timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
-    @qr_code_gen.error
-    async def qrcodegen_error_handling(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
-                                               description="```ini\nMake sure you have run the command providing the [barcode-size] [text-to-encode] parameters respectively.```",
-                                               timestamp=ctx.message.created_at, color=discord.Color.magenta()))
+    # @qr_code_gen.error
+    # async def qrcodegen_error_handling(self, ctx, error):
+    #     if isinstance(error, commands.MissingRequiredArgument):
+    #         await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+    #                                            description="```ini\nMake sure you have run the command providing the [barcode-size] [text-to-encode] parameters respectively.```",
+    #                                            timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
 
 def setup(client):
