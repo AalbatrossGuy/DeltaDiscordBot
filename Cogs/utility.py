@@ -9,9 +9,11 @@ from lib import db
 from io import BytesIO
 import requests, random, array, asyncio
 from aiohttp import ClientSession
-from datetime import datetime, timezone, timedelta
+from datetime import timezone
 from currency_converter import CurrencyConverter
 from customs.customs import circle
+from PIL import Image, ImageDraw, ImageFont 
+
 
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
@@ -200,9 +202,12 @@ class Utilities(commands.Cog):
         embed.add_field(name="🙂 Guild Emoji Limit", value=guild_emoji_limit)
         embed.add_field(name="📂 Guild Max Filelimit", value=f"{convert_bytes(guild_filesize_limit)}")
         await ctx.channel.send(embed=embed)
+    
+    # Many deubug statements. Please ignore
 
     @commands.command(name="meminfo")
     async def member_info_command(self, ctx, *, member: discord.Member = None):
+        #print('meminfo called')
         member = member or ctx.author
         member_id = member.id
         member_name = str(member.name)
@@ -220,20 +225,27 @@ class Utilities(commands.Cog):
             member_has_nitro = False
 
         # --------------- Image ----------------------
+        #print('image gen started')
         name = member_name
         pfp = member.avatar_url_as(size=256)
+        #print('pfp got')
         data = BytesIO(await pfp.read())
         pfp = Image.open(data).convert("RGBA")
+        #print('pfp read')
         base = Image.open("Pictures/base.jpg").convert("RGBA")
         name = f"{name[:16]}..." if len(name) > 16 else name
+        #print('base opened name got')
         date = f"Joined At: {member.joined_at.strftime('%d/%m/%Y')}"
         draw = ImageDraw.Draw(base)
+        #print('date got got drawing started')
         pfp = circle(pfp)
         font = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 30)
         fontdate = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 20)
+        #print('both fonts got')
         draw.text((200, 50), name, font=font, fill="#000000")
         draw.text((200, 100), date, font=fontdate, fill="#000000")
         base.paste(pfp, (30, 30), pfp)
+        #print('base pasted...writing done')
         
 
         # ---------------- Embed ---------------------
@@ -258,9 +270,12 @@ class Utilities(commands.Cog):
         with BytesIO() as imgbyte:
             base.save(imgbyte, "PNG")
             imgbyte.seek(0)
+            #print('done #1')
             file = discord.File(imgbyte, filename="image.png")
             embed.set_image(url="attachment://image.png")
+            #print('done #2')
             await ctx.channel.send(file=file, embed=embed)
+            #print('sent')
 
 
     @commands.command(name="paswdgen")
