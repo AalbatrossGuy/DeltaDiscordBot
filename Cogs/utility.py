@@ -6,29 +6,12 @@ import discord
 from discord.ext import commands
 from discord.utils import escape_mentions
 from lib import db
-#from PIL import Image
-#from io import BytesIO
+from io import BytesIO
 import requests, random, array, asyncio
-#import qrcode
-from discord_components import DiscordComponents, Button, ButtonStyle
 from aiohttp import ClientSession
 from datetime import datetime, timezone, timedelta
 from currency_converter import CurrencyConverter
-from customs.buttons import Buttons, KillButtons
-
-
-
-def calculate(expr):
-    x = expr.replace('x', '*')
-    x = x.replace('÷', '/')
-    answr = ''
-    try:
-        answr = str(eval(x))
-    except:
-        answr = "Oops! I went Brainded. Try again Later."
-
-    return answr
-
+from customs.customs import circle
 
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
@@ -235,6 +218,24 @@ class Utilities(commands.Cog):
             member_has_nitro = True
         else:
             member_has_nitro = False
+
+        # --------------- Image ----------------------
+        name = member_name
+        pfp = member.avatar_url_as(size=256)
+        data = BytesIO(await pfp.read())
+        pfp = Image.open(data).convert("RGBA")
+        base = Image.open("Pictures/base.jpg").convert("RGBA")
+        name = f"{name[:16]}..." if len(name) > 16 else name
+        date = f"Joined At: {member.joined_at.strftime('%d/%m/%Y')}"
+        draw = ImageDraw.Draw(base)
+        pfp = circle(pfp)
+        font = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 30)
+        fontdate = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 20)
+        draw.text((200, 50), name, font=font, fill="#000000")
+        draw.text((200, 100), date, font=fontdate, fill="#000000")
+        base.paste(pfp, (30, 30), pfp)
+        
+
         # ---------------- Embed ---------------------
 
         embed = discord.Embed(title=f"{member_name}'s Information", timestamp=ctx.message.created_at,
@@ -252,7 +253,15 @@ class Utilities(commands.Cog):
         embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?*", value=member_has_nitro, inline=True)
         embed.set_footer(text="*Nitro checks are done based on the user's avatar", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url=member_avatar_url)
-        await ctx.channel.send(embed=embed)
+
+
+        with BytesIO() as imgbyte:
+            base.save(imgbyte, "PNG")
+            imgbyte.seek(0)
+            file = discord.File(imgbyte, filename="image.png")
+            embed.set_image(url="attachment://image.png")
+            await ctx.channel.send(file=file, embed=embed)
+
 
     @commands.command(name="paswdgen")
     async def password_generator(self, ctx, len: int):
@@ -391,52 +400,6 @@ class Utilities(commands.Cog):
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
 
-    @commands.command(name='calcu')
-    async def calculator(self, ctx):
-        msg = await ctx.reply(content="Calculator is Starting...")
-        await asyncio.sleep(1.0)
-        expr = '```None```'
-        deathEmbed = discord.Embed(title="<a:alienalien:870611180232769596> Wasted!",
-                                   description="Your calculator's ded. Sadly it's battery lasts only for 3 minutes. Try creating another calculator.")
-        deathEmbed.set_thumbnail(url='https://i.ytimg.com/vi/mm1EGefKyqY/maxresdefault.jpg')
-        tdelta = datetime.utcnow() + timedelta(minutes=3)
-        embed = discord.Embed(title=f"<:calculator:870610558188126229> {ctx.author.name}'s Personal Calculator",
-                              description=expr, timestamp=tdelta, color=discord.Color.dark_magenta())
-        await msg.edit(
-            content='', components=Buttons, embed=embed
-        )
-        # <a:alienalien:870611180232769596> Your Calculator is now Dead.
-        try:
-            while msg.created_at < tdelta:
-                res = await self.client.wait_for('button_click', timeout=180)
-                if res.author.id == ctx.author.id and res.message.embeds[0].timestamp < tdelta:
-                    expr = f"{res.message.embeds[0].description}".replace("`", '')
-                    # print(expr)
-                    if expr == 'None' or expr == "Oops! I went Brainded. Try again Later.":
-                        expr = ''
-                    if res.component.label == 'Quit':
-                        await res.respond(
-                            content='<a:alienalien:870611180232769596> You have quit your calculator.', type=7,
-                            components=KillButtons
-                        )
-                        break
-                    elif res.component.label == '⟵':
-                        expr = expr[:-1]
-                    elif res.component.label == 'Clear':
-                        # expr = None
-                        expr = None
-                    elif res.component.label == 'Answ':
-                        expr = calculate(expr)
-                    else:
-                        expr += res.component.label
-                        # print(expr)
-                    emptyembed = discord.Embed(
-                        title=f"<:calculator:870610558188126229> {res.author.name} | Calculating...",
-                        description=f"```{expr}```", timestamp=tdelta, color=discord.Color.dark_blue())
-                    await res.respond(content='', embed=emptyembed, components=Buttons, type=7)
-
-        except asyncio.TimeoutError:
-            await ctx.reply(embed=deathEmbed)
 
     @commands.command(name='mconv')
     async def money_coverter(self, ctx, base: str, target: str, amount=100):
@@ -524,5 +487,4 @@ class Utilities(commands.Cog):
 
 
 def setup(client):
-    DiscordComponents(client)
     client.add_cog(Utilities(client))
