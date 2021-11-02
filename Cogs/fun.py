@@ -148,27 +148,27 @@ class Fun(commands.Cog):
                 placeholder="Select a Fact Category",
                 min_values=1,
                 options=[
-                    SelectOption(label="🐼 Panda", value="Select this to get a randomly generated Panda fact"),
-                    SelectOption(label="🐶 Dog", value="Select this to get a randomly generated Dog fact"),
-                    SelectOption(label="🦊 Fox", value="Select this to get a randomly generated Fox fact"),
-                    SelectOption(label="🐨 Koala", value="Select this to get a randomly generated Koala fact"),
-                    SelectOption(label="🐦 Bird", value="Select this to get a randomly generated Bird fact")
+                    SelectOption(label="🐼 Panda", value="panda"),
+                    SelectOption(label="🐶 Dog", value="dog"),
+                    SelectOption(label="🦊 Fox", value="fox"),
+                    SelectOption(label="🐨 Koala", value="koala"),
+                    SelectOption(label="🐦 Bird", value="bird")
                 ],
             ),
         ])
 
         interaction = await self.client.wait_for("select_option", timeout=60)
         if interaction.author.id == ctx.author.id and interaction.message.embeds[0].timestamp < tdelta:
-            check_for = interaction.component[0].label
-            if check_for.lower() == '🐼 panda':
+            check_for = interaction.values[0]
+            if check_for.lower() == 'panda':
                 await interaction.respond(embed=embedPanda, ephemeral=False)
-            elif check_for.lower() == '🐶 dog':
+            elif check_for.lower() == 'dog':
                 await interaction.respond(embed=embedDog, ephemeral=False)
-            elif check_for.lower() == '🦊 fox':
+            elif check_for.lower() == 'fox':
                 await interaction.respond(embed=embedFox, ephemeral=False)
-            elif check_for.lower() == '🐨 koala':
+            elif check_for.lower() == 'koala':
                 await interaction.respond(embed=embedKoala, ephemeral=False)
-            elif check_for.lower() == '🐦 bird':
+            elif check_for.lower() == 'bird':
                 await interaction.respond(embed=embedBird, ephemeral=False)
 
     # Error Handlers

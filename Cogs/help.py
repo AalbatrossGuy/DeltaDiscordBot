@@ -33,7 +33,7 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250>Removed `qr` and `qrdec` for now[BUG]\n<:rightarrow:870236404301578250> Added rinfo command[NEW].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
+                        value="<:rightarrow:870236404301578250>Removed `qr` and `qrdec` for now[BUG]\n<:rightarrow:870236404301578250> Fixed improper functioning of `fact` command[BUG-FIX].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
                         inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
