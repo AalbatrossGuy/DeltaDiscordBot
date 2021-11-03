@@ -9,7 +9,7 @@ from decouple import config
 from lib import db
 from time import perf_counter
 import datetime
-import server
+# import server
 
 start_time = datetime.datetime.now()
 
@@ -21,7 +21,7 @@ def get_prefix(bot, message):
     return commands.when_mentioned_or(prefix)(bot, message)
 
 
-Token = os.getenv('TOKEN')
+Token = config('TOKEN')
 
 intents = discord.Intents.default()
 intents.members = True
