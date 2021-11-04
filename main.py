@@ -111,7 +111,7 @@ for filename in os.listdir('./Cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'Cogs.{filename[:-3]}')
 
-server.keep_alive()
+#server.keep_alive()
 
 client.load_extension('jishaku')
 
