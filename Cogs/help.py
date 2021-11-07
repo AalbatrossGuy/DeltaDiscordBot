@@ -36,6 +36,8 @@ class HelpMsgTwo(commands.Cog):
                         value="<:rightarrow:870236404301578250>Removed `qr` and `qrdec` for now[BUG]\n<:rightarrow:870236404301578250> Fixed improper functioning of `fact` command[BUG-FIX].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
                         inline=True)
 
+        embed.add_field(name="📣 News", value="<:rightarrow:870236404301578250> New Updates and features will roll out from tomorrow.", inline=True)
+
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
         embedImages.add_field(name="Commands: ",
