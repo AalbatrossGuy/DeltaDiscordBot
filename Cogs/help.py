@@ -75,7 +75,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedAdmin = discord.Embed(title="Admin Commands", color=discord.Color.greyple(),
                                    timestamp=ctx.message.created_at)
-        embedAdmin.add_field(name="Commands: ", value="`purge`, `kick`, `ban`, `unban`, `lockdown`, `unlock`")
+        embedAdmin.add_field(name="Commands: ", value="`purge`, `kick`, `ban`, `unban`, `masskick`, `massban`, `massunban`")
         embedAdmin.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedAdmin.set_thumbnail(
             url="https://thumbs.dreamstime.com/b/admin-seal-print-corroded-texture-red-vector-rubber-text-unclean-title-placed-double-parallel-lines-scratched-122073406.jpg")
@@ -97,7 +97,7 @@ class HelpMsgTwo(commands.Cog):
         tdelta = ctx.message.created_at + timedelta(minutes=1)
         await ctx.reply(embed=embed, components=[
             [Button(style=ButtonStyle.URL, label="Invite Me!",
-                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"), Button(style=ButtonStyle.URL, label="Top.gg", url="https://top.gg/bot/830047831972118588")],
+                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot", emoji=self.client.get_emoji(907178394163249182)), Button(style=ButtonStyle.URL, label="Top.gg", url="https://top.gg/bot/830047831972118588", emoji=self.client.get_emoji(907179234391363655))],
             Select(
                 placeholder="Select a Help Category",
                 min_values=1,
@@ -660,37 +660,37 @@ class HelpMsgTwo(commands.Cog):
                         value="```unban User#2120```")
         await ctx.send(embed=embed)
 
-    @help.command()
-    async def lockdown(self, ctx):
-        embed = discord.Embed(title="Lockdown A Channel", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> lockdown",
-                        value="Use this command to lock the channel in which it has been executed. You must have the `Manage Channels` permission to perform this command.")
-
-        embed.add_field(name="Example",
-                        value="```lockdown```")
-        await ctx.send(embed=embed)
-
-    @help.command()
-    async def unlock(self, ctx):
-        embed = discord.Embed(title="Unlock A Channel", colour=discord.Colour.dark_gold(),
-                              timestamp=ctx.message.created_at)
-        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-
-        # Context
-
-        embed.add_field(name="<a:typing:773870195336937532> unlock",
-                        value="Use this command to unlock the channel where this command is executed. You must have the `Manage Channels` permission to perform this command.")
-
-        embed.add_field(name="Example",
-                        value="```unlock```")
-        await ctx.send(embed=embed)
+#     @help.command()
+#     async def lockdown(self, ctx):
+#         embed = discord.Embed(title="Lockdown A Channel", colour=discord.Colour.dark_gold(),
+#                               timestamp=ctx.message.created_at)
+#         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+#         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+# 
+#         # Context
+# 
+#         embed.add_field(name="<a:typing:773870195336937532> lockdown",
+#                         value="Use this command to lock the channel in which it has been executed. You must have the `Manage Channels` permission to perform this command.")
+# 
+#         embed.add_field(name="Example",
+#                         value="```lockdown```")
+#         await ctx.send(embed=embed)
+# 
+#     @help.command()
+#     async def unlock(self, ctx):
+#         embed = discord.Embed(title="Unlock A Channel", colour=discord.Colour.dark_gold(),
+#                               timestamp=ctx.message.created_at)
+#         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+#         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+# 
+#         # Context
+# 
+#         embed.add_field(name="<a:typing:773870195336937532> unlock",
+#                         value="Use this command to unlock the channel where this command is executed. You must have the `Manage Channels` permission to perform this command.")
+# 
+#         embed.add_field(name="Example",
+#                         value="```unlock```")
+#         await ctx.send(embed=embed)
 
     @help.command()
     async def run(self, ctx):
@@ -1041,6 +1041,54 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value="```rinfo AalbatrossGuy```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def masskick(self, ctx):
+        embed = discord.Embed(title="Mass Kick Members", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> masskick <member1> <member2> ...",
+                        value="Use this command to kick multiple members from the server. You must have the `Kick Members` permission to perform this command. You can either mention the users to kick or just write their name or use their id. All of them will be valid.")
+
+        embed.add_field(name="Example",
+                        value='```masskick "AalbatrossGuy" "Delta Δ" "DiscordMan" ...```')
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def massban(self, ctx):
+        embed = discord.Embed(title="Mass Ban Members", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> massban <member1> <member2> ...",
+                        value="Use this command to ban multiple members in the server. You must have the `Ban Members` permission to perform this command. You can either mention the user to ban or just write their name or use their id. All of them will be valid.")
+
+        embed.add_field(name="Example",
+                        value="```ban @User <user-mention>\nban User <user-name>\nban 19298402018402 <user-id>```")
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def massunban(self, ctx):
+        embed = discord.Embed(title="Mass Unban Members", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> massunban <member1> <member2> ...",
+                        value="Use this command to unban multiple members previously banned from the server. You must have the `Ban Members` permission to perform this command. You can provide the member name along with their discriminator OR use their ids to unban them. In case of using the first method, make sure to provide the names in double-quotations.")
+
+        embed.add_field(name="Example",
+                        value='```massunban "User#2120" "User2#2560" ...```')
         await ctx.send(embed=embed)
 
 
