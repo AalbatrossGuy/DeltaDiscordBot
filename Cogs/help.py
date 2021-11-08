@@ -32,11 +32,7 @@ class HelpMsgTwo(commands.Cog):
                 <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
                         inline=True)
 
-        embed.add_field(name="<:fixbug:853268254582636564> Bug Fixes & Updates",
-                        value="<:rightarrow:870236404301578250>Removed `qr` and `qrdec` for now[BUG]\n<:rightarrow:870236404301578250> Fixed improper functioning of `fact` command[BUG-FIX].\n<:rightarrow:870236404301578250> Fixed `run` command's wrong language recognition bug [FIX].",
-                        inline=True)
-
-        embed.add_field(name="📣 News", value="<:rightarrow:870236404301578250> New Updates and features will roll out from tomorrow.", inline=True)
+        embed.add_field(name="📣 News", value="<:rightarrow:870236404301578250> Updates are here! Do `*chlog` to get more info.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -74,7 +70,7 @@ class HelpMsgTwo(commands.Cog):
         embedUtility = discord.Embed(title="Utilities Commands'", color=discord.Color.green(),
                                      timestamp=ctx.message.created_at)
         embedUtility.add_field(name="Commands: ",
-                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`")
+                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`, `sp`")
         embedUtility.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedUtility.set_thumbnail(
             url="https://cdn.corporatefinanceinstitute.com/assets/utilities-expense-1024x683.jpeg")
@@ -95,7 +91,7 @@ class HelpMsgTwo(commands.Cog):
         embedSettings = discord.Embed(title="Setting Commands", color=discord.Color.blurple(),
                                       timestamp=ctx.message.created_at)
         embedSettings.add_field(name="Commands: ",
-                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`")
+                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`, `chlog`")
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(
             url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
@@ -180,6 +176,23 @@ class HelpMsgTwo(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command()
+    async def chlog(self, ctx):
+        # Decorators
+
+        embed = discord.Embed(title="Change Log", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> chlog",
+                        value="See the change logs of the bot.")
+        embed.add_field(name="Example",
+                        value="```chlog```")
+        await ctx.send(embed=embed)
+
+    @help.command()
     async def set_welcomemsg(self, ctx):
         # Decorators
 
@@ -213,6 +226,23 @@ class HelpMsgTwo(commands.Cog):
                         value="```yaml\n*update_welcomemsg true\n\tOR\n*update_welcomemsg false```")
 
         await ctx.send(embed=embed)
+
+    @help.command()
+    async def sp(self, ctx):
+            # Decorators
+
+        embed = discord.Embed(title="Spotify Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> sp",
+                        value="Use this command to get info about the current song you are listening to in Spotify. It ONLY works if you have `Display Spotify as your status` on.")
+        embed.add_field(name="Example",
+                        value="```sp```")
+        await ctx.channel.send(embed=embed)
+    
 
     @help.command()
     async def set_leavemsg(self, ctx):
@@ -551,7 +581,7 @@ class HelpMsgTwo(commands.Cog):
 #         await ctx.send(embed=embed)
 
     @help.command()
-    async def hbchart(self, ctx):
+    async def hbcharts(self, ctx):
         embed = discord.Embed(title="Horizontal Bar Chart", colour=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
@@ -562,7 +592,7 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="<a:typing:773870195336937532> hbchart <data>",
                         value="Use this command to generate a horizontal bar chart. The numbers must be seperated by a ' | '. The character must contain a space before and after of it '<space>|<space>'. The first set of numbers before the `|` is for x axis and the later part is for y axis.Each numbers must also be seperated by space. You can insert any kind of data in the chart as long as it is equal on both the axes.")
         embed.add_field(name="Note",
-                        value="```The numbers before and after the '|' must be of equal length. E.g - 1 2 3 4 | 8 7 9 8 <:correct:773145931859886130>\n1 2 3 4 | 2 4 3 <:wrong:773145931973525514>```")
+                        value="```The numbers before and after the '|' must be of equal length. E.g - 1 2 3 4 | 8 7 9 8 ✅\n1 2 3 4 | 2 4 3 ❌```")
 
         embed.add_field(name="Example",
                         value="```hbchart 1 2 3 | 8 6 7 4```")
