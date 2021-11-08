@@ -20,19 +20,17 @@ class HelpMsgTwo(commands.Cog):
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at,
-                              description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy)|[Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo)|[Support Server](https://discord.gg/D9U4y7WZuF)")
+                              description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/program)")
 
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy",
                          icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> Modules[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> 🔍 Info\n<:rightarrow:870236404301578250> \
-                <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> ⌨️  Programming\n<:rightarrow:870236404301578250>\
-                <:gamepad:870240679719215154> Fun\n<:rightarrow:870236404301578250><:OkayAdmins:864717982622416906> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:3898_ww_circle_hammer:870262838600532008> Settings",
+        embed.add_field(name="<:folder:870237774362583040> __Modules[8]__", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250><:mod:907090210435788810> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250><:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 News", value="<:rightarrow:870236404301578250> Updates are here! Do `*chlog` to get more info.", inline=True)
+        embed.add_field(name="📣 __News__", value="<:rightarrow:870236404301578250> Updates are here! Do `*chlog` to get more info.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
