@@ -12,7 +12,9 @@ from aiohttp import ClientSession
 from datetime import timezone
 from currency_converter import CurrencyConverter
 from customs.customs import circle
-from PIL import Image, ImageDraw, ImageFont 
+from PIL import Image, ImageDraw, ImageFont  
+import dateutil.parser
+
 
 
 def convert_bytes(bytes_number):
@@ -97,6 +99,14 @@ class Utilities(commands.Cog):
             await message.channel.purge(limit=1)
             await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
 
+    @commands.command(name='chlog')
+    async def change_log(self,  ctx):
+        embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added sp command[NEW].\n- Removed qr and qrdec for now[BUG].\n+ Fixed improper functioning of fact command[BUG-FIX].\n+ Fixed run command's wrong language recognition bug [FIX].```")
+        await ctx.channel.send(embed=embed)
+
     # Utility Command
     @commands.command(name="minfo")
     async def movie_info(self, ctx, *, query: str = None):
@@ -178,6 +188,31 @@ class Utilities(commands.Cog):
         guild_emoji_limit = ctx.guild.emoji_limit
         guild_filesize_limit = ctx.guild.filesize_limit
 
+        # ------------- Images ------------------
+
+
+         #print('image gen started')
+        name = guild_name
+        pfp = ctx.guild.icon_url_as(size=256)
+        #print('pfp got')
+        data = BytesIO(await pfp.read())
+        pfp = Image.open(data).convert("RGBA")
+        #print('pfp read')
+        base = Image.open("Pictures/base.jpg").convert("RGBA")
+        name = f"{name[:16]}..." if len(name) > 16 else name
+        #print('base opened name got')
+        date = f"Created At: {ctx.guild.created_at.strftime('%d/%m/%Y')}"
+        draw = ImageDraw.Draw(base)
+        #print('date got got drawing started')
+        pfp = circle(pfp)
+        font = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 30)
+        fontdate = ImageFont.truetype(r"Fonts/ZenDots-Regular.ttf", 20)
+        #print('both fonts got')
+        draw.text((200, 50), name, font=font, fill="#000000")
+        draw.text((200, 100), date, font=fontdate, fill="#000000")
+        base.paste(pfp, (30, 30), pfp)
+        #print('base pasted...writing done')
+
         # ------------- Embed --------------------
 
         embed = discord.Embed(title=f"{guild_name}'s Information", timestamp=ctx.message.created_at,
@@ -201,7 +236,17 @@ class Utilities(commands.Cog):
         embed.add_field(name="<:sweet:773054385542266880> Guild Roles", value=str(guild_roles))
         embed.add_field(name="🙂 Guild Emoji Limit", value=guild_emoji_limit)
         embed.add_field(name="📂 Guild Max Filelimit", value=f"{convert_bytes(guild_filesize_limit)}")
-        await ctx.channel.send(embed=embed)
+
+        with BytesIO() as imgbyte:
+            base.save(imgbyte, "PNG")
+            imgbyte.seek(0)
+            #print('done #1')
+            file = discord.File(imgbyte, filename="image.png")
+            embed.set_image(url="attachment://image.png")
+            #print('done #2')
+            await ctx.channel.send(file=file, embed=embed)
+            #print('sent')
+
     
     # Many deubug statements. Please ignore
 
@@ -256,11 +301,11 @@ class Utilities(commands.Cog):
         embed.add_field(name="<:foxia:832549597892313159> ID", value=member_id, inline=True)
         embed.add_field(name="<:foxia:832549597892313159> Nickname", value=member_nickname, inline=True)
         embed.add_field(name="<:bot:773145401611255808> BOT?", value=is_bot, inline=True)
-        embed.add_field(name="<:top:836901077638447134> Top Role", value=member_top_role, inline=True)
+        embed.add_field(name="<:pepetrophy:904620360526356520> Top Role", value=member_top_role, inline=True)
         embed.add_field(name="<:pandacop:831800704372178944> Activity", value=member_activity, inline=True)
-        embed.add_field(name="🕦 Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)",
+        embed.add_field(name="<a:time:906880876451876875> Created At", value=f"<t:{member_created_at}:F>\n(<t:{member_created_at}:R>)",
                         inline=True)
-        embed.add_field(name=":clock8: Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)",
+        embed.add_field(name="<a:time:906880876451876875> Joined At", value=f"<t:{member_joined_at}:F>\n(<t:{member_joined_at}:R>)",
                         inline=True)
         embed.add_field(name="<a:nitrobaby:836902390766108694> Nitro?*", value=member_has_nitro, inline=True)
         embed.set_footer(text="*Nitro checks are done based on the user's avatar", icon_url=ctx.author.avatar_url)
@@ -400,6 +445,55 @@ class Utilities(commands.Cog):
     #     url = f"https://cheat.sh/{language}/{query}"
     #     response = requests.request("GET", url=url)
     #     await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
+
+
+    @commands.command(name='sp')
+    async def spotify_info(self, ctx, user:discord.Member=None):
+        user = user or ctx.author
+        check_spotify = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
+        
+        if check_spotify == None:
+            await ctx.channel.send(f"<:nospotify:906890136996937729> {user.name} is not listening to Spotify now!")
+        else:
+                # Images
+            track_background_image = Image.open(r'Pictures/spotify_base.png')
+            album_image = Image.open(requests.get(check_spotify.album_cover_url, stream=True).raw).convert('RGBA')
+            #album_image = Image.open(r'Pictures/spotify_cover.png').convert('RGB')
+            album_image = album_image.resize((285, 285))
+            #album_image.show()
+                # Fonts
+            title_font = ImageFont.truetype(r'Fonts/Grotte-Regular.ttf', 30)
+            artist_font = ImageFont.truetype(r'Fonts/Grotte-Regular.ttf', 20)
+            album_font = ImageFont.truetype(r'Fonts/Grotte-Regular.ttf', 20)
+            start_duration_font = ImageFont.truetype(r'Fonts/Grotte-Regular.ttf', 20)
+            end_duration_font = ImageFont.truetype(r'Fonts/Grotte-Regular.ttf', 20)
+            title = check_spotify.title if len(check_spotify.title)< 27 else f"{check_spotify.title[:27]}..."
+            artist_text = check_spotify.artist if len(check_spotify.artist)< 41 else f"{check_spotify.artist[:41]}..."
+            album = check_spotify.album if len(check_spotify.album) < 41 else f"{check_spotify.album[:41]}..."
+                # Positions
+            title_text_position = 152, 310
+            artist_text_position = 152, 350
+            album_text_position = 152, 375
+            start_duration_text_position = 9, 405
+            end_duration_text_position = 582,  405 
+
+            # Draws
+            draw_on_image = ImageDraw.Draw(track_background_image)
+            track_background_image.paste(album_image, (150, 10))
+            draw_on_image.text(title_text_position, title,'black', font=title_font)
+            draw_on_image.text(artist_text_position, artist_text, 'black', font=artist_font)
+            draw_on_image.text(album_text_position, f'Album - {album}', 'black', font=album_font)
+            draw_on_image.text(start_duration_text_position, '0:00', 'black', font=start_duration_font)
+            draw_on_image.text(end_duration_text_position,
+                f"{dateutil.parser.parse(str(check_spotify.duration)).strftime('%M:%S')}",
+                'black', font=end_duration_font)
+        
+            with BytesIO() as imgbyte:
+                track_background_image.convert('RGB').save(imgbyte, "PNG")
+                imgbyte.seek(0)
+                file = discord.File(imgbyte, filename="image.png")
+                await ctx.channel.send(file=file)
+            #await ctx.channel.send(file=discord.File('spotify.png'))
 
     @commands.command(name='shell')
     @commands.is_owner()
