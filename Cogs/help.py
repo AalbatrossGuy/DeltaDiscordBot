@@ -98,20 +98,20 @@ class HelpMsgTwo(commands.Cog):
 
         tdelta = ctx.message.created_at + timedelta(minutes=1)
         await ctx.reply(embed=embed, components=[
-            Button(style=ButtonStyle.URL, label="Invite Me!",
-                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"),
+            [Button(style=ButtonStyle.URL, label="Invite Me!",
+                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot"), Button(style=ButtonStyle.URL, label="Top.gg", url="https://top.gg/bot/830047831972118588")],
             Select(
                 placeholder="Select a Help Category",
                 min_values=1,
                 options=[
-                    SelectOption(label="🖌️ Images", value="images"),
-                    SelectOption(label="🔍Info", value="info"),
-                    SelectOption(label="🔴Reddit", value="reddit"),
-                    SelectOption(label="⌨️Programming", value="programming"),
-                    SelectOption(label="🕹️ Fun", value="fun"),
-                    SelectOption(label="🔨Admin", value="admin"),
-                    SelectOption(label="🛠️Utilities", value="utility"),
-                    SelectOption(label="⚙️Settings", value="settings")
+                    SelectOption(label="Images", value="images", emoji=self.client.get_emoji(870236033348956161)),
+                    SelectOption(label="Info", value="info", emoji=self.client.get_emoji(907088707591475220)),
+                    SelectOption(label="Reddit", value="reddit", emoji=self.client.get_emoji(870239682775121980)),
+                    SelectOption(label="Programming", value="programming", emoji=self.client.get_emoji(851778689648689152)),
+                    SelectOption(label="Fun", value="fun", emoji=self.client.get_emoji(907089878905389129)),
+                    SelectOption(label="Admin", value="admin", emoji=self.client.get_emoji(907090210435788810)),
+                    SelectOption(label="Utilities", value="utility", emoji=self.client.get_emoji(870262838789296191)),
+                    SelectOption(label="Settings", value="settings", emoji=self.client.get_emoji(781865530256130068))
                 ],
             ),
         ])
