@@ -27,10 +27,10 @@ class HelpMsgTwo(commands.Cog):
                          icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> __Modules[8]__", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250><:mod:907090210435788810> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250><:verified:781865530256130068> Settings",
+        embed.add_field(name="<:folder:870237774362583040> __Modules[8]__", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__", value="<:rightarrow:870236404301578250> Updates are here! Do `*chlog` to get more info.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> New Updates coming tomorrow!\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
