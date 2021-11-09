@@ -20,7 +20,7 @@ class HelpMsgTwo(commands.Cog):
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at,
-                              description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/program)")
+                              description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/wCgAbQygbe)")
 
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy",
