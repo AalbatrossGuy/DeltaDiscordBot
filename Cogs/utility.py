@@ -104,7 +104,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+Added Log functionality (Optional) to log all mod commands used in a server[NEW].\n+ Added massban, massunban & masskick commands[NEW].\n- Removed lockdown and unlock commands[DELETE].\n+ Improved UI For help command[IMPROVE].\n+ Added sp command[NEW].\n+ Fixed improper functioning of fact command[BUG-FIX].```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Fixed some small typos and bugs[BUG-FIX]\n+Added Log functionality (Optional) to log all mod commands used in a server[NEW].\n+ Added massban, massunban & masskick commands[NEW].\n- Removed lockdown and unlock commands[DELETE].\n+ Improved UI For help command[IMPROVE].\n+ Added sp command[NEW].\n+ Fixed improper functioning of fact command[BUG-FIX].```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
