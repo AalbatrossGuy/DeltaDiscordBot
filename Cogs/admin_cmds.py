@@ -5,7 +5,7 @@
 import discord
 from discord.ext import commands
 import asyncio
-
+from lib import db
 
 class AdminCmds(commands.Cog):
     def __init__(self, client):
@@ -148,8 +148,9 @@ class AdminCmds(commands.Cog):
 
             logch = db.field("SELECT LogChannelID FROM adminsettings WHERE GuildID = ?", ctx.guild.id)
             await self.client.get_channel(logch).send(embed=discord.Embed(title="Log Channel created!", timestamp=ctx.message.created_at, color=discord.Color.dark_orange(), description = f"<#{logch}> has been set as `Log Channel`."))
-        except Exception:
-                await ctx.channel.send("Make sure the bot has permission to read/send messages in the log channel and also provide the ChannelID correctly. ID must be an int.")
+        except Exception as e:
+            print(e)
+            await ctx.channel.send("Make sure the bot has permission to read/send messages in the log channel and also provide the ChannelID correctly. ID must be an int.")
     
 
     @commands.has_permissions(manage_channels=True)

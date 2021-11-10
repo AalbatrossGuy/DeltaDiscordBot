@@ -19,3 +19,10 @@ CREATE TABLE IF NOT EXISTS webhook(
     GuildID integer PRIMARY KEY,
     Url text DEFAULT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS adminsettings(
+  GuildID integer PRIMARY KEY,
+  LogChannelID integer,
+  AntiSpam text DEFAULT "false"
+);
