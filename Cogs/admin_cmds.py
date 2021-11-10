@@ -170,6 +170,13 @@ class AdminCmds(commands.Cog):
             db.commit()
             #print('saved')
             await ctx.channel.send(f"Won't log messages in <#{before_delete}> anymore!")
+    
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        db.execute("DELETE FROM adminsettings WHERE GuildID = ?", guild.id)
+        db.commit()
+        print('removed guild from adminsettings table')
+
 
     @set_log_channel.error 
     async def setlogch_error_handling(self, ctx, error):
