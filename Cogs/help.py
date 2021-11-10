@@ -1107,7 +1107,7 @@ class HelpMsgTwo(commands.Cog):
                         value='```setlogch <channel-id>```')
 
     @help.command()
-    async def setlogch(self, ctx):
+    async def deletelogch(self, ctx):
         embed = discord.Embed(title="Delete Log Channel", colour=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
