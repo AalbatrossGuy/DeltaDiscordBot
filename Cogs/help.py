@@ -1105,6 +1105,7 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value='```setlogch <channel-id>```')
+        await ctx.channel.send(embed=embed)
 
     @help.command()
     async def deletelogch(self, ctx):
@@ -1120,7 +1121,7 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value='```deletelogch```')
-
+        await ctx.channel.send(embed=embed)
 
 def setup(client):
     DiscordComponents(client)
