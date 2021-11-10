@@ -54,7 +54,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedReddit = discord.Embed(title="Reddit Commands", color=discord.Colour.dark_purple(),
                                     timestamp=ctx.message.created_at)
-        embedReddit.add_field(name="Commands: ", value="`coming soon...`")
+        embedReddit.add_field(name="Commands: ", value="`r/memes`, `r/futurology`, `r/pshop`, `r/wallpaper`")
         embedReddit.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedReddit.set_thumbnail(
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
@@ -239,6 +239,54 @@ class HelpMsgTwo(commands.Cog):
                         value="Use this command to get info about the current song you are listening to in Spotify. It ONLY works if you have `Display Spotify as your status` on.")
         embed.add_field(name="Example",
                         value="```sp```")
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def r_memes(self, ctx):
+        embed=discord.Embed(title="r/memes", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        
+        embed.add_field(name="<a:typing:773870195336937532> r_memes",
+                        value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/memes.")
+        embed.add_field(name="Example",
+                        value="```r_memes```")
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def r_futurology(self, ctx):
+        embed=discord.Embed(title="r/futurology", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        
+        embed.add_field(name="<a:typing:773870195336937532> r_futurology",
+                        value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/Futurology.")
+        embed.add_field(name="Example",
+                        value="```r_futurology```")
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def r_pshop(self, ctx):
+        embed=discord.Embed(title="r/photoshopbattles", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        
+        embed.add_field(name="<a:typing:773870195336937532> r_pshop",
+                        value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/photoshopbattles.")
+        embed.add_field(name="Example",
+                        value="```r_pshop```")
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def r_wallpaper(self, ctx):
+        embed=discord.Embed(title="r/wallpapers", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+        
+        embed.add_field(name="<a:typing:773870195336937532> r_wallpaper",
+                        value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/wallpapers.")
+        embed.add_field(name="Example",
+                        value="```r_wallpaper```")
         await ctx.channel.send(embed=embed)
     
 

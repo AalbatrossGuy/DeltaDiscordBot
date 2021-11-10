@@ -3,15 +3,73 @@
 # /usr/bin/env python3
 
 import discord, random, requests
-from discord.ext import commands
-import aiohttp, io, asyncio
+from discord.ext import commands, tasks
+import aiohttp, io, asyncio, asyncpraw
 from discord_components import DiscordComponents, Select, SelectOption
 from datetime import timedelta
+from decouple import config
+
+
+Reddit = asyncpraw.Reddit(client_id=f"{config('REDDIT_CLIENTID')}", client_secret=f"{config('REDDIT_SECRET')}", username=f"{config('REDDIT_USERNAME')}", password=f"{config('REDDIT_PASSWORD')}", user_agent="pythonpraw")
+meme = []
+futurology = []
+pshop = []
+wallpaper = []
 
 
 class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    async def get_memes():
+        sub = await Reddit.subreddit("memes")
+        top = sub.top(limit=300)
+        hot = sub.hot(limit=300)
+        new = sub.new(limit=300)
+        async for submissions in random.choice([top, hot, new]):
+            meme.append(submissions) 
+        print('get_memes completed')
+        #print(meme)
+    
+    async def get_futurology():
+        sub = await Reddit.subreddit("Futurology")
+        top = sub.top(limit=300)
+        hot = sub.hot(limit=300)
+        new = sub.new(limit=300)
+        async for submissions in random.choice([top, hot, new]):
+            futurology.append(submissions)
+        print('get_futurology completed')
+
+
+    async def get_pshop():
+        sub = await Reddit.subreddit("photoshopbattles")
+        top = sub.top(limit=300)
+        hot = sub.hot(limit=300)
+        new = sub.new(limit=300)
+        async for submissions in random.choice([top, hot, new]):
+            pshop.append(submissions)
+        print('get_pshop completed')
+
+    async def get_wallpaper():
+        sub = await Reddit.subreddit("wallpaper")
+        top = sub.top(limit=300)
+        hot = sub.hot(limit=300)
+        new = sub.new(limit=300)
+        async for submissions in random.choice([top, hot, new]):
+            wallpaper.append(submissions)
+        print('get_wallpaper completed')
+
+
+    @staticmethod 
+    @tasks.loop(minutes=30)
+    async def get_posts():
+        print('getpost')
+        #print(Fun.meme)
+        await Fun.get_memes()
+        await Fun.get_futurology()
+        await Fun.get_pshop()
+        await Fun.get_wallpaper()
+        #print(meme)
 
     @commands.command(name='ytcomm')
     async def youtube_comment_fake(self, ctx, username: discord.Member, *, comment):
@@ -170,6 +228,101 @@ class Fun(commands.Cog):
                 await interaction.respond(embed=embedKoala, ephemeral=False)
             elif check_for.lower() == 'bird':
                 await interaction.respond(embed=embedBird, ephemeral=False)
+                
+   @commands.command(name="r_memes")
+    async def reddit_memes(self, ctx):
+        randompost = random.choice(meme)
+       # meme.append(randompost)
+        #print(randompost)
+        name = randompost.title if len(randompost.title)<34 else f"{randompost.title[:34]}..."
+        base_img = randompost.url 
+        img = randompost.url
+        #print(f"before - {img}")
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+            #print('executed')
+            img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
+        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg'):
+            img = randompost.url
+        link = randompost.permalink
+        comments = randompost.num_comments
+        likes = randompost.score
+        embed=discord.Embed(title=f"<:reddit:870239682775121980> {name}", color=ctx.author.color, timestamp=ctx.message.created_at, url=f"https://reddit.com{link}")
+        embed.set_image(url=img)
+        embed.set_footer(text=f"👍 {likes} 💬 {comments}")
+        #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
+        await ctx.channel.send(embed=embed)
+        #print(len(meme))
+        
+    @commands.command(name="r_futurology")
+    async def reddit_futurology(self, ctx):
+        randompost = random.choice(futurology)
+        name = randompost.title
+        base_img = randompost.url 
+        img = randompost.url
+        #print(f"before - {img}")
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+            #print('executed')
+            img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
+        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg'):
+            img = randompost.url
+            #print(f"after - {img}")
+        link = randompost.permalink
+        comments = randompost.num_comments
+        likes = randompost.score
+        embed=discord.Embed(title=f"<:reddit:870239682775121980> {name}", color=ctx.author.color, timestamp=ctx.message.created_at, url=f"https://reddit.com{link}")
+        embed.set_image(url=img)
+        embed.set_footer(text=f"👍 {likes} 💬 {comments}")
+        #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
+        await ctx.channel.send(embed=embed)
+        #print(len(futurology))
+
+    @commands.command(name="r_pshop")
+    async def reddit_pshop(self, ctx):
+        randompost = random.choice(pshop)
+        name = randompost.title
+        base_img = randompost.url 
+        img = randompost.url
+        #print(type(img))
+        #print(f"before - {img}")
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+            #print('executed')
+            img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+             #print('else executed')
+             img = randompost.url
+             #print(f"after - {img}")
+        link = randompost.permalink
+        comments = randompost.num_comments
+        likes = randompost.score
+        embed=discord.Embed(title=f"<:reddit:870239682775121980> {name}", color=ctx.author.color, timestamp=ctx.message.created_at, url=f"https://reddit.com{link}")
+        embed.set_image(url=img)
+        embed.set_footer(text=f"👍 {likes} 💬 {comments}")
+        #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
+        await ctx.channel.send(embed=embed)
+
+    @commands.command(name="r_wallpaper")
+    async def reddit_wallpaper(self, ctx):
+        randompost = random.choice(wallpaper)
+        name = randompost.title
+        base_img = randompost.url 
+        img = randompost.url
+        #print(type(img))
+        #print(f"before - {img}")
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+            #print('executed')
+            img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+             #print('else executed')
+             img = randompost.url
+             #print(f"after - {img}")
+        link = randompost.permalink
+        comments = randompost.num_comments
+        likes = randompost.score
+        embed=discord.Embed(title=f"<:reddit:870239682775121980> {name}", color=ctx.author.color, timestamp=ctx.message.created_at, url=f"https://reddit.com{link}")
+        embed.set_image(url=img)
+        embed.set_footer(text=f"👍 {likes} 💬 {comments}")
+        #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
+        await ctx.channel.send(embed=embed)
 
     # Error Handlers
     @youtube_comment_fake.error
@@ -221,5 +374,6 @@ class Fun(commands.Cog):
 
 
 def setup(client):
+    Fun.get_posts().start()
     DiscordComponents(client)
     client.add_cog(Fun(client))
