@@ -27,10 +27,10 @@ class HelpMsgTwo(commands.Cog):
                          icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
+        embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> ⚠️ Delta's `run` command has been temporarily disabled due to some issues.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> Delta is working properly now. All commands are normal and `run` command is back online.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -107,7 +107,7 @@ class HelpMsgTwo(commands.Cog):
                     SelectOption(label="Reddit", value="reddit", emoji=self.client.get_emoji(870239682775121980)),
                     SelectOption(label="Programming", value="programming", emoji=self.client.get_emoji(851778689648689152)),
                     SelectOption(label="Fun", value="fun", emoji=self.client.get_emoji(907089878905389129)),
-                    SelectOption(label="Admin", value="admin", emoji=self.client.get_emoji(907090210435788810)),
+                    SelectOption(label="Moderation", value="admin", emoji=self.client.get_emoji(907090210435788810)),
                     SelectOption(label="Utilities", value="utility", emoji=self.client.get_emoji(870262838789296191)),
                     SelectOption(label="Settings", value="settings", emoji=self.client.get_emoji(781865530256130068))
                 ],
