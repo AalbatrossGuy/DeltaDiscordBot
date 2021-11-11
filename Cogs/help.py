@@ -30,7 +30,7 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Admin\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> Updates are here! Do `*chlog` to get more info on it.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> ⚠️ Delta's `run` command has been temporarily disabled due to some issues.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -54,7 +54,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedReddit = discord.Embed(title="Reddit Commands", color=discord.Colour.dark_purple(),
                                     timestamp=ctx.message.created_at)
-        embedReddit.add_field(name="Commands: ", value="`r/memes`, `r/futurology`, `r/pshop`, `r/wallpaper`")
+        embedReddit.add_field(name="Commands: ", value="`r_memes`, `r_futurology`, `r_pshop`, `r_wallpaper`")
         embedReddit.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedReddit.set_thumbnail(
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
