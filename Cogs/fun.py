@@ -229,7 +229,7 @@ class Fun(commands.Cog):
             elif check_for.lower() == 'bird':
                 await interaction.respond(embed=embedBird, ephemeral=False)
                 
-   @commands.command(name="r_memes")
+    @commands.command(name="r_memes")
     async def reddit_memes(self, ctx):
         randompost = random.choice(meme)
        # meme.append(randompost)
@@ -374,6 +374,6 @@ class Fun(commands.Cog):
 
 
 def setup(client):
-    Fun.get_posts().start()
+    Fun.get_posts.start()
     DiscordComponents(client)
     client.add_cog(Fun(client))
