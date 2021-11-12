@@ -48,7 +48,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedInfo = discord.Embed(title="Info Commands", color=discord.Colour.dark_teal(),
                                   timestamp=ctx.message.created_at)
-        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `sinfo`")
+        embedInfo.add_field(name="Commands: ", value="`ping`, `avatar`, `meminfo`, `sinfo`, `einfo`")
         embedInfo.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedInfo.set_thumbnail(url="https://cdn.pixabay.com/photo/2015/10/31/11/59/information-1015297_1280.jpg")
 
@@ -117,10 +117,10 @@ class HelpMsgTwo(commands.Cog):
             while ctx.message.created_at < tdelta:
                 interaction = await self.client.wait_for("select_option", timeout=60)
                 if interaction.author.id == ctx.author.id and interaction.message.embeds[0].timestamp < tdelta:
-                    # DEBUG 
+                    # DEBUG
                     #check_for = interaction.component[0]
                     #print(type(interaction))
-                    #print(interaction) 
+                    #print(interaction)
                     #print(interaction.values[0])
                     if interaction.values[0] == 'programming':
                         await interaction.respond(embed=embedProgramming)
@@ -246,7 +246,7 @@ class HelpMsgTwo(commands.Cog):
         embed=discord.Embed(title="r/memes", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-        
+
         embed.add_field(name="<a:typing:773870195336937532> r_memes",
                         value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/memes.")
         embed.add_field(name="Example",
@@ -258,7 +258,7 @@ class HelpMsgTwo(commands.Cog):
         embed=discord.Embed(title="r/futurology", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-        
+
         embed.add_field(name="<a:typing:773870195336937532> r_futurology",
                         value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/Futurology.")
         embed.add_field(name="Example",
@@ -270,7 +270,7 @@ class HelpMsgTwo(commands.Cog):
         embed=discord.Embed(title="r/photoshopbattles", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-        
+
         embed.add_field(name="<a:typing:773870195336937532> r_pshop",
                         value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/photoshopbattles.")
         embed.add_field(name="Example",
@@ -282,13 +282,13 @@ class HelpMsgTwo(commands.Cog):
         embed=discord.Embed(title="r/wallpapers", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-        
+
         embed.add_field(name="<a:typing:773870195336937532> r_wallpaper",
                         value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/wallpapers.")
         embed.add_field(name="Example",
                         value="```r_wallpaper```")
         await ctx.channel.send(embed=embed)
-    
+
 
     @help.command()
     async def set_leavemsg(self, ctx):
@@ -600,12 +600,12 @@ class HelpMsgTwo(commands.Cog):
 #                               timestamp=ctx.message.created_at)
 #         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
 #         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-# 
+#
 #         # Context
-# 
+#
 #         embed.add_field(name="<a:typing:773870195336937532> qr <size> <text>",
 #                         value="Use this command to generate a qrcode based on your text. The <size> parameter takes a number and decides the size of the QR image. The second parameter, i.e, <text> takes the actual message to encode.")
-# 
+#
 #         embed.add_field(name="Example",
 #                         value="```qr 10 Hello World.```")
 #         await ctx.send(embed=embed)
@@ -616,12 +616,12 @@ class HelpMsgTwo(commands.Cog):
 #                               timestamp=ctx.message.created_at)
 #         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
 #         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-# 
+#
 #         # Context
-# 
+#
 #         embed.add_field(name="<a:typing:773870195336937532> sinfo",
 #                         value="Use this command to decode a qr code. Make sure u attach the image of the qrcode as a discord attachment.")
-# 
+#
 #         embed.add_field(name="Example",
 #                         value="```qrdec <file-attached>```")
 #         await ctx.send(embed=embed)
@@ -729,28 +729,28 @@ class HelpMsgTwo(commands.Cog):
 #                               timestamp=ctx.message.created_at)
 #         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
 #         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-# 
+#
 #         # Context
-# 
+#
 #         embed.add_field(name="<a:typing:773870195336937532> lockdown",
 #                         value="Use this command to lock the channel in which it has been executed. You must have the `Manage Channels` permission to perform this command.")
-# 
+#
 #         embed.add_field(name="Example",
 #                         value="```lockdown```")
 #         await ctx.send(embed=embed)
-# 
+#
 #     @help.command()
 #     async def unlock(self, ctx):
 #         embed = discord.Embed(title="Unlock A Channel", colour=discord.Colour.dark_gold(),
 #                               timestamp=ctx.message.created_at)
 #         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
 #         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
-# 
+#
 #         # Context
-# 
+#
 #         embed.add_field(name="<a:typing:773870195336937532> unlock",
 #                         value="Use this command to unlock the channel where this command is executed. You must have the `Manage Channels` permission to perform this command.")
-# 
+#
 #         embed.add_field(name="Example",
 #                         value="```unlock```")
 #         await ctx.send(embed=embed)
@@ -1185,6 +1185,23 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="Example",
                         value='```deletelogch```')
         await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def einfo(self, ctx):
+        embed = discord.Embed(title="Emoji Info", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> einfo <name/emoji>",
+                        value="Use this command to get info on emojis. You can either provide the emojis as arguments or their names as arguments. The bot will only give info on the emojis if the bot happens to be in a server with that emoji.")
+
+        embed.add_field(name="Example",
+                        value='```einfo time```')
+        await ctx.channel.send(embed=embed)
+
 
 def setup(client):
     DiscordComponents(client)
