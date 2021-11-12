@@ -194,7 +194,7 @@ class Eval(commands.Cog):
         return description
 
     @ commands.command(
-        name='cheat.sh')
+        name='cheatsh')
     async def cheat_sheet(
             self, ctx, language: str, *search_terms: str
     ):
