@@ -24,7 +24,7 @@ class HelpMsgTwo(commands.Cog):
 
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy",
-                         icon_url='https://cdn.discordapp.com/attachments/831377063382089798/870677659032617010/static_logo_choice.png')
+                         icon_url='https://cdn.discordapp.com/attachments/907133573172170833/908527076246700112/static_logo_choice.jpg')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
         embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
@@ -42,7 +42,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedProgramming = discord.Embed(title="Programming Commands", color=discord.Colour.dark_blue(),
                                          timestamp=ctx.message.created_at)
-        embedProgramming.add_field(name="Commands: ", value="`run`, `more coming soon...`")
+        embedProgramming.add_field(name="Commands: ", value="`run`, `cheatsh`, `more coming soon...`")
         embedProgramming.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedProgramming.set_thumbnail(url="https://cdn.britannica.com/30/199930-131-B3D1D347/computer.jpg")
 
@@ -625,6 +625,21 @@ class HelpMsgTwo(commands.Cog):
 #         embed.add_field(name="Example",
 #                         value="```qrdec <file-attached>```")
 #         await ctx.send(embed=embed)
+
+    @help.command()
+    async def cheatsh(self, ctx):
+        # Decorators
+
+        embed = discord.Embed(title="Cheat.sh/", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> cheatsh <lang> <query>", value="Returns a simplified documention of the <query> provided for a specific <lang>. Official Website: [Cheat.sh](https://cheat.sh/)")
+        await ctx.send(embed=embed)
+
 
     @help.command()
     async def hbcharts(self, ctx):

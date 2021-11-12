@@ -6,6 +6,7 @@ import discord, json, os
 from discord.ext import commands
 import io, contextlib, textwrap, requests, re
 from pistonapi import PistonAPI
+from urllib.parse import quote_plus
 
 langs = json.loads(requests.get('https://emkc.org/api/v2/piston/runtimes').text)
 
@@ -50,21 +51,21 @@ def format_java(code: str):
     return '\n'.join(imports + codes)
 
 
-# def format_c(code: str):
-#     if 'main' in code:
-#         return code
-#
-#     imports = []
-#     codes = ['int main() {']
-#
-#     lines = code.replace(';', ';\n').split('\n')
-#     for line in lines:
-#         if line.lstrip().startswith('#include'):
-#             imports.append(line)
-#         else:
-#             codes.append(line)
-#     codes.append('return 0;\n}')
-#     return '\n'.join(imports + codes)
+def format_c(code: str):
+     if 'main' in code:
+         return code
+
+     imports = []
+     codes = ['#include<stdio.h>\nint main() {']
+
+     lines = code.replace(';', ';\n').split('\n')
+     for line in lines:
+         if line.lstrip().startswith('#include'):
+             imports.append(line)
+         else:
+             codes.append(line)
+     codes.append('return 0;\n}')
+     return '\n'.join(imports + codes)
 
 
 def format_go(code: str):
@@ -86,7 +87,7 @@ def format_go(code: str):
     return '\n'.join(package + imports + codes)
 
 
-def format_c_cpp(code: str):
+def format_c(code: str):
     if 'main' in code:
         return code
 
@@ -109,7 +110,7 @@ def format_csharp(code: str):
         return code
 
     imports = []
-    codes = ['class Program{']
+    codes = ['using System;\nnamespace Boiler{\nclass Program{']
     if not 'static void Main' in code:
         codes.append('static void Main(string[] args){')
 
@@ -123,7 +124,8 @@ def format_csharp(code: str):
     if not 'static void Main' in code:
         codes.append('}')
     codes.append('}')
-
+    codes.append('}')
+    #print('\n'.join(imports+codes))
     return '\n'.join(imports + codes)
 
 
@@ -146,10 +148,10 @@ class Eval(commands.Cog):
                 # print('yes')
                 stdin = format_java(stdin)
             if matchlanguage['language'] == 'c' or matchlanguage['language'] == 'cpp':
-                stdin = format_c_cpp(stdin)
+                stdin = format_c(stdin)
             if matchlanguage['language'] == 'go':
-                stdin = format_go(stdin)
-            if matchlanguage['language'] == 'csharp':
+               stdin = format_go(stdin)
+            if matchlanguage['language'] == 'csharp.net':
                 stdin = format_csharp(stdin)
             else:
                 stdin = stdin
@@ -173,15 +175,48 @@ class Eval(commands.Cog):
     async def run_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
-                                               description="```ini\nMake sure you have ran the command using the arguments, [lang] and [code]```",
+                                               description="```ini\nMake sure you have ran the command using the arguments, [lang] and [code] within codeblocks(`)```",
                                                timestamp=ctx.message.created_at, color=discord.Color.dark_green()))
 
-    # @commands.command(name='cheatsh')
-    # async def cheat_sh_data(self, ctx, language:str, *, query):
-    #     query = query.replace(" ", "%20")
-    #     url = f"https://cheat.sh/{language}/{query}"
-    #     response = requests.request("GET", url=url)
-    #     await ctx.channel.send(f"```{language}\n{response.text[:1900]}```")
+    @staticmethod
+    def result_fmt(url: str, language: str, body_text: str) -> str:
+        """Format Result."""
+        body_space = min(1992 - len(language) - len(url), 1000)
+
+        if len(body_text) > body_space:
+            description = (
+                f'```{language}\n{body_text[:body_space - 20]}'
+                + f'\n... (too many lines)```'
+            )
+            return description
+
+        description = f'\n```{language}\n{body_text}```'
+        return description
+
+    @ commands.command(
+        name='cheat.sh')
+    async def cheat_sheet(
+            self, ctx, language: str, *search_terms: str
+    ):
+        url = f'https://cheat.sh/{quote_plus(language)}'
+        if search_terms:
+            url += f'/{quote_plus(" ".join(search_terms))}'
+        escape_tt = str.maketrans({'`': '\\`'})
+        ansi_re = re.compile(r'\x1b\[.*?m')
+        
+        response = requests.get(url, headers={'User-Agent': 'curl/7.68.0'})
+        result = ansi_re.sub('', response.text).translate(escape_tt)
+        embed=discord.Embed(title="Cheat.sh tells...", color=discord.Color.dark_blue(), timestamp=ctx.message.created_at, description=self.result_fmt(url, language, result), url=url)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        await ctx.send(embed=embed)
+        
+    @cheat_sheet.error 
+    async def cheat_sheet_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have ran the command using the arguments, [lang] and [query].```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.dark_green()))
 
 def setup(client):
     client.add_cog(Eval(client))
+ 
