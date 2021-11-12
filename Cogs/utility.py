@@ -12,7 +12,7 @@ from aiohttp import ClientSession
 from datetime import timezone
 from currency_converter import CurrencyConverter
 from customs.customs import circle
-from PIL import Image, ImageDraw, ImageFont  
+from PIL import Image, ImageDraw, ImageFont
 import dateutil.parser
 
 
@@ -104,7 +104,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added cheatsh command and fixed some bugs[NEW+BUG-FIX]\n+ run command has been fixed[BUG-FIX].\n+ Added some reddit commands[NEW].\n- run command is currently disabled due to some issues with the API[BUG].\n+ Added Log functionality (Optional) to log all mod commands used in a server[NEW].\n- Removed lockdown and unlock commands[DELETE].```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added cheatsh command and fixed some bugs[NEW+BUG-FIX]\n+ Added einfo command[NEW].\n+ Added some reddit commands[NEW].\n- run command is currently disabled due to some issues with the API[BUG].\n+ Added Log functionality (Optional) to log all mod commands used in a server[NEW].\n- Removed lockdown and unlock commands[DELETE].```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
@@ -247,7 +247,7 @@ class Utilities(commands.Cog):
             await ctx.channel.send(file=file, embed=embed)
             #print('sent')
 
-    
+
     # Many deubug statements. Please ignore
 
     @commands.command(name="meminfo")
@@ -291,7 +291,7 @@ class Utilities(commands.Cog):
         draw.text((200, 100), date, font=fontdate, fill="#000000")
         base.paste(pfp, (30, 30), pfp)
         #print('base pasted...writing done')
-        
+
 
         # ---------------- Embed ---------------------
 
@@ -425,11 +425,11 @@ class Utilities(commands.Cog):
 #         )
 #         qr.add_data(f'{encode}')
 #         qr.make(fit=True)
-# 
+#
 #         img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
 #         buffer_obj = BytesIO()
 #         img.save(buffer_obj, 'png')
-# 
+#
 #         with BytesIO() as imgbytes:
 #             img.save(imgbytes, 'png')
 #             imgbytes.seek(0)
@@ -451,7 +451,7 @@ class Utilities(commands.Cog):
     async def spotify_info(self, ctx, user:discord.Member=None):
         user = user or ctx.author
         check_spotify = next((activity for activity in user.activities if isinstance(activity, discord.Spotify)), None)
-        
+
         if check_spotify == None:
             await ctx.channel.send(f"<:nospotify:906890136996937729> {user.name} is not listening to Spotify now!")
         else:
@@ -475,7 +475,7 @@ class Utilities(commands.Cog):
             artist_text_position = 152, 350
             album_text_position = 152, 375
             start_duration_text_position = 9, 405
-            end_duration_text_position = 582,  405 
+            end_duration_text_position = 582,  405
 
             # Draws
             draw_on_image = ImageDraw.Draw(track_background_image)
@@ -487,7 +487,7 @@ class Utilities(commands.Cog):
             draw_on_image.text(end_duration_text_position,
                 f"{dateutil.parser.parse(str(check_spotify.duration)).strftime('%M:%S')}",
                 'black', font=end_duration_font)
-        
+
             with BytesIO() as imgbyte:
                 track_background_image.convert('RGB').save(imgbyte, "PNG")
                 imgbyte.seek(0)
@@ -533,6 +533,37 @@ class Utilities(commands.Cog):
             url="https://www.investopedia.com/thmb/lqOcGlE7PI6vLMzhn5EDdO0HvYk=/1337x1003/smart/filters:no_upscale()/GettyImages-1054017850-7ef42af7b8044d7a86cfb2bff8641e1d.jpg")
 
         await ctx.reply(embed=embed)
+
+    @commands.command(name='einfo')
+    async def emoji_info(self, ctx, emoji:discord.Emoji):
+        name = emoji.name
+        animated = emoji.animated
+        created_at = emoji.created_at
+        guild = emoji.guild
+        available = emoji.available
+        url = str(emoji.url)
+        emoji_id = emoji.id
+        #print(animated, created_at, guild, available, url, emoji_id)
+        if animated == True:
+            embed=discord.Embed(title=f"<a:{name}:{emoji_id}> Emoji Info", color=discord.Color.blurple(), timestamp=ctx.message.created_at)
+        elif animated == False:
+            embed=discord.Embed(title=f"<:{name}:{emoji_id}> Emoji Info", color=discord.Color.blurple(), timestamp=ctx.message.created_at)
+        embed.add_field(name="<:foxia:832549597892313159> Emoji Name", value=name, inline=True)
+        embed.add_field(name="🌐 Emoji ID", value=emoji_id, inline=True)
+        embed.add_field(name="<a:nitrobaby:836902390766108694> Is animated?", value=animated, inline=True)
+        embed.add_field(name="<a:time:906880876451876875> Created At", value=f"<t:{int(created_at.replace(tzinfo=timezone.utc).timestamp())}:R>", inline=True)
+        embed.add_field(name="<:server:908295956011810816> Which Guild", value=guild)
+        embed.add_field(name="<:correct:773145931859886130> Available?", value=available)
+        embed.set_thumbnail(url=url)
+
+        await ctx.send(embed=embed, components=[Button(style=ButtonStyle.URL, label="Emoji Link", url=url, emoji=self.client.get_emoji(908297685545656370))])
+
+    @emoji_info.error
+    async def emoji_info_error_handling(self, ctx, error):
+        if isinstance(error, commands.EmojiNotFound):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Emoji Not Found",
+                                               description="```ini\nMake sure you have provided the correct [emoji/emoji name]. Only the information of [custom emojis] are shown.```",
+                                               timestamp=ctx.message.created_at, color=discord.Color.dark_gold()))
 
     # Error Handlers
     @user_profileimage.error
