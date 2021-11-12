@@ -138,8 +138,8 @@ import subprocess
 
 """ Horizontal Bar Chart related tests"""
 
-# import matplotlib.pyplot as plt 
-# import numpy as np 
+# import matplotlib.pyplot as plt
+# import numpy as np
 # import qrcode
 # from PIL import Image
 
@@ -281,7 +281,7 @@ langtest = 'javascript'
 # with open('languages.json', 'w') as file:
 # file.write(json.dumps(langs))
 
-# read collected langs and versions 
+# read collected langs and versions
 # langs = json.loads(open('languages.json').read())
 
 # def i_run_code(lang_call):
@@ -340,3 +340,5 @@ langtest = 'javascript'
 # version = version_info()[0][:]
 # print(version)
 # # 6bed3dd8
+
+print(max(map(int, list(input().split(',')))))
