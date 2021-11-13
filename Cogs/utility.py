@@ -14,7 +14,7 @@ from currency_converter import CurrencyConverter
 from customs.customs import circle
 from PIL import Image, ImageDraw, ImageFont
 import dateutil.parser
-
+from discord_components import DiscordComponents, Button, ButtonStyle
 
 
 def convert_bytes(bytes_number):
@@ -627,4 +627,5 @@ class Utilities(commands.Cog):
 
 
 def setup(client):
+    DiscordComponents(client)
     client.add_cog(Utilities(client))
