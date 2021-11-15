@@ -74,7 +74,7 @@ class Utilities(commands.Cog):
             await ctx.channel.send(
                 'You cannot delete a webhook unless u have created it. Run `set_webhook` to create a webhook first')
         elif guild_id_exists is True:
-            db.execute("DELETE FROM webhook WHERE GuildID = ?ox variable stores th", (ctx.message.guild.id))
+            db.execute("DELETE FROM webhook WHERE GuildID = ?", (ctx.message.guild.id))
             db.commit()
             await ctx.channel.send("⚒  The webhook for this channel has been deleted from the database.")
 
@@ -104,7 +104,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added cheatsh command and fixed some bugs[NEW+BUG-FIX]\n+ Added einfo command[NEW].\n+ Added some reddit commands[NEW].\n- run command is currently disabled due to some issues with the API[BUG].\n+ Added Log functionality (Optional) to log all mod commands used in a server[NEW].\n- Removed lockdown and unlock commands[DELETE].```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Fixed delete_webhook command[BUG-FIX].\n+ Added einfo command[NEW].\n+ Added cheatsh command and fixed some bugs[NEW+BUG-FIX].\n- run command is currently disabled due to some issues with the API[BUG].\n+ Added Log functionality (Optional) to log all mod commands used in a server[NEW].```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
