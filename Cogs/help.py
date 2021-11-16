@@ -30,7 +30,7 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> Updates are here! Do `chlog` to get more info on them.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> Updates are here! Do `chlog` to get more info on them.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -60,7 +60,7 @@ class HelpMsgTwo(commands.Cog):
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
 
         embedFun = discord.Embed(title="Fun Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
-        embedFun.add_field(name="Commands: ", value="`say`, `ytcomm`, `twt`, `pet`, `fact`")
+        embedFun.add_field(name="Commands: ", value="`say`, `ytcomm`, `twt`, `pet`, `fact`, `akinator`")
         embedFun.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedFun.set_thumbnail(
             url="https://www.thesimpledollar.com/wp-content/uploads/2020/04/TheSimpleDollar-Fun-With-Friends.png")
@@ -1202,6 +1202,21 @@ class HelpMsgTwo(commands.Cog):
                         value='```einfo time```')
         await ctx.channel.send(embed=embed)
 
+    @help.command()
+    async def akinator(self, ctx):
+        embed = discord.Embed(title="Akinator - The Game", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> akinator",
+                        value="Use this command to play the game, Akinator with Delta.")
+
+        embed.add_field(name="Example",
+                        value='```akinator```')
+        await ctx.channel.send(embed=embed)
 
 def setup(client):
     DiscordComponents(client)
