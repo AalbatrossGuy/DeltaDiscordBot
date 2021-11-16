@@ -8,13 +8,14 @@ import aiohttp, io, asyncio, asyncpraw
 from discord_components import DiscordComponents, Select, SelectOption
 from datetime import timedelta
 from decouple import config
-
+from akinator.async_aki import Akinator
 
 Reddit = asyncpraw.Reddit(client_id=f"{config('REDDIT_CLIENTID')}", client_secret=f"{config('REDDIT_SECRET')}", username=f"{config('REDDIT_USERNAME')}", password=f"{config('REDDIT_PASSWORD')}", user_agent="pythonpraw")
 meme = []
 futurology = []
 pshop = []
 wallpaper = []
+robotics =  []
 
 
 class Fun(commands.Cog):
@@ -27,10 +28,19 @@ class Fun(commands.Cog):
         hot = sub.hot(limit=300)
         new = sub.new(limit=300)
         async for submissions in random.choice([top, hot, new]):
-            meme.append(submissions) 
+            meme.append(submissions)
         print('get_memes completed')
         #print(meme)
-    
+
+    async def get_robotics():
+        sub = await Reddit.subreddit("robotics")
+        top = sub.top(limit=300)
+        hot = sub.hot(limit=300)
+        new = sub.new(limit=300)
+        async for submissions in random.choice([top, hot, new]):
+            robotics.append(submissions)
+        print('get_robotics completed')
+
     async def get_futurology():
         sub = await Reddit.subreddit("Futurology")
         top = sub.top(limit=300)
@@ -60,7 +70,7 @@ class Fun(commands.Cog):
         print('get_wallpaper completed')
 
 
-    @staticmethod 
+    @staticmethod
     @tasks.loop(minutes=30)
     async def get_posts():
         print('getpost')
@@ -69,6 +79,7 @@ class Fun(commands.Cog):
         await Fun.get_futurology()
         await Fun.get_pshop()
         await Fun.get_wallpaper()
+        await Fun.get_robotics()
         #print(meme)
 
     @commands.command(name='ytcomm')
@@ -228,14 +239,14 @@ class Fun(commands.Cog):
                 await interaction.respond(embed=embedKoala, ephemeral=False)
             elif check_for.lower() == 'bird':
                 await interaction.respond(embed=embedBird, ephemeral=False)
-                
+
     @commands.command(name="r_memes")
     async def reddit_memes(self, ctx):
         randompost = random.choice(meme)
        # meme.append(randompost)
         #print(randompost)
         name = randompost.title if len(randompost.title)<34 else f"{randompost.title[:34]}..."
-        base_img = randompost.url 
+        base_img = randompost.url
         img = randompost.url
         #print(f"before - {img}")
         if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
@@ -252,12 +263,12 @@ class Fun(commands.Cog):
         #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
         await ctx.channel.send(embed=embed)
         #print(len(meme))
-        
+
     @commands.command(name="r_futurology")
     async def reddit_futurology(self, ctx):
         randompost = random.choice(futurology)
         name = randompost.title
-        base_img = randompost.url 
+        base_img = randompost.url
         img = randompost.url
         #print(f"before - {img}")
         if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
@@ -280,7 +291,31 @@ class Fun(commands.Cog):
     async def reddit_pshop(self, ctx):
         randompost = random.choice(pshop)
         name = randompost.title
-        base_img = randompost.url 
+        base_img = randompost.url
+        img = randompost.url
+        #print(type(img))
+        #print(f"before - {img}")
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+            #print('executed')
+            img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+             #print('else executed')
+             img = randompost.url
+             #print(f"after - {img}")
+        link = randompost.permalink
+        comments = randompost.num_comments
+        likes = randompost.score
+        embed=discord.Embed(title=f"<:reddit:870239682775121980> {name}", color=ctx.author.color, timestamp=ctx.message.created_at, url=f"https://reddit.com{link}")
+        embed.set_image(url=img)
+        embed.set_footer(text=f"👍 {likes} 💬 {comments}")
+        #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
+        await ctx.channel.send(embed=embed)
+
+    @commands.command(name="r/robotics")
+    async def reddit_robotics(self, ctx):
+        randompost = random.choice(robotics)
+        name = randompost.title
+        base_img = randompost.url
         img = randompost.url
         #print(type(img))
         #print(f"before - {img}")
@@ -304,7 +339,7 @@ class Fun(commands.Cog):
     async def reddit_wallpaper(self, ctx):
         randompost = random.choice(wallpaper)
         name = randompost.title
-        base_img = randompost.url 
+        base_img = randompost.url
         img = randompost.url
         #print(type(img))
         #print(f"before - {img}")
@@ -323,6 +358,71 @@ class Fun(commands.Cog):
         embed.set_footer(text=f"👍 {likes} 💬 {comments}")
         #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
         await ctx.channel.send(embed=embed)
+
+    @commands.command(name="akinator")
+    async def akinator(self, ctx):
+        await ctx.reply("**Footnote**\n✅ = Yes\n❌ = No\n🤷‍♂️ = Most Probably\n😕 = Probably No\n⁉️ = I don't know\n😔 = Force Quit\n◀️ = Back\n\n<a:typing:773870195336937532> React after Delta has assigned ALL the emojis!!")
+        aki = Akinator()
+        first = await ctx.send("Starting...")
+        q = await aki.start_game()
+        skirt = aki.step
+
+        game_embed = discord.Embed(title=f"**Delta's Own Akinator!**", description=q, color=discord.Color.blurple())
+        game_embed.set_footer(text=f"Wait for Delta to add reactions before you give your response.")
+
+        option_map = {'✅': 'y', '❌':'n', '🤷‍♂️':'p', '😕':'pn', '⁉️': 'i'}
+        def option_check(reaction, user):
+                return user==ctx.author and reaction.emoji in ['✅', '❌', '🤷‍♂️', '😕', '⁉️', '😔', '◀️']
+        count = 0
+        while aki.progression <= 80:
+            if count == 0:
+                await first.delete()
+                count += 1
+            try:
+                await game_message.delete()
+            except:
+                pass
+            game_message = await ctx.send(embed=game_embed)
+
+
+            for emoji in ['✅', '❌', '🤷‍♂️', '😕', '⁉️', '😔', '◀️']:
+                await game_message.add_reaction(emoji)
+            option, _ = await self.client.wait_for('reaction_add', check=option_check, timeout=360)     #taking user's response
+            if option.emoji == '😔':
+                embed=discord.Embed(description="<:hellno:871582891585437759> **Game Has been Force Quit!**", color=0x00ffff)
+                return await game_message.edit(embed=embed)
+            async with ctx.channel.typing():
+                if option.emoji == '◀️':
+                    try:
+                        q = await aki.back()
+                    except:
+                        pass
+                    #editing embed for next question
+                    game_embed = discord.Embed(title=f"**Delta's Akinator**", description=q, color=discord.Color.blurple())
+                    continue
+                else:
+                    q = await aki.answer(option_map[option.emoji])
+
+                    game_embed = discord.Embed(title=f"**Delta's Akinator**", description=q, color=discord.Color.blurple())
+                    continue
+
+        await aki.win()
+
+        result_embed = discord.Embed(title="My guess....", colour=discord.Color.dark_blue())
+        result_embed.add_field(name=f"My first guess is **{aki.first_guess['name']}**", value=aki.first_guess['description'], inline=False)
+        result_embed.set_footer(text="Was I right? Add the reaction accordingly.")
+        result_embed.set_image(url=aki.first_guess['absolute_picture_path'])
+        result_message = await ctx.send(embed=result_embed)
+        for emoji in ['✅', '❌']:
+            await result_message.add_reaction(emoji)
+        option, _ = await self.client.wait_for('reaction_add', check=option_check, timeout=120)
+        if option.emoji ==  '✅':
+            final_embed = discord.Embed(title="I have big brain!", color=discord.Color.green())
+        elif option.emoji == '❌':
+            final_embed = discord.Embed(title="Bruh", description="Wanna try again?", color=discord.Color.red())
+           #this does not restart/continue a game from where it was left off, but you can program that in if you like.
+
+        return await ctx.send(embed=final_embed)
 
     # Error Handlers
     @youtube_comment_fake.error
