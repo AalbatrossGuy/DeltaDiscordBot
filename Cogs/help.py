@@ -58,7 +58,7 @@ class HelpMsgTwo(commands.Cog):
 
         embedReddit = discord.Embed(title="Reddit Commands", color=discord.Colour.dark_purple(),
                                     timestamp=ctx.message.created_at)
-        embedReddit.add_field(name="Commands: ", value="`r_memes`, `r_futurology`, `r_pshop`, `r_wallpaper`")
+        embedReddit.add_field(name="Commands: ", value="`r_memes`, `r_futurology`, `r_pshop`, `r_wallpaper`, `r_robotics`")
         embedReddit.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedReddit.set_thumbnail(
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
@@ -255,6 +255,18 @@ class HelpMsgTwo(commands.Cog):
                         value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/memes.")
         embed.add_field(name="Example",
                         value="```r_memes```")
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def r_robotics(self, ctx):
+        embed=discord.Embed(title="r/memes", colour=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        embed.add_field(name="<a:typing:773870195336937532> r_robotics",
+                        value="Use this command to get top/hot/new (randomized) posts from the subreddit, r/robotics.")
+        embed.add_field(name="Example",
+                        value="```r_robotics```")
         await ctx.channel.send(embed=embed)
 
     @help.command()
