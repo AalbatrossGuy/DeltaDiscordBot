@@ -311,7 +311,7 @@ class Fun(commands.Cog):
         #embed.set_thumbnail(url="https://sm.mashable.com/mashable_in/news/r/reddit-is-/reddit-is-secretly-exploring-a-clubhouse-like-voice-chat-fea_nqpz.jpg")
         await ctx.channel.send(embed=embed)
 
-    @commands.command(name="r/robotics")
+    @commands.command(name="r_robotics")
     async def reddit_robotics(self, ctx):
         randompost = random.choice(robotics)
         name = randompost.title

@@ -31,9 +31,6 @@ class HelpMsgTwo(commands.Cog):
                         inline=True)
 
         embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> Updates are here! Do `chlog` to get more info on them.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
-=======
-        embed.add_field(name="📣 __News__[4]", value="<:rightarrow:870236404301578250> New Updates will be slower from now on.\n<:rightarrow:870236404301578250> Want to improve the `sp` command and add some reddit commands.\n<:rightarrow:870236404301578250> Trying to improve Delta's calculator.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
->>>>>>> be187cb911228abb220c27467a10970195451c42
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
