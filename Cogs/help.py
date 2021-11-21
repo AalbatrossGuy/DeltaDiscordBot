@@ -89,7 +89,7 @@ class HelpMsgTwo(commands.Cog):
         embedSettings = discord.Embed(title="Setting Commands", color=discord.Color.blurple(),
                                       timestamp=ctx.message.created_at)
         embedSettings.add_field(name="Commands: ",
-                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`, `chlog`, `setlogch`, `deletelogch`, `set_verify`")
+                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`, `chlog`, `setlogch`, `deletelogch`, `set_verify`, `set_msglog`")
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(
             url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
@@ -1259,6 +1259,23 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="Example",
                         value='```set_verify add @Verified #verify-channel\nset_verify delete```')
         await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def set_msglog(self, ctx):
+        embed = discord.Embed(title="Setup Message Logging", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> set_msglog <operation> <channel>",
+                        value="Use this command to setup Member Verification. **<operation>** - Either `add` or `delete`, **<channel>** - The channel where the message edits or deletes will be logged. Can be set in only one channel. If <operation> is `delete`, don't use any arguments.")
+
+        embed.add_field(name="Example",
+                        value='```set_msglog add #verify-channel\nset_msglog delete```')
+        await ctx.channel.send(embed=embed)
+
 
 def setup(client):
     DiscordComponents(client)

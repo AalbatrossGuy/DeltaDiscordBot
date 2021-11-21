@@ -45,8 +45,14 @@ class Utilities(commands.Cog):
         webp = member.avatar_url_as(format='webp')
         png = member.avatar_url_as(format='png')
 
-        embed = discord.Embed(title=f"Avatar of {member}", description=f"[jpg]({jpg}) | [png]({png}) | [webp]({webp})",
-                              color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
+        if member.is_avatar_animated() == False:
+            embed = discord.Embed(title=f"Avatar of {member}", description=f"[JPG]({jpg}) | [PNG]({png}) | [WEBP]({webp})",
+                color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
+        else:
+            gif = member.avatar_url_as(format='gif')
+            embed = discord.Embed(title=f"Avatar of {member}", description=f"[JPG]({jpg}) | [PNG]({png}) | [WEBP]({webp}) | [GIF]({gif})",
+                color=discord.Colour.dark_gold(), timestamp=ctx.message.created_at)
+
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
         embed.set_image(url=member.avatar_url)
@@ -106,7 +112,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added Message Logging System For Delta[NEW].\n+ Improved avatar command[NEW].\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
