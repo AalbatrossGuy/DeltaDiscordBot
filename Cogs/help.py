@@ -15,30 +15,12 @@ class HelpMsgTwo(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def help(self, ctx):
-        p = pathlib.Path('./')
-        cm = cr = fn = cl = ls = fc = 0
-        for f in p.rglob('*.py'):
-            if str(f).startswith("venv"):
-                continue
-            fc += 1
-            with f.open(encoding='utf8') as of:
-                for l in of.readlines():
-                    l = l.strip()
-                    if l.startswith('class'):
-                        cl += 1
-                    if l.startswith('def'):
-                        fn += 1
-                    if l.startswith('async def'):
-                        cr += 1
-                    if '#' in l:
-                        cm += 1
-                    ls += 1
         #await ctx.send(f"file: {fc}\nline: {ls:,}\nclass: {cl}\nfunction: {fn}\ncoroutine: {cr}\ncomment: {cm:,}")
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at,
-                              description=f"**Total Commands: `{len(list(self.client.walk_commands())):,}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members())):,}` | Lines Of Code: `{ls:,}` | Files: `{fc}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/wCgAbQygbe)")
+                              description=f"**Total Commands: `{len(list(self.client.walk_commands())):,}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members())):,}` **\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/wCgAbQygbe)")
 
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_author(name="Made By AalbatrossGuy#0099",
