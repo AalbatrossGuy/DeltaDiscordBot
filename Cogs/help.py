@@ -7,8 +7,7 @@ from discord.ext import commands
 from lib import db
 from datetime import timedelta
 from discord_components import DiscordComponents, ButtonStyle, Button, Select, SelectOption
-import asyncio
-
+import asyncio, pathlib
 
 class HelpMsgTwo(commands.Cog):
     def __init__(self, client):
@@ -16,21 +15,40 @@ class HelpMsgTwo(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def help(self, ctx):
+        p = pathlib.Path('./')
+        cm = cr = fn = cl = ls = fc = 0
+        for f in p.rglob('*.py'):
+            if str(f).startswith("venv"):
+                continue
+            fc += 1
+            with f.open(encoding='utf8') as of:
+                for l in of.readlines():
+                    l = l.strip()
+                    if l.startswith('class'):
+                        cl += 1
+                    if l.startswith('def'):
+                        fn += 1
+                    if l.startswith('async def'):
+                        cr += 1
+                    if '#' in l:
+                        cm += 1
+                    ls += 1
+        #await ctx.send(f"file: {fc}\nline: {ls:,}\nclass: {cl}\nfunction: {fn}\ncoroutine: {cr}\ncomment: {cm:,}")
         # Decorators
         prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", ctx.message.guild.id)
         embed = discord.Embed(title="Delta Δ - Your All-Purpose Bot", color=discord.Colour.dark_gold(),
                               timestamp=ctx.message.created_at,
-                              description=f"**Total Commands: `{len(list(self.client.walk_commands()))}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members()))}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/wCgAbQygbe)")
+                              description=f"**Total Commands: `{len(list(self.client.walk_commands())):,}` | Server Prefix: `{prefix}` | Servers: `{len(list(self.client.guilds))}`\nMembers: `{len(list(self.client.get_all_members())):,}` | Lines Of Code: `{ls:,}` | Files: `{fc}`**\n[Developer](https://github.com/AaalbatrossGuy) | [Source Code](https://www.youtube.com/watch?v=1vrEljMfXYo) | [Support Server](https://discord.gg/wCgAbQygbe)")
 
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
-        embed.set_author(name="Made By AalbatrossGuy",
+        embed.set_author(name="Made By AalbatrossGuy#0099",
                          icon_url='https://cdn.discordapp.com/attachments/907133573172170833/908527076246700112/static_logo_choice.jpg')
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
 
-        embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
+        embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun & Games\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> Delta is going to be down on `Sunday`(21/11/2021) for `2` to `3` hours due to a major update push.\n<:rightarrow:870236404301578250> Working on Delta's server verification system.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> Updates are here! Do `chlog` to view them.\n<:rightarrow:870236404301578250> Working on improving some existing commands.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -59,8 +77,8 @@ class HelpMsgTwo(commands.Cog):
         embedReddit.set_thumbnail(
             url="https://media.wired.com/photos/5954a1b05578bd7594c46869/master/w_2560%2Cc_limit/reddit-alien-red-st.jpg")
 
-        embedFun = discord.Embed(title="Fun Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
-        embedFun.add_field(name="Commands: ", value="`say`, `ytcomm`, `twt`, `pet`, `fact`, `akinator`")
+        embedFun = discord.Embed(title="Fun & Games Commands", color=discord.Color.magenta(), timestamp=ctx.message.created_at)
+        embedFun.add_field(name="Commands: ", value="`say`, `ytcomm`, `twt`, `pet`, `fact`, `akinator`, `playg`")
         embedFun.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedFun.set_thumbnail(
             url="https://www.thesimpledollar.com/wp-content/uploads/2020/04/TheSimpleDollar-Fun-With-Friends.png")
@@ -68,12 +86,12 @@ class HelpMsgTwo(commands.Cog):
         embedUtility = discord.Embed(title="Utilities Commands'", color=discord.Color.green(),
                                      timestamp=ctx.message.created_at)
         embedUtility.add_field(name="Commands: ",
-                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`, `sp`")
+                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`, `sp`, `verify`")
         embedUtility.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedUtility.set_thumbnail(
             url="https://cdn.corporatefinanceinstitute.com/assets/utilities-expense-1024x683.jpeg")
 
-        embedAdmin = discord.Embed(title="Admin Commands", color=discord.Color.greyple(),
+        embedAdmin = discord.Embed(title="Moderation Commands", color=discord.Color.greyple(),
                                    timestamp=ctx.message.created_at)
         embedAdmin.add_field(name="Commands: ", value="`purge`, `kick`, `ban`, `unban`, `masskick`, `massban`, `massunban`")
         embedAdmin.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
@@ -89,7 +107,7 @@ class HelpMsgTwo(commands.Cog):
         embedSettings = discord.Embed(title="Setting Commands", color=discord.Color.blurple(),
                                       timestamp=ctx.message.created_at)
         embedSettings.add_field(name="Commands: ",
-                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`, `chlog`, `setlogch`, `deletelogch`")
+                                value="`cp`, `set_webhook`, `delete_webhook`, `set_welcome`, `update_welcome`, `set_leave`, `update_leave`, `chlog`, `setlogch`, `deletelogch`, `set_verify`")
         embedSettings.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedSettings.set_thumbnail(
             url="https://www.elegantthemes.com/blog/wp-content/uploads/2021/04/wordpress-general-settings.jpg")
@@ -97,7 +115,7 @@ class HelpMsgTwo(commands.Cog):
         tdelta = ctx.message.created_at + timedelta(minutes=1)
         await ctx.reply(embed=embed, components=[
             [Button(style=ButtonStyle.URL, label="Invite Me!",
-                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=1610984518&scope=bot", emoji=self.client.get_emoji(907178394163249182)), Button(style=ButtonStyle.URL, label="Top.gg", url="https://top.gg/bot/830047831972118588", emoji=self.client.get_emoji(907179234391363655))],
+                   url="https://discord.com/api/oauth2/authorize?client_id=830047831972118588&permissions=139518798966&scope=bot", emoji=self.client.get_emoji(907178394163249182)), Button(style=ButtonStyle.URL, label="Top.gg", url="https://top.gg/bot/830047831972118588", emoji=self.client.get_emoji(907179234391363655))],
             Select(
                 placeholder="Select a Help Category",
                 min_values=1,
@@ -106,7 +124,7 @@ class HelpMsgTwo(commands.Cog):
                     SelectOption(label="Info", value="info", emoji=self.client.get_emoji(907088707591475220)),
                     SelectOption(label="Reddit", value="reddit", emoji=self.client.get_emoji(870239682775121980)),
                     SelectOption(label="Programming", value="programming", emoji=self.client.get_emoji(851778689648689152)),
-                    SelectOption(label="Fun", value="fun", emoji=self.client.get_emoji(907089878905389129)),
+                    SelectOption(label="Fun & Games", value="fun", emoji=self.client.get_emoji(907089878905389129)),
                     SelectOption(label="Moderation", value="admin", emoji=self.client.get_emoji(907090210435788810)),
                     SelectOption(label="Utilities", value="utility", emoji=self.client.get_emoji(870262838789296191)),
                     SelectOption(label="Settings", value="settings", emoji=self.client.get_emoji(781865530256130068))
@@ -1228,6 +1246,36 @@ class HelpMsgTwo(commands.Cog):
 
         embed.add_field(name="Example",
                         value='```akinator```')
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def playg(self, ctx):
+        embed = discord.Embed(title="Use Discord Activities", color=discord.Color.dark_gold(), timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://www.assureshift.in/sites/default/files/images/blog/How-to-find-social-activity-spots-to-interact-with-people-in-your-city.jpg")
+
+        embed.add_field(name="<a:typing:773870195336937532> playg <voice-channel> <expire-after> <game>",
+        value="Use this command to play games, stream youtube in discord itself. Just use delta to do this. Provide the <voice-channel> by either typing it's name or using it's ID Names are case-sensitive. Incase the name of the voice channel contains space, put them inside double quotes("").\
+        Give the <time> by providing the `['h', 'm', 's']` prefix without any space after the number, like, `5m`, `3h`, etc. Time cannot be more than 5 hours else the bot will raise error. Give the game you want to play. The currently supported games are: `chess`, `youtube`, `lettertile/lt`, `poker` and `doodlecrew/dc`")
+
+        embed.add_field(name="Example", value="```playg Lounge 3m youtube```", inline=False)
+
+        await ctx.channel.send(embed=embed)
+
+    @help.command()
+    async def set_verify(self, ctx):
+        embed = discord.Embed(title="Setup Verification", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> set_verify <operation> <role> <channel>",
+                        value="Use this command to setup Member Verification. **<operation>** - Either `add` or `delete`, **<role>** - The role to give after verification, **<channel>** - The channel where the `verify` command will be used. Can be set in only one channel. If <operation> is `delete` don't use any arguments.")
+
+        embed.add_field(name="Example",
+                        value='```set_verify add @Verified #verify-channel\nset_verify delete```')
         await ctx.channel.send(embed=embed)
 
 def setup(client):

@@ -7,15 +7,17 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib import db
 from io import BytesIO
-import requests, random, array, asyncio
+import requests, random, array, asyncio, pathlib
 from aiohttp import ClientSession
-from datetime import timezone
+from datetime import timezone, timedelta
 from currency_converter import CurrencyConverter
 from customs.customs import circle
 from PIL import Image, ImageDraw, ImageFont
 import dateutil.parser
 from discord_components import DiscordComponents, Button, ButtonStyle
-
+from platform import python_version
+from time import time
+from psutil import Process, virtual_memory
 
 def convert_bytes(bytes_number):
     tags = ["B", "KiB", "MiB", "GB", "TB"]
@@ -104,7 +106,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added akinator game on Delta[NEW].\n+ Fixed delete_webhook command[BUG-FIX].\n+ Added einfo command[NEW].\n+ Added Log functionality (Optional) to log all mod commands used in a server[NEW].```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
@@ -508,6 +510,52 @@ class Utilities(commands.Cog):
             await ctx.channel.send(f"```[stdout]\n{stdout.decode()[:1800]}```")
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
+
+
+    @commands.command(name="about")
+    async def about_me(self, ctx):
+        embed = discord.Embed(title="About Me", colour=ctx.author.colour, timestamp=ctx.message.created_at)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/910897237037555774/911829151588167700/about_me.jpg")
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        proc = Process()
+        with proc.oneshot():
+            uptime = timedelta(seconds=time()-proc.create_time())
+            cpu_time = timedelta(seconds=(cpu := proc.cpu_times()).system + cpu.user)
+            mem_total = virtual_memory().total / (1024**2)
+            mem_of_total = proc.memory_percent()
+            mem_usage = mem_total * (mem_of_total / 100)
+            p = pathlib.Path('./')
+            cm = cr = fn = cl = ls = fc = 0
+            for f in p.rglob('*.py'):
+                if str(f).startswith("venv"):
+                    continue
+                fc += 1
+                with f.open(encoding='utf8') as of:
+                    for l in of.readlines():
+                        l = l.strip()
+                        if l.startswith('class'):
+                            cl += 1
+                        if l.startswith('def'):
+                            fn += 1
+                        if l.startswith('async def'):
+                            cr += 1
+                        if '#' in l:
+                            cm += 1
+                        ls += 1
+
+        embed.add_field(name="<:python:911833219056402504> Python version", value=python_version(), inline=True)
+        embed.add_field(name="<:dpy:911833820028883014> discord.py version", value=discord.__version__, inline=True)
+        embed.add_field(name="<:cpu:911834007937904680> CPU time", value=cpu_time, inline=True)
+        embed.add_field(name="<:ram:911834876020408381> Memory usage", value=f"{mem_usage:,.3f} / {mem_total:,.0f} MiB ({mem_of_total:.0f}%)", inline=True)
+        embed.add_field(name="<:member:911835068144685056> Users", value=f"{len(list(self.client.get_all_members())):,}", inline=True)
+        embed.add_field(name="📝 Lines Of Code", value=f"{ls:,}", inline=True)
+        embed.add_field(name="📂 Files", value=fc, inline=True)
+        embed.add_field(name="<:pythonsus:911840562510975036> Functions", value=fn, inline=True)
+        embed.add_field(name="<:pythonsus:911840562510975036> Comments", value=f"{cm:,}", inline=True)
+        embed.add_field(name="<:developer:911835252324986980> Developer", value="AalbatrossGuy#0099", inline=True)
+        embed.add_field(name="<:tester:911835692945010720> Official Tester", value="Your Friendly Cat Neighbor#6969", inline=True)
+        embed.add_field(name='<:pc:911836792603414528> Hosted By', value="4ngel🍁#2769", inline=True)
+        await ctx.send(embed=embed)
 
 
     @commands.command(name='mconv')

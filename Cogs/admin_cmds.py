@@ -4,8 +4,9 @@
 
 import discord
 from discord.ext import commands
-import asyncio
+import asyncio, random
 from lib import db
+from discord_components import Button, ButtonStyle, DiscordComponents
 
 class AdminCmds(commands.Cog):
     def __init__(self, client):
@@ -27,7 +28,6 @@ class AdminCmds(commands.Cog):
             embed.set_footer(text='Delta Δ is the fourth letter of the Greek Alphabet', icon_url=ctx.author.avatar_url)
             embed.set_thumbnail(url="https://pandorafms.com/blog/wp-content/uploads/2020/12/567-Logs_-qu%C3%A9-son-y-por-qu%C3%A9-monitorizarlos.jpg")
             await self.client.get_channel(logch).send(embed=embed)
-
 
 
     @commands.has_permissions(kick_members=True)
@@ -142,6 +142,10 @@ class AdminCmds(commands.Cog):
                 db.commit()
                 await ctx.channel.send(f"Log Channel successfully created at <#{chid}>")
 
+            if check_guild_exists == True and chid !=0:
+                db.execute("UPDATE adminsettings SET LogChannelID = ? WHERE GuildID = ?", chid, ctx.guild.id)
+                db.commit()
+
             elif check_guild_exists == True and check_chid == 0:
                 db.execute("UPDATE adminsettings SET LogChannelID = ? WHERE GuildID = ?", chid, ctx.guild.id)
                 db.commit()
@@ -185,6 +189,170 @@ class AdminCmds(commands.Cog):
         for guild in activeservers:
             await ctx.send(guild.name)
             await ctx.channel.send(f"{guild.name} - {guild.owner}")
+
+    @commands.command(name="verify")
+    async def verify(self, ctx):
+        check_guild_exists = db.cursor.execute("SELECT 1 FROM adminsettings WHERE GuildID = ?", (ctx.guild.id,))
+        check_guild_exists = check_guild_exists.fetchone() is not None
+        #print(check_guild_exists)
+        check_verify = db.field("SELECT Verify FROM adminsettings WHERE GuildID = ?", ctx.guild.id)
+        after_role = db.field("SELECT Roles FROM adminsettings WHERE GuildID = ?", ctx.guild.id)
+        #print(check_verify)
+        role = discord.utils.find(lambda r: r.name == after_role, ctx.message.guild.roles)
+        check_verifych = db.field("SELECT VerifyChID FROM adminsettings WHERE GuildID = ?", ctx.guild.id)
+
+        #print(type(check_verifych), type(ctx.channel.id))
+        #print(check_verify)
+        #print(check_guild_exists)
+        if check_verify == 'true' and int(check_verifych) == ctx.channel.id and check_guild_exists == True and role not in ctx.author.roles:
+
+            dict = {"apple": "🍎", "banana": "🍌", "meat": "🍗", "grapes": "🍇", "pineapple": "🍍", "airplane": "✈", "car": "🚕", "bird": "🐦", "penguin": "🐧", "horse": "🐴", "frog": "🐸", "hat": "👒"}
+            keys  = random.sample(list(dict), 3)
+            # print(keys)
+            target = keys.index(keys[0])
+            randbuttons = random.sample(list(keys), 3)
+            #print(randbuttons)
+            #print(keys[target])
+            #print(target)
+
+            content = [
+                [
+                    Button(style=ButtonStyle.grey, label=dict[randbuttons[0]], custom_id = randbuttons[0]),
+                    Button(style=ButtonStyle.grey, label=dict[randbuttons[1]], custom_id = randbuttons[1]),
+                    Button(style=ButtonStyle.grey, label=dict[randbuttons[2]], custom_id = randbuttons[2])
+                    ]
+                ]
+
+            msg = await ctx.channel.send(f"Click on the {keys[0]} emoji to verify. You have 1 minute to do this!", components=content)
+
+            while True:
+                try:
+                    interaction = await self.client.wait_for('button_click', timeout=60)
+
+                except asyncio.TimeoutError:
+                    for row in content:
+                        row.disable_components()
+                    return await msg.edit(components=content)
+
+                if interaction.author.id != ctx.author.id:
+                    print('non-user')
+                    await interaction.respond(content='This is not your button to click')
+
+                elif interaction.author.id == ctx.author.id and interaction.custom_id != keys[target]:
+                    for row in content:
+                        row.disable_components()
+                    await msg.edit("User clicked on the wrong button!", components=content)
+                    return await interaction.respond(content='<:hellno:871582891585437759> Wrong! Do `*verify` to try again.')
+
+                elif interaction.author.id == ctx.author.id and interaction.custom_id == keys[target]:
+                    for row in content:
+                        row.disable_components()
+                    await ctx.author.add_roles(role)
+                    print('added role')
+                    return await msg.edit(f"{ctx.author.mention} Welcome to **{ctx.guild.name}**!", components=content)
+
+        elif check_verify == 'false' or check_guild_exists == False:
+            await ctx.reply("<:pandacop:831800704372178944> You cannot run this command since it is not set in the server!")
+
+        elif role in ctx.author.roles:
+            await ctx.reply("You are already Verified")
+        elif int(check_verifych) != ctx.channel.id:
+            await ctx.reply(f"This command can only be run in <#{check_verifych}>")
+
+    @commands.has_permissions(administrator=True)
+    @commands.command(name="set_verify")
+    async def set_verify(self, ctx, operation: str, role: discord.Role = None, channel: discord.TextChannel = 0):
+        role = role.name if role != None else None
+        #print(type(channel))
+        if role != None:
+            if operation.lower() == 'add' and channel != 0:
+                #print('executed main')
+                channel = channel if isinstance(channel, int) else channel.id
+                check_guild_exists = db.cursor.execute("SELECT 1 FROM adminsettings WHERE GuildID = ?", (ctx.guild.id,))
+
+                search_role = discord.utils.find(lambda r:r.name == role, ctx.guild.roles)
+                print(search_role)
+                check_guild_exists = check_guild_exists.fetchone() is not None
+                guild_id_lists = [x.id for x in ctx.guild.text_channels]
+                #print(check_guild_exists)
+                #print(channel)
+                if search_role in ctx.guild.roles:
+                    #print('found')
+                    if operation.lower() == 'add' and check_guild_exists == True and channel in guild_id_lists:
+                        db.execute("UPDATE adminsettings SET Verify = ? WHERE GuildID = ?", "true", ctx.guild.id)
+                        db.execute("UPDATE adminsettings SET VerifyChID = ? WHERE GuildID = ?", channel, ctx.guild.id)
+                        db.execute("UPDATE adminsettings SET Roles = ? WHERE GuildID = ?", role, ctx.guild.id)
+                        db.commit()
+                        #print('add executed')
+                        await ctx.reply(f"<:verify:910515823590912010> Verification System has been turned on for **{ctx.guild.name}** successfully!")
+                    #elif channel not in guild_id_lists:
+                        #print('channel not in this guild')
+
+                    if operation.lower() == 'add' and check_guild_exists == False and channel in guild_id_lists:
+                        db.execute('INSERT OR IGNORE INTO adminsettings(GuildID, Verify, VerifyChID, Roles) VALUES(?, ?, ?, ?)', ctx.guild.id, "true", channel, role)
+                        db.commit()
+                        await ctx.reply(f"<:verify:910515823590912010> Verification System has been turned on for **{ctx.guild.name}** successfully!")
+                        #print('add #2 executed')
+                    #elif channel not in guild_id_lists:
+                        #print("channel not in this guild(#2)")
+                else:
+                    await ctx.reply(f"<:hellno:871582891585437759> Role, {role} Was Not Found!")
+
+            elif operation.lower() == 'add' and channel == 0:
+                embed = discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                      description="```ini\nMissing Argument: [channel]```",
+                                      timestamp=ctx.message.created_at, color=discord.Color.dark_grey())
+                await ctx.send(embed=embed)
+
+        elif role == None and operation.lower() == 'add':
+            await ctx.channel.send("Role cannot be empty!!")
+
+        check_guild_exists = db.cursor.execute("SELECT 1 FROM adminsettings WHERE GuildID = ?", (ctx.guild.id,))
+        check_guild_exists = check_guild_exists.fetchone() is not None
+
+        if check_guild_exists:
+            check_verify_state = db.field("SELECT Verify FROM adminsettings WHERE GuildID = ?", ctx.guild.id)
+            #print(check_verify_state)
+
+        if operation.lower() == 'delete' and check_guild_exists == True and check_verify_state != 'false':
+            db.execute("UPDATE adminsettings SET Verify = ?, VerifyChID = ?, Roles = ? WHERE GuildID = ?", "false", None, None, ctx.guild.id)
+            db.commit()
+            #print('executed delete')
+            await ctx.reply(f'<:salute:831807820118622258> Disabled verification for **{ctx.guild.name}**!')
+            #print('executed add')
+        elif operation.lower() == 'delete' and check_guild_exists == False:
+            #print('cannot execute delete since no value is set.')
+            await ctx.reply("<:hellno:871582891585437759> Cannot disable verify if it has never been set in the server!")
+
+        elif operation.lower() == 'delete' and check_verify_state == 'false' and check_guild_exists == True:
+            await ctx.reply("<:hellno:871582891585437759> Cannot disable verify more than once!")
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        db.execute("DELETE FROM adminsettings WHERE GuildID = ?", guild.id)
+        db.commit()
+        print('removed guild from adminsettings table')
+
+    # @commands.command(name='temp')
+    # async def temp(self, ctx):
+    #     #print(ctx.guild.roles.name)
+    #     db.execute("ALTER TABLE adminsettings ADD COLUMN Verify")
+    #     db.execute("ALTER TABLE adminsettings ADD COLUMN VerifyChID")
+    #     db.execute("ALTER TABLE adminsettings ADD COLUMN Roles")
+    #     db.commit()
+    #     #search_role = discord.utils.find(lambda r:r.name == 'deez nutz', ctx.guild.roles)
+    #     #await ctx.send(ctx.author.roles)
+    #     #if search_role in ctx.guild.roles:
+    #         #await ctx.channel.send('found')
+    #     await ctx.channel.send("Executed temp")
+
+    @set_verify.error
+    async def set_verify_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Permissions", description="```prolog\nYou must have the Administrator permission to use that command!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [option], [role] and the [channel] parameters correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
 
     @set_log_channel.error
     async def setlogch_error_handling(self, ctx, error):

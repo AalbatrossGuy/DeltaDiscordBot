@@ -14,3 +14,4 @@ flask>=2.0.2
 Pillow>=8.4.0
 asyncpraw>=7.5.0
 akinator.py>=5.0.0
+discord-together>=1.2.2

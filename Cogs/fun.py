@@ -9,6 +9,7 @@ from discord_components import DiscordComponents, Select, SelectOption
 from datetime import timedelta
 from decouple import config
 from akinator.async_aki import Akinator
+from discord_together import DiscordTogether
 
 Reddit = asyncpraw.Reddit(client_id=f"{config('REDDIT_CLIENTID')}", client_secret=f"{config('REDDIT_SECRET')}", username=f"{config('REDDIT_USERNAME')}", password=f"{config('REDDIT_PASSWORD')}", user_agent="pythonpraw")
 meme = []
@@ -21,6 +22,10 @@ robotics =  []
 class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.togetherControl = await DiscordTogether(self.client.http.token)
 
     async def get_memes():
         sub = await Reddit.subreddit("memes")
@@ -384,7 +389,6 @@ class Fun(commands.Cog):
                 pass
             game_message = await ctx.send(embed=game_embed)
 
-
             for emoji in ['✅', '❌', '🤷‍♂️', '😕', '⁉️', '😔', '◀️']:
                 await game_message.add_reaction(emoji)
             option, _ = await self.client.wait_for('reaction_add', check=option_check, timeout=360)     #taking user's response
@@ -423,6 +427,50 @@ class Fun(commands.Cog):
            #this does not restart/continue a game from where it was left off, but you can program that in if you like.
 
         return await ctx.send(embed=final_embed)
+
+    @commands.command(name='playg')
+    async def play_games_stream(self, ctx, vc: discord.VoiceChannel, main_duration, *, activity):
+        duration = main_duration
+        vc = vc if isinstance(vc, int) else vc.id
+        print(duration)
+        if 'h' in duration:
+            duration = int(duration[0:duration.index('h')]) * 3600
+
+        #print(vc.id)
+        #if duration <= 18000:
+        elif 'm' in duration:
+            duration = int(duration[0:duration.index('m')]) * 60
+
+        elif 's' in duration:
+            duration = int(duration[0:duration.index('s')])
+
+        if duration > 18000:
+            await ctx.reply("Link Cannot be active for more than 5 hours!")
+
+        elif duration <= 18000:
+            if activity.lower() == 'lettertile' or activity.lower() == 'lt':
+                activity = 'letter-tile'
+
+            if activity.lower() == 'youtube':
+                activity = 'youtube'
+
+            if activity.lower() == 'chess':
+                activity = 'chess'
+
+            if activity.lower() == 'doodlecrew' or activity.lower() == 'dc':
+                activity = 'doodle-crew'
+
+            if activity.lower() == 'poker':
+                activity = 'poker'
+
+            # if activity.lower() == 'fishing':
+            #     activity = 'fishing'
+        #print(duration)
+            link = await self.togetherControl.create_link(vc, activity)
+            embed = discord.Embed(title="**Have Fun**", description=f"[Click Here]({link}) to start your activity. The message will be deleted within **__{main_duration}__**. Invite your friends to have extra fun!! Just give them the link and you are ready to enjoy!", timestamp=ctx.message.created_at, color=discord.Color.dark_gold())
+            embed.set_footer(text='Delta Δ is the fourth letter of the Greek Alphabet', icon_url=ctx.author.avatar_url)
+            embed.set_thumbnail(url='https://www.assureshift.in/sites/default/files/images/blog/How-to-find-social-activity-spots-to-interact-with-people-in-your-city.jpg')
+            await ctx.send(embed=embed, delete_after=duration)
 
     # Error Handlers
     @youtube_comment_fake.error
