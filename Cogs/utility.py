@@ -80,7 +80,7 @@ class Utilities(commands.Cog):
 
     # Fun Command
     @commands.command(name="say")
-    async def say_webhook_command(self, message, *, query: str = 'hello!'):
+    async def say_webhook_command(self, message,  *, query: str = 'hello!'):
 
         async with ClientSession() as session:
             guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
