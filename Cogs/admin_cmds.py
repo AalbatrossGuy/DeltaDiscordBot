@@ -359,6 +359,9 @@ class AdminCmds(commands.Cog):
         if isinstance(error, commands.MissingPermissions):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Permissions", description="```prolog\nYou must have the Manage Channels permission to use that command!```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [channel-id] parameter correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
     @delete_log_channel.error
     async def deletelogch_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
@@ -372,6 +375,9 @@ class AdminCmds(commands.Cog):
         if isinstance(error, commands.UserNotFound):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nSorry, the [member] you provided does not exists in the server.```"))
 
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member(s)] parameter correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
     @massban.error
     async def ban_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
@@ -379,12 +385,18 @@ class AdminCmds(commands.Cog):
         if isinstance(error, commands.UserNotFound):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description='```ini\nSorry, the [member] you provided does not exists in the server.```', timestamp=ctx.message.created_at, color=discord.Color.blurple()))
 
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member(s)] parameter correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
     @massunban.error
     async def ban_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759>  Missing Permissions", description='```prolog\nYou must have the Ban Members permission to use that command!```', timestamp=ctx.message.created_at, color=discord.Color.gold()))
         if isinstance(error, commands.UserNotFound):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description='```ini\nSorry, the [member] you provided does not exists in the server.```', timestamp=ctx.message.created_at, color=discord.Color.blurple()))
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member(s)] parameter correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
 
     @delete_channel_messages.error
     async def purge_error_handling(self, ctx, error):
@@ -399,18 +411,28 @@ class AdminCmds(commands.Cog):
         if isinstance(error, commands.MemberNotFound):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description="```ini\nSorry, the [member] you provided does not exists in the server.```"))
 
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member] and the [reason] parameters correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
+
     @ban_user.error
     async def ban_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Permissions", description="```prolog\nYou must have the Ban Members permission to use that command!```"), timestamp=ctx.message.created_at, color=discord.Color.greyple())
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Permissions", description="```prolog\nYou must have the Ban Members permission to use that command!```", timestamp=ctx.message.created_at, color=discord.Color.greyple()))
         if isinstance(error, commands.MemberNotFound):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Member Not Found", description='```ini\nSorry, the [member] you provided does not exists in the server.```', timestamp=ctx.message.created_at, color=discord.Color.blurple()))
+
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member] and the [reason] parameters correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
+
 
     @unban_user.error
     async def ban_error_handling(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
             await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759>  Missing Permissions", description='```prolog\nYou must have the Ban Members permission to use that command!```', timestamp=ctx.message.created_at, color=discord.Color.gold()))
 
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.channel.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Required Argument", description="```ini\nMake sure you have run the command providing the [member] parameter correctly!```", timestamp=ctx.message.created_at, color=discord.Color.blue()))
 
 #     @commands.command(name="lockdown")
 #     @commands.has_guild_permissions(manage_channels=True)

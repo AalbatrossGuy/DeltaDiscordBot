@@ -6,6 +6,7 @@ class MessageLogs(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    @commands.has_permissions(administrator=True)
     @commands.command(name="set_msglog")
     async def set_message_logs(self, ctx, operation: str, channel: discord.TextChannel = 0):
         if operation.lower() == 'add' and channel != 0:
@@ -80,6 +81,16 @@ class MessageLogs(commands.Cog):
             embed.set_footer(text='Delta Δ is the fourth letter of the Greek Alphabet', icon_url=message_before.author.avatar_url)
             embed.set_thumbnail(url="https://pandorafms.com/blog/wp-content/uploads/2020/12/567-Logs_-qu%C3%A9-son-y-por-qu%C3%A9-monitorizarlos.jpg")
             await self.client.get_channel(get_channel).send(embed=embed)
+
+
+    @set_message_logs.error
+    async def set_mesage_logs_error_handling(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Arguments",
+                                               description="```ini\nMake sure you have run the command providing the [operation] and [channel] parameters correctly.```", timestamp=ctx.message.created_at, color=discord.Color.blurple()))
+
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(embed=discord.Embed(title="<:hellno:871582891585437759> Missing Permissions", description="```prolog\nYou must have the Administrator permission to use that command!```", timestamp=ctx.message.created_at, color=discord.Color.magenta()))
 
     # @commands.command(name="temp")
     # async def temp(self, ctx):
