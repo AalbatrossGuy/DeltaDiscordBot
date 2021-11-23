@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib import db
 from io import BytesIO
-import requests, random, array, asyncio, pathlib
+import requests, random, array, asyncio, pathlib, typing
 from aiohttp import ClientSession
 from datetime import timezone, timedelta
 from currency_converter import CurrencyConverter
@@ -114,7 +114,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Fixed error handlers[BUG-FIX].\n+ Added Message Logging System For Delta[NEW].\n+ Improved avatar command[NEW].\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Fixed error handlers[BUG-FIX].\n+ Added Message Logging System For Delta[NEW].\n+ say command can now impersonate others.[NEW].\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
