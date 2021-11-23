@@ -30,7 +30,7 @@ class HelpMsgTwo(commands.Cog):
         embed.add_field(name="<:folder:870237774362583040> __Modules__[8]", value="<:rightarrow:870236404301578250> <:image:870236033348956161> Images\n<:rightarrow:870236404301578250> <:exclamation:907088707591475220> Info\n<:rightarrow:870236404301578250> <:reddit:870239682775121980> Reddit\n<:rightarrow:870236404301578250> <:github:851778689648689152> Programming\n<:rightarrow:870236404301578250> <:squidgun:907089878905389129> Fun & Games\n<:rightarrow:870236404301578250> <:mod:907090210435788810> Moderation\n<:rightarrow:870236404301578250> <:gear:870262838789296191> Utilities\n<:rightarrow:870236404301578250> <:verified:781865530256130068> Settings",
                         inline=True)
 
-        embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> Updates are here! Do `chlog` to view them.\n<:rightarrow:870236404301578250> Working on improving some existing commands.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
+        embed.add_field(name="📣 __News__[3]", value="<:rightarrow:870236404301578250> There won't be any major updates for the next few days. Only feature updates[NEW].\n<:rightarrow:870236404301578250> Working on improving some existing commands.\n<:rightarrow:870236404301578250> Adding more Image manipulation commands.", inline=True)
 
         embedImages = discord.Embed(title="Images Commands", color=discord.Colour.dark_red(),
                                     timestamp=ctx.message.created_at)
@@ -487,8 +487,8 @@ class HelpMsgTwo(commands.Cog):
 
         # Context
 
-        embed.add_field(name="<a:typing:773870195336937532> say <message>",
-                        value="Use this command to make the bot repeat the <message>. Make sure that the webhook is already set for this channel. For more info do `set_webhook`")
+        embed.add_field(name="<a:typing:773870195336937532> say <member[Optional]> <message>",
+                        value="Use this command to make the bot repeat the <message>. If you want to impersonate any user, give the username in the <member> parameter. Remember! Usernames are case-sensitive. Make sure that the webhook is already set for this channel. For more info do `set_webhook`")
 
         embed.add_field(name="Example",
                         value="```yaml\n*say \n*say <message>```")
