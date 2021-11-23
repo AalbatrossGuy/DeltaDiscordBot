@@ -254,10 +254,10 @@ class Fun(commands.Cog):
         base_img = randompost.url
         img = randompost.url
         #print(f"before - {img}")
-        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg') and not img.endswith('.gif'):
             #print('executed')
             img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
-        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg'):
+        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg') or base_img.endswith('.gif'):
             img = randompost.url
         link = randompost.permalink
         comments = randompost.num_comments
@@ -276,10 +276,10 @@ class Fun(commands.Cog):
         base_img = randompost.url
         img = randompost.url
         #print(f"before - {img}")
-        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg') and not img.endswith('.gif'):
             #print('executed')
             img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
-        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg'):
+        elif base_img.endswith('.jpeg') or base_img.endswith('.png') or base_img.endswith('.jpg') or base_img.endswith('.gif'):
             img = randompost.url
             #print(f"after - {img}")
         link = randompost.permalink
@@ -300,10 +300,10 @@ class Fun(commands.Cog):
         img = randompost.url
         #print(type(img))
         #print(f"before - {img}")
-        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg') and not img.endswith('.gif'):
             #print('executed')
             img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
-        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg') or base_img.endswith('gif'):
              #print('else executed')
              img = randompost.url
              #print(f"after - {img}")
@@ -324,10 +324,10 @@ class Fun(commands.Cog):
         img = randompost.url
         #print(type(img))
         #print(f"before - {img}")
-        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg') and not img.endswith('.gif'):
             #print('executed')
             img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
-        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg') or base_img.endswith('gif'):
              #print('else executed')
              img = randompost.url
              #print(f"after - {img}")
@@ -348,10 +348,10 @@ class Fun(commands.Cog):
         img = randompost.url
         #print(type(img))
         #print(f"before - {img}")
-        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg'):
+        if not img.endswith('.jpg') and not img.endswith('.png') and not img.endswith('.jpeg') and not img.endswith('.gif'):
             #print('executed')
             img = 'https://cdn.discordapp.com/attachments/907133573172170833/907975316859920394/noimage.png'
-        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg'):
+        elif base_img.endswith('jpeg') or base_img.endswith('png') or base_img.endswith('jpg') or base_img.endswith('gif'):
              #print('else executed')
              img = randompost.url
              #print(f"after - {img}")

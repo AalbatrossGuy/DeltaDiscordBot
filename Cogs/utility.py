@@ -88,7 +88,9 @@ class Utilities(commands.Cog):
 
     # Fun Command
     @commands.command(name="say")
-    async def say_webhook_command(self, message,  *, query: str = 'hello!'):
+    async def say_webhook_command(self, message, member:typing.Optional[discord.Member] = None, *, query: str = 'hello!'):
+        member = member or message.author
+        member_name = str(member.nick) if member.nick != None else str(member.name)
 
         async with ClientSession() as session:
             guild_id = db.cursor.execute("SELECT 1 FROM webhook WHERE GuildID = ? ",
@@ -105,7 +107,7 @@ class Utilities(commands.Cog):
                 # print(webhook_url) Used it for debugging.
             webhook = discord.Webhook.from_url(webhook_url, adapter=discord.AsyncWebhookAdapter(session))
             await message.channel.purge(limit=1)
-            await webhook.send(content=query, username=message.author.name, avatar_url=message.author.avatar_url)
+            await webhook.send(content=query, username=member_name, avatar_url=member.avatar_url)
 
     @commands.command(name='chlog')
     async def change_log(self,  ctx):
