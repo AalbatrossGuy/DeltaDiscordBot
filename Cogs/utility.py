@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord.utils import escape_mentions
 from lib import db
 from io import BytesIO
-import requests, random, array, asyncio, pathlib, typing
+import requests, random, array, asyncio, pathlib, typing, kitsu
 from aiohttp import ClientSession
 from datetime import timezone, timedelta
 from currency_converter import CurrencyConverter
@@ -36,6 +36,7 @@ def convert_bytes(bytes_number):
 class Utilities(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.kitsu = kitsu.Client()
 
     # Utility Command
     @commands.command(name="avatar")
