@@ -68,7 +68,7 @@ class HelpMsgTwo(commands.Cog):
         embedUtility = discord.Embed(title="Utilities Commands'", color=discord.Color.green(),
                                      timestamp=ctx.message.created_at)
         embedUtility.add_field(name="Commands: ",
-                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`, `sp`, `verify`")
+                               value="`paswdgen`, `minfo`, `wcheck`, `avatar`, `hbcharts`, `calcu`, `mconv`, `mconvlist`, `sp`, `verify`, `anime`")
         embedUtility.set_footer(text="*help [command]", icon_url=ctx.author.avatar_url)
         embedUtility.set_thumbnail(
             url="https://cdn.corporatefinanceinstitute.com/assets/utilities-expense-1024x683.jpeg")
@@ -1276,6 +1276,21 @@ class HelpMsgTwo(commands.Cog):
                         value='```set_msglog add #verify-channel\nset_msglog delete```')
         await ctx.channel.send(embed=embed)
 
+    @help.command()
+    async def anime(self, ctx):
+        embed = discord.Embed(title="Search Anime", colour=discord.Colour.dark_gold(),
+                              timestamp=ctx.message.created_at)
+        embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/831369746855362590/831369994474094622/Logo.jpg")
+
+        # Context
+
+        embed.add_field(name="<a:typing:773870195336937532> anime <name>",
+                        value="Use this command to search for an anime.")
+
+        embed.add_field(name="Example",
+                        value='```anime Attack on Titans```')
+        await ctx.channel.send(embed=embed)
 
 def setup(client):
     DiscordComponents(client)
