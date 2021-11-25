@@ -114,7 +114,7 @@ class Utilities(commands.Cog):
         embed = discord.Embed(title="Change Log", timestamp=ctx.message.created_at, color=ctx.message.author.colour)
         embed.set_footer(text="Delta Δ is the fourth letter of the Greek Alphabet", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url="http://converseen.fasterland.net/wp-content/uploads/2014/05/Changelog.png")
-        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Fixed error handlers[BUG-FIX].\n+ Added Message Logging System For Delta[NEW].\n+ say command can now impersonate others.[NEW].\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
+        embed.add_field(name="📃 The Change Logs for Delta:", value="```diff\n+ Added anime command[NEW].\n+ Added Message Logging System For Delta[NEW].\n+ say command can now impersonate others.[NEW].\n+ Added Member Verification System in Delta[NEW].\n+ Added playg command for discord activities[NEW].\n+ Added about command[NEW].\n- Removed Extra Commands[CLEAN]```")
         await ctx.channel.send(embed=embed)
 
     # Utility Command
@@ -518,6 +518,176 @@ class Utilities(commands.Cog):
             await ctx.channel.send(f"```[stdout]\n{stdout.decode()[:1800]}```")
         if stderr:
             await ctx.channel.send(f"```[stderr]\n{stderr.decode()[:1800]}```")
+
+
+    @commands.command(name="anime")
+    async def search_anime(self, ctx, *, name:str = "Demon Slayer"):
+        count = 0
+        search = await self.kitsu.search_anime(name, limit=11)
+        Buttons = [
+            [
+            Button(style=ButtonStyle.green, custom_id = "left", emoji=self.client.get_emoji(912268440029528075)),
+            Button(style=ButtonStyle.grey, emoji=self.client.get_emoji(912359260954984459), custom_id = 'delete'),
+            Button(style=ButtonStyle.green, custom_id = "right", emoji=self.client.get_emoji(912268383179919360))
+            ]
+        ]
+
+        embed = discord.Embed(title=f"<a:anime:912926884688433152> {search[0].canonical_title}", description=search[0].synopsis, url=f"https://kitsu.io/anime/{search[0].id}", timestamp=ctx.message.created_at, color=discord.Color.dark_teal())
+        embed.add_field(name='❓ Type', value=search[0].subtype)
+        embed.add_field(name='💽 Episodes', value=search[0].episode_count, inline=True)
+        #embed.add_field(name="🇷 Rated", value=search['results'][0]['rated'], inline=True)
+        #start_date = datetime.fromisoformat(search['results'][0]['start_date'])
+        start_date = int(search[0].start_date.replace(tzinfo=timezone.utc).timestamp())
+        embed.add_field(name='<a:time:906880876451876875> Start Date', value=f'<t:{start_date}:F>', inline=False)
+        #if type(search['results'][0]['end_date']) == str:
+            #end_date = datetime.fromisoformat(search['results'][0]['end_date'])
+            #end_date = int(search[0].replace(tzinfo=timezone.utc).timestamp())
+            #embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+        #else:
+        end_date = int(search[0].start_date.replace(tzinfo=timezone.utc).timestamp())
+        embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+        try:
+            rr = search[count].rating_rank
+        except TypeError:
+            rr = None
+        rr = f"**TOP** {rr:,}" if rr != None else None
+        embed.add_field(name="⏲️ Duration", value=f"{search[0].episode_length} mins", inline=False)
+        embed.add_field(name="<a:status:912965228893978634> Status", value=search[0].status, inline=True)
+        embed.add_field(name="<a:rating:912929196253257778> Rating", value=rr, inline=True)
+        #embed.add_field(name="Members", value=f"`{search['results'][0]['members']}`")
+        embed.set_image(url=search[0].poster_image(_type="large"))
+        embed.set_footer(text=f"Page: {count}/10", icon_url = ctx.author.avatar_url)
+        msg = await ctx.send(embed=embed, components=Buttons)
+        #await ctx.send(embed=embed, components=Buttons)
+        #print(count)
+
+        while True:
+            #print('executing...')
+            try:
+                #print('try done')
+                interaction = await self.client.wait_for('button_click', timeout=60, check=lambda inter: inter.message.id == msg.id)
+                #print('done')
+            except asyncio.TimeoutError:
+                #Button[0][1].label = f'{count}/10'
+                print('except done')
+                for row in Buttons:
+                    row.disable_components()
+                count=0
+                return await msg.edit(components=Buttons)
+
+            if interaction.author.id != ctx.author.id:
+                #await interaction.respond(content=f"{interaction.author.mention}You cannot click on other's command!")
+                pass
+
+            if interaction.author.id == ctx.author.id and interaction.custom_id == 'right' and count < 10:
+                #count = 0
+                #print(f"Before {count}")
+                count+=1
+                # Buttons = [
+                #     [
+                #     Button(style=ButtonStyle.green, custom_id = "left", emoji=self.client.get_emoji(912268440029528075)),
+                #     Button(style=ButtonStyle.grey, emoji=self.client.get_emoji(912359260954984459), custom_id = 'delete'),
+                #     Button(style=ButtonStyle.green, custom_id = "right", emoji=self.client.get_emoji(912268383179919360))
+                #     ]
+                # ]
+                embed = discord.Embed(title=f"<a:anime:912926884688433152> {search[count].canonical_title}", description=search[count].synopsis, url=f"https://kitsu.io/anime/{search[count].id}", timestamp=ctx.message.created_at, color=discord.Color.dark_teal())
+                embed.add_field(name='❓ Type', value=search[count].subtype)
+                embed.add_field(name='💽 Episodes', value=search[count].episode_count, inline=True)
+                #embed.add_field(name="🇷 Rated", value=search['results'][0]['rated'], inline=True)
+                #start_date = datetime.fromisoformat(search['results'][0]['start_date'])
+                start_date = int(search[count].start_date.replace(tzinfo=timezone.utc).timestamp())
+                embed.add_field(name='<a:time:906880876451876875> Start Date', value=f'<t:{start_date}:F>', inline=True)
+                #if type(search['results'][0]['end_date']) == str:
+                    #end_date = datetime.fromisoformat(search['results'][0]['end_date'])
+                    #end_date = int(search[0].replace(tzinfo=timezone.utc).timestamp())
+                    #embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+                #else:
+                end_date = int(search[count].start_date.replace(tzinfo=timezone.utc).timestamp())
+                embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+                try:
+                    rr = search[count].rating_rank
+                except TypeError:
+                    rr = None
+                rr = f"**TOP** {rr:,}" if rr != None else None
+                #print(rr)
+                embed.add_field(name="⏲️ Duration", value=f"{search[count].episode_length} mins", inline=False)
+                embed.add_field(name="<a:status:912965228893978634> Status", value=search[count].status, inline=True)
+                embed.add_field(name="<a:rating:912929196253257778> Rating", value=rr, inline=True)
+
+                #embed.add_field(name="Members", value=f"`{search['results'][0]['members']}`")
+                embed.set_image(url=search[count].poster_image(_type="large"))
+                embed.set_footer(text=f"Page: {count}/10", icon_url = ctx.author.avatar_url)
+                #await interaction.edit_origin(embed=embed)
+                await interaction.respond(type=7, embed=embed)
+                #await interaction.edit_origin(components=interaction.message.components)
+                #print(count)
+
+            # if interaction.author.id == ctx.author.id and interaction.custom_id == 'right' and count ==11:
+            #     for row in Buttons:
+            #         row.disable_components()
+            #     Buttons = [
+            #         [
+            #         Button(style=ButtonStyle.green, custom_id = "left", emoji=self.client.get_emoji(912268440029528075)),
+            #         Button(style=ButtonStyle.grey, emoji=self.client.get_emoji(912359260954984459), custom_id = 'delete'),
+            #         Button(style=ButtonStyle.green, custom_id = "right", emoji=self.client.get_emoji(912268383179919360), disabled=True)
+            #         ]
+            #     ]
+            #     await msg.edit(embed=discord.Embed(title="**The End**", description="Search has exhausted", timestamp=ctx.message.created_at, color=discord.Color.dark_teal()), components=Buttons)
+
+            if interaction.author.id == ctx.author.id and interaction.custom_id == 'left' and count <= 10 and count > 0 :
+                count -=1
+                # Buttons = [
+                #     [
+                #     Button(style=ButtonStyle.green, custom_id = "left", emoji=self.client.get_emoji(912268440029528075)),
+                #     Button(style=ButtonStyle.grey, emoji=self.client.get_emoji(912359260954984459), custom_id = 'delete'),
+                #     Button(style=ButtonStyle.green, custom_id = "right", emoji=self.client.get_emoji(912268383179919360))
+                #     ]
+                # ]
+                embed = discord.Embed(title=f"<a:anime:912926884688433152> {search[count].canonical_title}", description=search[count].synopsis, url=f"https://kitsu.io/anime/{search[count].id}", timestamp=ctx.message.created_at, color=discord.Color.dark_teal())
+                embed.add_field(name='❓ Type', value=search[count].subtype)
+                embed.add_field(name='💽 Episodes', value=search[count].episode_count, inline=True)
+                #embed.add_field(name="🇷 Rated", value=search['results'][0]['rated'], inline=True)
+                #start_date = datetime.fromisoformat(search['results'][0]['start_date'])
+                start_date = int(search[count].start_date.replace(tzinfo=timezone.utc).timestamp())
+                embed.add_field(name='<a:time:906880876451876875> Start Date', value=f'<t:{start_date}:F>', inline=True)
+                #if type(search['results'][0]['end_date']) == str:
+                    #end_date = datetime.fromisoformat(search['results'][0]['end_date'])
+                    #end_date = int(search[0].replace(tzinfo=timezone.utc).timestamp())
+                    #embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+                #else:
+                end_date = int(search[count].start_date.replace(tzinfo=timezone.utc).timestamp())
+                embed.add_field(name="<a:time:906880876451876875> End Date", value=f"<t:{end_date}:F>", inline=True)
+                try:
+                    rr = search[count].rating_rank
+                except TypeError:
+                    rr = None
+                rr = f"**TOP** {rr:,}" if rr != None else None
+                #print(rr)
+                embed.add_field(name="⏲️ Duration", value=f"{search[count].episode_length} mins", inline=False)
+                embed.add_field(name="<a:status:912965228893978634> Status", value=search[count].status, inline=True)
+                embed.add_field(name="<a:rating:912929196253257778> Rating", value=rr, inline=True)
+                #embed.add_field(name="Members", value=f"`{search['results'][0]['members']}`")
+                embed.set_image(url=search[count].poster_image(_type="large"))
+                embed.set_footer(text=f"Page: {count}/10", icon_url = ctx.author.avatar_url)
+                await interaction.edit_origin(embed=embed)
+                #print(count)
+
+            # if interaction.author.id == ctx.author.id and interaction.custom_id == 'left' and count == 0 :
+            #     await ctx.reply("can't go lower than `0`")
+            #     print('zero reached')
+            #     Buttons = [
+            #         [
+            #         Button(style=ButtonStyle.green, custom_id = "left", emoji=self.client.get_emoji(912268440029528075), disabled=True),
+            #         Button(style=ButtonStyle.grey, emoji=self.client.get_emoji(912359260954984459), custom_id = 'delete'),
+            #         Button(style=ButtonStyle.green, custom_id = "right", emoji=self.client.get_emoji(912268383179919360))
+            #         ]
+            #     ]
+            #     await msg.edit(components=Buttons)
+
+
+            if interaction.author.id == ctx.author.id and interaction.custom_id == 'delete':
+                await interaction.message.delete()
+                count = 0
 
 
     @commands.command(name="about")
